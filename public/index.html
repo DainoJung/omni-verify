@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Omni Verify</title>
+<style>
+  :root {
+    --bg: #000; --fg: #fff; --dim: #8a8a8a; --line: #262626; --panel: #0b0b0b;
+    --pass: #22c55e; --fail: #ef4444; --warn: #eab308;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 var(--sans); }
+  header { padding: 20px 28px; border-bottom: 1px solid var(--line); display: flex; align-items: baseline; gap: 16px; }
+  header h1 { margin: 0; font-size: 18px; letter-spacing: 0.02em; }
+  header p { margin: 0; color: var(--dim); font-size: 13px; }
+  main { display: grid; grid-template-columns: 360px 1fr; min-height: calc(100vh - 63px); }
+  @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+  aside { padding: 24px 28px; border-right: 1px solid var(--line); }
+  label { display: block; font-size: 12px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 6px; }
+  label:first-child { margin-top: 0; }
+  input, textarea { width: 100%; background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; font: inherit; }
+  input { font-family: var(--mono); font-size: 13px; }
+  textarea { resize: vertical; min-height: 64px; }
+  input:focus, textarea:focus { outline: none; border-color: #555; }
+  button { margin-top: 22px; width: 100%; padding: 12px; background: var(--fg); color: var(--bg); border: 0; border-radius: 6px; font: 600 14px var(--sans); cursor: pointer; }
+  button:disabled { opacity: 0.4; cursor: default; }
+  button.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); margin-top: 10px; font-weight: 500; }
+  .hint { color: var(--dim); font-size: 12px; margin-top: 14px; }
+  #timeline { padding: 24px 28px 80px; display: flex; flex-direction: column; gap: 0; }
+  .empty { color: var(--dim); }
+  .node { position: relative; padding: 0 0 22px 26px; border-left: 1px solid var(--line); margin-left: 6px; }
+  .node:last-child { border-left-color: transparent; }
+  .node::before { content: ""; position: absolute; left: -6px; top: 4px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 1px solid var(--dim); }
+  .node.pass::before { background: var(--pass); border-color: var(--pass); }
+  .node.fail::before { background: var(--fail); border-color: var(--fail); }
+  .node.live::before { border-color: var(--fg); animation: pulse 1.2s infinite; }
+  @keyframes pulse { 50% { background: var(--fg); } }
+  .node h2 { margin: 0 0 8px; font-size: 14px; font-weight: 600; display: flex; gap: 10px; align-items: baseline; }
+  .node h2 .meta { color: var(--dim); font-weight: 400; font-size: 12px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+  .card + .card { margin-top: 10px; }
+  .k { color: var(--dim); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; margin: 12px 0 4px; }
+  .k:first-child { margin-top: 0; }
+  .mono, code { font-family: var(--mono); font-size: 12.5px; word-break: break-all; }
+  .copy { white-space: pre-wrap; }
+  .steps { list-style: none; margin: 0; padding: 0; font-family: var(--mono); font-size: 12px; color: var(--dim); }
+  .steps li { padding: 2px 0; }
+  .steps li.done { color: #c8c8c8; }
+  .tag { font: 600 11px var(--mono); padding: 2px 7px; border-radius: 4px; border: 1px solid currentColor; }
+  .tag.PASS { color: var(--pass); } .tag.FAIL { color: var(--fail); } .tag.UNVERIFIED { color: var(--warn); }
+  .assert { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; align-items: start; padding: 8px 0; border-top: 1px solid var(--line); }
+  .assert:first-of-type { border-top: 0; }
+  .assert .why { grid-column: 2; color: #c8c8c8; font-size: 13px; }
+  .assert .ev { grid-column: 2; color: var(--dim); }
+  a { color: var(--fg); }
+  .links { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; margin-top: 10px; }
+  .links span { color: var(--dim); }
+  del { background: rgba(239, 68, 68, 0.18); color: #fca5a5; text-decoration: line-through; }
+  ins { background: rgba(34, 197, 94, 0.18); color: #86efac; text-decoration: none; }
+  .verdict { border-width: 2px; }
+  .verdict.ok { border-color: var(--pass); }
+  .verdict.no { border-color: var(--fail); }
+  .verdict h3 { margin: 0 0 6px; font-size: 18px; }
+  .verdict.ok h3 { color: var(--pass); } .verdict.no h3 { color: var(--fail); }
+  .error { color: var(--fail); font-family: var(--mono); font-size: 13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Omni Verify</h1>
+  <p>A launch gate for AI growth campaigns. Every claim is walked in a real browser by Kane before it ships.</p>
+</header>
+<main>
+  <aside>
+    <form id="form">
+      <label for="app_url">App URL</label>
+      <input id="app_url" name="app_url" value="https://scribo.cc" required>
+      <label for="goal">Growth goal</label>
+      <textarea id="goal" name="goal" required>Get new learners to install Scribo from a Threads post</textarea>
+      <label for="audience">Audience</label>
+      <textarea id="audience" name="audience" required>Adults learning a second language who journal or write daily</textarea>
+      <button id="run" type="submit">Draft and verify</button>
+    </form>
+    <p class="hint">A run drafts with OpenAI, then Kane walks the funnel in headless Chrome. Each Kane run takes about a minute.</p>
+    <div id="past"></div>
+  </aside>
+  <section id="timeline"><p class="empty">The timeline appears here: draft, each Kane run, each repair, and the launch verdict.</p></section>
+</main>
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const timeline = $("#timeline");
+
+function node(cls, title, meta, body) {
+  const el = document.createElement("div");
+  el.className = `node ${cls}`;
+  el.innerHTML = `<h2>${title}${meta ? `<span class="meta">${meta}</span>` : ""}</h2>${body}`;
+  timeline.appendChild(el);
+  el.scrollIntoView({ behavior: "smooth", block: "end" });
+  return el;
+}
+
+// Word-level diff (LCS) for copy and links.
+function diff(a, b) {
+  const A = String(a).split(/(\s+|(?=[?&=])|(?<=[?&=]))/).filter(Boolean);
+  const B = String(b).split(/(\s+|(?=[?&=])|(?<=[?&=]))/).filter(Boolean);
+  const m = A.length, n = B.length, L = Array.from({ length: m + 1 }, () => new Int32Array(n + 1));
+  for (let i = m - 1; i >= 0; i--) for (let j = n - 1; j >= 0; j--) L[i][j] = A[i] === B[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+  let i = 0, j = 0, out = "";
+  while (i < m && j < n) {
+    if (A[i] === B[j]) { out += esc(A[i]); i++; j++; }
+    else if (L[i + 1][j] >= L[i][j + 1]) out += `<del>${esc(A[i++])}</del>`;
+    else out += `<ins>${esc(B[j++])}</ins>`;
+  }
+  while (i < m) out += `<del>${esc(A[i++])}</del>`;
+  while (j < n) out += `<ins>${esc(B[j++])}</ins>`;
+  return out;
+}
+
+function claimsHtml(claims) {
+  return claims.map((c) => `<div class="mono">${esc(c.assertion.type)}: ${esc(c.assertion.value)}</div><div>${esc(c.text)}</div>`).join("");
+}
+
+function verdictsHtml(vs) {
+  return vs.map((v) => `<div class="assert"><span class="tag ${v.status}">${v.status}</span>
+    <span class="mono">${esc(v.assertion.type)}: ${esc(v.assertion.value)}</span>
+    <span class="why">${esc(v.reason)}</span>
+    ${v.evidence?.handoffHref ? `<span class="ev mono">hand-off link (${esc(v.evidence.handoffSource)}): ${esc(v.evidence.handoffHref)}</span>` : ""}
+    ${v.evidence?.landingUrl ? `<span class="ev mono">landed on: ${esc(v.evidence.landingUrl)}</span>` : ""}</div>`).join("");
+}
+
+function kaneLinks(k) {
+  return `<div class="links">
+    ${k.testUrl ? `<a href="${esc(k.testUrl)}" target="_blank" rel="noopener">Kane run in Test Manager</a>` : ""}
+    ${k.credits != null ? `<span>${k.credits.toFixed(1)} credits</span>` : ""}
+    <span>Kane: ${esc(k.status ?? "no result")} · exit ${esc(k.exitCode)}</span>
+    ${k.recorder ? `<span>kanehack: ${esc(k.recorder)}</span>` : ""}
+    ${k.evidencePath ? `<span class="mono">evidence: ${esc(k.evidencePath)}</span>` : ""}
+  </div>`;
+}
+
+const attempts = {};
+const handlers = {
+  draft(d) {
+    node("pass", "Draft", `${esc(d.model)} · ${esc(d.id)}`, `<div class="card">
+      <div class="k">Post</div><div class="copy">${esc(d.campaign.post_copy)}</div>
+      <div class="k">Link</div><div class="mono">${esc(d.campaign.cta_url)}</div>
+      <div class="k">Claims → assertions</div>${claimsHtml(d.campaign.claims)}
+      <div class="k">Grounded in</div>${d.explore
+        ? `<div>Kane Explore map, ${esc(d.explore.screens)} screen${d.explore.screens === 1 ? "" : "s"}, explored ${esc(d.explore.explored_at.slice(0, 16).replace("T", " "))} UTC</div>
+           <div class="mono">${d.explore.handoffs.map((h) => `App Store hand-off: ${esc(h)}`).join("<br>")}</div>`
+        : `<div>The page's text only: no Kane Explore map for this app yet.</div>`}</div>`);
+  },
+  attempt_start(d) {
+    const el = node("live", `Kane run ${d.n}`, "running", `<div class="card">
+      <div class="k">Start URL</div><div class="mono">${esc(d.url)}</div>
+      <div class="k">Objective</div><div class="mono">${esc(d.objective)}</div>
+      <div class="k">Steps</div><ul class="steps"></ul><div class="result"></div></div>`);
+    attempts[d.n] = el;
+  },
+  kane({ n, ev }) {
+    const el = attempts[n]; if (!el) return;
+    if (ev.kind !== "step") return;
+    const ul = $(".steps", el);
+    let li = ul.querySelector(`[data-step="${ev.step}"]`);
+    if (!li) { li = document.createElement("li"); li.dataset.step = ev.step; ul.appendChild(li); }
+    li.className = ev.status;
+    li.textContent = ev.status === "running" ? `${ev.remark} …` : ev.remark;
+  },
+  attempt_end(a) {
+    const el = attempts[a.n]; if (!el) return;
+    const pass = a.overall === "PASS";
+    el.className = `node ${pass ? "pass" : "fail"}`;
+    $("h2 .meta", el).innerHTML = `<span class="tag ${a.overall}">${a.overall}</span>`;
+    $(".result", el).innerHTML = `<div class="k">Assertions</div>${verdictsHtml(a.verdicts)}
+      ${a.kane.summary ? `<div class="k">Kane's summary</div><div class="copy">${esc(a.kane.summary)}</div>` : ""}${kaneLinks(a.kane)}`;
+  },
+  repair(r) {
+    node("pass", "Repair", esc(r.action), `<div class="card">
+      <div class="k">Why</div><div>${esc(r.reason)}</div>
+      <div class="k">Link</div><div class="mono">${diff(r.before.cta_url, r.after.cta_url)}</div>
+      <div class="k">Post</div><div class="copy">${diff(r.before.post_copy, r.after.post_copy)}</div></div>`);
+  },
+  result(rec) {
+    const ok = rec.status === "verified";
+    const last = rec.attempts[rec.attempts.length - 1];
+    const final = rec.final ?? last.campaign;
+    node(ok ? "pass" : "fail", ok ? "Verified for launch" : "Needs a human", esc(rec.id), `<div class="card verdict ${ok ? "ok" : "no"}">
+      <h3>${ok ? "Verified for launch" : "Needs a human"}</h3>
+      <div>${ok ? `Kane passed every claim on attempt ${last.n} of ${rec.attempts.length}.` : `Kane still fails after ${rec.attempts.length} attempts.`}</div>
+      <div class="k">Final post</div><div class="copy">${esc(final.post_copy)}</div>
+      <div class="k">Final link</div><div class="mono">${esc(final.cta_url)}</div>
+      <div class="k">Change from first draft</div><div class="mono">${diff(rec.draft.cta_url, final.cta_url)}</div>
+      <div class="k">Assertions</div>${verdictsHtml(last.verdicts)}${kaneLinks(last.kane)}
+      <div class="links"><a href="/api/campaigns/${esc(rec.id)}" target="_blank">Full run record (JSON)</a></div></div>`);
+  },
+  error(e) {
+    node("fail", "Error", "", `<div class="card error">${esc(e.message)}</div>`);
+  },
+};
+
+async function stream(res) {
+  const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
+  let buf = "";
+  for (;;) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buf += value;
+    let i;
+    while ((i = buf.indexOf("\n\n")) >= 0) {
+      const block = buf.slice(0, i); buf = buf.slice(i + 2);
+      const ev = /^event: (.*)$/m.exec(block)?.[1];
+      const data = block.split("\n").filter((l) => l.startsWith("data: ")).map((l) => l.slice(6)).join("\n");
+      if (ev && handlers[ev]) handlers[ev](JSON.parse(data));
+    }
+  }
+}
+
+// Replay a recorded run from runs/: the same timeline, labeled as recorded, no Kane credits.
+async function replay(id) {
+  const rec = await (await fetch(`/api/campaigns/${encodeURIComponent(id)}`)).json();
+  timeline.innerHTML = `<p class="hint">Recorded run ${esc(rec.id)}, replayed from runs/. Not live: press "Draft and verify" for a new Kane run.</p>`;
+  handlers.draft({ id: rec.id, model: rec.model, campaign: rec.draft, explore: rec.explore ?? null });
+  rec.attempts.forEach((a, i) => {
+    handlers.attempt_start({ n: a.n, ...a.compiled });
+    for (const s of rec.steps[i] ?? []) handlers.kane({ n: a.n, ev: { kind: "step", ...s } });
+    handlers.attempt_end(a);
+    if (a.repair) handlers.repair({ n: a.n, action: a.repair.action, reason: a.repair.reason, before: a.campaign, after: a.repair.campaign });
+  });
+  if (rec.status !== "running") handlers.result(rec);
+}
+
+async function loadPast() {
+  const list = await (await fetch("/api/campaigns")).json();
+  if (!list.length) return;
+  $("#past").innerHTML = `<label>Recorded runs</label>` + list.map((r) =>
+    `<button class="ghost" data-id="${esc(r.id)}"><span class="tag ${r.status === "verified" ? "PASS" : "FAIL"}">${r.status === "verified" ? "VERIFIED" : "HUMAN"}</span> ${esc(r.id.slice(2, 18))} · ${r.attempts} run${r.attempts > 1 ? "s" : ""}</button>`).join("");
+  for (const b of document.querySelectorAll("#past button")) b.onclick = () => replay(b.dataset.id);
+}
+loadPast();
+
+$("#form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = $("#run");
+  btn.disabled = true; btn.textContent = "Running…";
+  timeline.innerHTML = "";
+  try {
+    const res = await fetch("/api/run", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(e.target))) });
+    if (!res.ok) handlers.error({ message: (await res.json()).error ?? res.statusText });
+    else await stream(res);
+  } catch (err) {
+    handlers.error({ message: String(err) });
+  } finally {
+    btn.disabled = false; btn.textContent = "Draft and verify";
+    loadPast();
+  }
+});
+</script>
+</body>
+</html>

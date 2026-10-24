@@ -1,12 +1,12 @@
 import { Hono } from "hono";
+import { serveStatic } from "hono/bun";
 import { streamSSE } from "hono/streaming";
+import { readdir } from "node:fs/promises";
 import type { DraftInput } from "./agent";
-import { runCampaign } from "./loop";
+import { runCampaign, type CampaignRecord } from "./loop";
 
 const app = new Hono();
 let busy = false; // one campaign at a time: Kane drives one browser
-
-app.get("/", (c) => c.text("Omni Verify: UI arrives in step 5. POST /api/run { app_url, goal, audience } streams a campaign run."));
 
 app.post("/api/run", async (c) => {
   const input = await c.req.json<Partial<DraftInput>>();
@@ -30,5 +30,30 @@ app.post("/api/run", async (c) => {
     }
   });
 });
+
+// Recorded campaign runs (runs/c-<time>.json), newest first.
+app.get("/api/campaigns", async (c) => {
+  const files = (await readdir("runs").catch(() => [])).filter((f) => /^c-[^]*Z\.json$/.test(f)).sort().reverse();
+  const recs = await Promise.all(files.map((f) => Bun.file(`runs/${f}`).json() as Promise<CampaignRecord>));
+  return c.json(recs.filter((r) => r.attempts?.length).map((r) => ({
+    id: r.id, status: r.status, attempts: r.attempts.length, final_url: (r.final ?? r.attempts.at(-1)!.campaign).cta_url,
+  })));
+});
+
+// One record, with each attempt's Kane steps from its own run file.
+app.get("/api/campaigns/:id", async (c) => {
+  const id = c.req.param("id");
+  if (!/^c-[\w-]+Z$/.test(id)) return c.json({ error: "bad id" }, 400);
+  const f = Bun.file(`runs/${id}.json`);
+  if (!(await f.exists())) return c.json({ error: "not found" }, 404);
+  const rec = (await f.json()) as CampaignRecord;
+  const steps = await Promise.all(rec.attempts.map(async (a) => {
+    const run = Bun.file(`runs/${a.kaneRunId}.json`);
+    return (await run.exists()) ? ((await run.json()).result?.steps ?? []) : [];
+  }));
+  return c.json({ ...rec, steps });
+});
+
+app.use("/*", serveStatic({ root: "./public" }));
 
 export default { port: 3000, fetch: app.fetch, idleTimeout: 0 };
