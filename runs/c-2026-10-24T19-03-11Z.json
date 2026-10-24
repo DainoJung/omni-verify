@@ -1,0 +1,172 @@
+{
+  "id": "c-2026-10-24T19-03-11Z",
+  "model": "gpt-5.4-mini",
+  "input": {
+    "app_url": "https://scribo.cc",
+    "goal": "Get new learners to install Scribo from a Threads post",
+    "audience": "Adults learning a second language who journal or write daily"
+  },
+  "draft": {
+    "post_copy": "If you journal in a second language, Scribo helps you read videos, articles, PDFs, EPUBs, TXT, or pasted text at your level. It rewrites what you choose in sections you can finish in about five minutes, then quizzes you as you go. https://scribo.cc?ct=threads-oct24",
+    "cta_url": "https://scribo.cc?ct=threads-oct24",
+    "campaign_tag": "threads-oct24",
+    "claims": [
+      {
+        "text": "Installs from this post are credited to this campaign.",
+        "assertion": {
+          "type": "param_preserved",
+          "value": "ct=threads-oct24"
+        }
+      }
+    ]
+  },
+  "explore": {
+    "path": "explore/scribo.cc.json",
+    "exploration_id": "01a16f46-89d6-7d0b-bf88-f21c8c8f3bc3",
+    "run_id": "01a16f46-8ab3-77c4-85b6-db6d5a0c528c",
+    "explored_at": "2026-10-24T18:57:36.809Z",
+    "screens": 7,
+    "handoffs": [
+      "\"Get the app\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt",
+      "\"Download Scribo on the App Store\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt",
+      "\"Get the app\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt",
+      "\"Get the app\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt",
+      "\"Get the app\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt",
+      "\"Get the app\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt",
+      "\"Download Scribo on the App Store\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+    ]
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "campaign": {
+        "post_copy": "If you journal in a second language, Scribo helps you read videos, articles, PDFs, EPUBs, TXT, or pasted text at your level. It rewrites what you choose in sections you can finish in about five minutes, then quizzes you as you go. https://scribo.cc?ct=threads-oct24",
+        "cta_url": "https://scribo.cc?ct=threads-oct24",
+        "campaign_tag": "threads-oct24",
+        "claims": [
+          {
+            "text": "Installs from this post are credited to this campaign.",
+            "assertion": {
+              "type": "param_preserved",
+              "value": "ct=threads-oct24"
+            }
+          }
+        ]
+      },
+      "compiled": {
+        "url": "https://scribo.cc?ct=threads-oct24",
+        "objective": "Find the main call to action that sends the user to the App Store. Before clicking it, read the full href attribute of that link exactly as written, including its query string, and save it as {{handoff_href}}. Then click it, wait for the App Store page to finish loading, and save the current page URL as {{landing_url}}."
+      },
+      "kaneRunId": "c-2026-10-24T19-03-11Z-a1",
+      "verdicts": [
+        {
+          "text": "Installs from this post are credited to this campaign.",
+          "assertion": {
+            "type": "param_preserved",
+            "value": "ct=threads-oct24"
+          },
+          "status": "FAIL",
+          "reason": "The App Store link carries ct=site-en-hero; the campaign expects ct=threads-oct24 (Kane step 2).",
+          "evidence": {
+            "handoffHref": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=site-en-hero&mt=8",
+            "handoffSource": "Kane read CTA href",
+            "handoffStep": 2,
+            "landingUrl": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715"
+          }
+        }
+      ],
+      "overall": "FAIL",
+      "kane": {
+        "status": "passed",
+        "exitCode": 0,
+        "summary": "Located the main App Store download link and recorded its complete address, including the tracking details in the link.\nOpened the Scribo App Store listing and waited for it to load.\nThe App Store page loaded successfully at https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715.",
+        "credits": 13.111943499999999,
+        "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QMQBJJ5B85CSJ645N5BFJ5/dashboard/share/US_G57CP4NS96FJ4L757R0OTR2JWXDGTL1HN063YN4UCSCUGNH6PRACAWCTTLEH6M8J?type=summary&agentView=true&fqdn=summary-page",
+        "evidencePath": "~/.testmuai/kaneai/sessions/f8ed6ae6-45dd-460f-9f5e-56e1bc6031c3/evidence/7a78a2ef-c6dd-4555-9dae-9ee5d28b835c.evidence",
+        "recorder": "KR-27 ERRORED (UNVERIFIED)"
+      },
+      "repair": {
+        "action": "fix_link",
+        "reason": "Kane saw the App Store CTA already worked, but its href used ct=site-en-hero instead of this post’s ct=threads-oct24, so installs would be credited to the wrong campaign.",
+        "campaign": {
+          "post_copy": "If you journal in a second language, Scribo helps you read videos, articles, PDFs, EPUBs, TXT, or pasted text at your level. It rewrites what you choose in sections you can finish in about five minutes, then quizzes you as you go. https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+          "cta_url": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+          "campaign_tag": "threads-oct24",
+          "claims": [
+            {
+              "text": "Installs from this post are credited to this campaign.",
+              "assertion": {
+                "type": "param_preserved",
+                "value": "ct=threads-oct24"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "n": 2,
+      "campaign": {
+        "post_copy": "If you journal in a second language, Scribo helps you read videos, articles, PDFs, EPUBs, TXT, or pasted text at your level. It rewrites what you choose in sections you can finish in about five minutes, then quizzes you as you go. https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+        "cta_url": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+        "campaign_tag": "threads-oct24",
+        "claims": [
+          {
+            "text": "Installs from this post are credited to this campaign.",
+            "assertion": {
+              "type": "param_preserved",
+              "value": "ct=threads-oct24"
+            }
+          }
+        ]
+      },
+      "compiled": {
+        "url": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+        "objective": "Wait for the App Store page to finish loading. Save the current page URL as {{landing_url}}. Save the app name shown on the page as {{app_name}}."
+      },
+      "kaneRunId": "c-2026-10-24T19-03-11Z-a2",
+      "verdicts": [
+        {
+          "text": "Installs from this post are credited to this campaign.",
+          "assertion": {
+            "type": "param_preserved",
+            "value": "ct=threads-oct24"
+          },
+          "status": "PASS",
+          "reason": "The App Store link carries ct=threads-oct24, and Kane landed on App Store app id6794793715.",
+          "evidence": {
+            "handoffHref": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+            "handoffSource": "post link",
+            "handoffStep": null,
+            "landingUrl": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715"
+          }
+        }
+      ],
+      "overall": "PASS",
+      "kane": {
+        "status": "passed",
+        "exitCode": 0,
+        "summary": "Waited for the App Store page to finish loading as requested.\nConfirmed the page was for “Scribo: AI Language Learning.”\nThe App Store page loaded successfully, and its URL was recorded.",
+        "credits": 5.3645125,
+        "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QMS4X7WMHSTKZJN61GVY1A/dashboard/share/US_SBVNQG9KYDJAE7MMKXNMJC8G6KTCZNNNSCX5SKDTU02DEYA47IBBTHXNTRQYCWCY?type=summary&agentView=true&fqdn=summary-page",
+        "evidencePath": "~/.testmuai/kaneai/sessions/961191c4-dde1-442c-90cc-a8bb51e9a038/evidence/2b68901c-c52a-43bb-aa7a-3eb301b8b3be.evidence",
+        "recorder": "KR-28 ERRORED (UNVERIFIED)"
+      }
+    }
+  ],
+  "status": "verified",
+  "final": {
+    "post_copy": "If you journal in a second language, Scribo helps you read videos, articles, PDFs, EPUBs, TXT, or pasted text at your level. It rewrites what you choose in sections you can finish in about five minutes, then quizzes you as you go. https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+    "cta_url": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+    "campaign_tag": "threads-oct24",
+    "claims": [
+      {
+        "text": "Installs from this post are credited to this campaign.",
+        "assertion": {
+          "type": "param_preserved",
+          "value": "ct=threads-oct24"
+        }
+      }
+    ]
+  }
+}

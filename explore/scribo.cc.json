@@ -1,0 +1,781 @@
+{
+  "exploration_id": "01a16f46-89d6-7d0b-bf88-f21c8c8f3bc3",
+  "run_id": "01a16f46-8ab3-77c4-85b6-db6d5a0c528c",
+  "url": "https://scribo.cc",
+  "explored_at": "2026-10-24T18:57:36.809Z",
+  "stop": "{\"code\":\"budget\",\"message\":\"the run's budget ran out (budget_leases)\"}",
+  "screens": [
+    {
+      "name": "Scribo: Learn from anything. At your level.",
+      "url": "https://scribo.cc/",
+      "heading": "Learn from anything. At your level.",
+      "links": [
+        {
+          "name": "Skip to content",
+          "href_pattern": "scribo.cc/"
+        },
+        {
+          "name": "Scribo",
+          "href_pattern": "scribo.cc/"
+        },
+        {
+          "name": "Mac",
+          "href_pattern": "scribo.cc/mac/"
+        },
+        {
+          "name": "Support",
+          "href_pattern": "scribo.cc/support/"
+        },
+        {
+          "name": "한국어",
+          "href_pattern": "scribo.cc/ko/"
+        },
+        {
+          "name": "Get the app",
+          "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+        },
+        {
+          "name": "Download Scribo on the App Store",
+          "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+        },
+        {
+          "name": "Scribo for Mac",
+          "href_pattern": "scribo.cc/mac/"
+        },
+        {
+          "name": "Read the privacy policy",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "Download the beta for Mac",
+          "href_pattern": "scribo.cc/downloads/{slug}"
+        },
+        {
+          "name": "About Scribo for Mac",
+          "href_pattern": "scribo.cc/mac/"
+        },
+        {
+          "name": "Privacy Policy",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "Terms of Use",
+          "href_pattern": "scribo.cc/terms/"
+        }
+      ],
+      "notes": [
+        "\"Check\" is enabled after: Example learning persona card, The Reflective Explorer. Flip it over., A2",
+        "The contentinfo links (3) repeat on every screen that shows them: site chrome, the same everywhere",
+        "Dropped journey 'Explore a sample learning level': not important to the requested installation, pricing, and trial mapping",
+        "The navigation links (7) repeat on every screen that shows them: site chrome, the same everywhere"
+      ]
+    },
+    {
+      "name": "Scribo Terms of Use",
+      "url": "https://scribo.cc/terms/",
+      "heading": "Scribo Terms of Use",
+      "links": [
+        {
+          "name": "Skip to content",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "Scribo",
+          "href_pattern": "scribo.cc/"
+        },
+        {
+          "name": "Mac",
+          "href_pattern": "scribo.cc/mac/"
+        },
+        {
+          "name": "Support",
+          "href_pattern": "scribo.cc/support/"
+        },
+        {
+          "name": "한국어",
+          "href_pattern": "scribo.cc/ko/terms/"
+        },
+        {
+          "name": "Get the app",
+          "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+        },
+        {
+          "name": "{n}. What Scribo is",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "{n}. Who can use Scribo",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "{n}. Your account",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "{n}. What you bring and what you write",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "{n}. AI makes mistakes",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "{n}. Scribo Pro and payment",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "{n}. Fair use",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "{n}. Ours and others'",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "{n}. Changes",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "{n}. Ending",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "{n}. Responsibility",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "{n}. Law and disputes",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "{n}. Contact",
+          "href_pattern": "scribo.cc/terms/"
+        },
+        {
+          "name": "Privacy Policy",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "Licensed Application End User License Agreement",
+          "href_pattern": "www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+        },
+        {
+          "name": "Scribo for Mac",
+          "href_pattern": "scribo.cc/mac/"
+        },
+        {
+          "name": "Terms of Use",
+          "href_pattern": "scribo.cc/terms/"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "name": "Support: Scribo",
+      "url": "https://scribo.cc/support/",
+      "heading": "Support",
+      "links": [
+        {
+          "name": "Skip to content",
+          "href_pattern": "scribo.cc/support/"
+        },
+        {
+          "name": "Scribo",
+          "href_pattern": "scribo.cc/"
+        },
+        {
+          "name": "Mac",
+          "href_pattern": "scribo.cc/mac/"
+        },
+        {
+          "name": "Support",
+          "href_pattern": "scribo.cc/support/"
+        },
+        {
+          "name": "한국어",
+          "href_pattern": "scribo.cc/ko/support/"
+        },
+        {
+          "name": "Get the app",
+          "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+        },
+        {
+          "name": "Scribo for Mac",
+          "href_pattern": "scribo.cc/mac/"
+        },
+        {
+          "name": "Privacy Policy",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "Terms of Use",
+          "href_pattern": "scribo.cc/terms/"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "name": "Scribo Privacy Policy",
+      "url": "https://scribo.cc/privacy/",
+      "heading": "Scribo Privacy Policy",
+      "links": [
+        {
+          "name": "Skip to content",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "Scribo",
+          "href_pattern": "scribo.cc/"
+        },
+        {
+          "name": "Mac",
+          "href_pattern": "scribo.cc/mac/"
+        },
+        {
+          "name": "Support",
+          "href_pattern": "scribo.cc/support/"
+        },
+        {
+          "name": "한국어",
+          "href_pattern": "scribo.cc/ko/privacy/"
+        },
+        {
+          "name": "Get the app",
+          "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+        },
+        {
+          "name": "日本語",
+          "href_pattern": "scribo.cc/ja/privacy/"
+        },
+        {
+          "name": "繁體中文",
+          "href_pattern": "scribo.cc/zh-hant/privacy/"
+        },
+        {
+          "name": "Summary",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "{n}. What stays on this device only",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "{n}. What leaves the device",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "{n}. Scribo for Mac",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "{n}. Data collected and why",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "{n}. Processors and international transfer",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "{n}. Retention and deletion",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "{n}. Your rights",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "{n}. Safeguards",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "{n}. Children",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "{n}. Changes to this policy",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "{n}. The scribo.cc website",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "{n}. Contact",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "Scribo for Mac",
+          "href_pattern": "scribo.cc/mac/"
+        },
+        {
+          "name": "Privacy Policy",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "Terms of Use",
+          "href_pattern": "scribo.cc/terms/"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "name": "‎Scribo: AI Language Learning App - App Store",
+      "url": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715",
+      "heading": "Scribo: AI Language Learning",
+      "links": [
+        {
+          "name": "{n} RATINGS {n} Stars",
+          "href_pattern": "apps.apple.com/us/developer/dain-jung/{slug}?platform"
+        },
+        {
+          "name": "Ratings & Reviews",
+          "href_pattern": "apps.apple.com/us/app/{n}?platform&see-all"
+        },
+        {
+          "name": "Developer’s Privacy Policy",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "Learn More",
+          "href_pattern": "apps.apple.com/us/iphone/story/{slug}"
+        },
+        {
+          "name": "Learn More",
+          "href_pattern": "apps.apple.com/story/{slug}"
+        },
+        {
+          "name": "Privacy Policy ↗",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "More by Dain Jung",
+          "href_pattern": "apps.apple.com/us/developer/dain-jung/{slug}"
+        },
+        {
+          "name": "View Mori: Never Lose Yourself AI Journal for Self Reflection",
+          "href_pattern": "apps.apple.com/us/app/mori-never-lose-yourself/{slug}"
+        },
+        {
+          "name": "You Might Also Like",
+          "href_pattern": "apps.apple.com/us/app/{n}?platform&see-all"
+        },
+        {
+          "name": "View Chukkani Bedtime Stories Stories in {n} Indian languages",
+          "href_pattern": "apps.apple.com/us/app/chukkani-bedtime-stories/{slug}"
+        },
+        {
+          "name": "View Script Looper: Learn English Master English w/ YouTube & AI",
+          "href_pattern": "apps.apple.com/us/app/script-looper-learn-english/{slug}"
+        },
+        {
+          "name": "View Leafy: Learn Languages Reading AI stories at your level",
+          "href_pattern": "apps.apple.com/us/app/leafy-learn-languages-reading/{slug}"
+        },
+        {
+          "name": "View 스냅퀴즈 SnapQuiz: 시험공부 Education",
+          "href_pattern": "apps.apple.com/us/app/%EC%8A%A4%EB%83%85%ED%80%B4%EC%A6%88-snapquiz-%EC%8B%9C%ED%97%98%EA%B3%B5%EB%B6%80/{slug}"
+        },
+        {
+          "name": "View Mojimoji: AI English companion Your English AI companion",
+          "href_pattern": "apps.apple.com/us/app/mojimoji-ai-english-companion/{slug}"
+        },
+        {
+          "name": "View 리슨90 - {n}초체험, 영어가 들려요 영어듣기 리스닝 Education",
+          "href_pattern": "apps.apple.com/us/app/{slug}/{slug}"
+        },
+        {
+          "name": "View LinguoLand: Read English Books AI defines words in context",
+          "href_pattern": "apps.apple.com/us/app/linguoland-read-english-books/{slug}"
+        },
+        {
+          "name": "View ENGSENCE Real English from podcasts",
+          "href_pattern": "apps.apple.com/us/app/engsence/{slug}"
+        },
+        {
+          "name": "This page is available in Español (México)",
+          "href_pattern": "apps.apple.com/us/app/scribo-ai-language-learning/{slug}?l"
+        },
+        {
+          "name": "This page is available in العربية",
+          "href_pattern": "apps.apple.com/us/app/scribo-ai-language-learning/{slug}?l"
+        },
+        {
+          "name": "This page is available in Русский",
+          "href_pattern": "apps.apple.com/us/app/scribo-ai-language-learning/{slug}?l"
+        },
+        {
+          "name": "This page is available in 简体中文",
+          "href_pattern": "apps.apple.com/us/app/scribo-ai-language-learning/{slug}?l"
+        },
+        {
+          "name": "This page is available in Français (France)",
+          "href_pattern": "apps.apple.com/us/app/scribo-ai-language-learning/{slug}?l"
+        },
+        {
+          "name": "This page is available in 한국어",
+          "href_pattern": "apps.apple.com/us/app/scribo-ai-language-learning/{slug}?l"
+        },
+        {
+          "name": "This page is available in Português (Brazil)",
+          "href_pattern": "apps.apple.com/us/app/scribo-ai-language-learning/{slug}?l"
+        },
+        {
+          "name": "This page is available in Tiếng Việt",
+          "href_pattern": "apps.apple.com/us/app/scribo-ai-language-learning/{slug}?l"
+        },
+        {
+          "name": "This page is available in 繁體中文 (台灣)",
+          "href_pattern": "apps.apple.com/us/app/scribo-ai-language-learning/{slug}?l"
+        },
+        {
+          "name": "Internet Service Terms",
+          "href_pattern": "www.apple.com/legal/internet-services/"
+        },
+        {
+          "name": "App Store & Privacy",
+          "href_pattern": "www.apple.com/legal/privacy/data/en/app-store/"
+        },
+        {
+          "name": "Cookie Warning",
+          "href_pattern": "www.apple.com/privacy/use-of-cookies/"
+        },
+        {
+          "name": "Support",
+          "href_pattern": "support.apple.com/billing"
+        },
+        {
+          "name": "Apple Inc.",
+          "href_pattern": "www.apple.com/"
+        }
+      ],
+      "notes": [
+        "The list on this screen pages (\"Previous Page\", \"Next Page\")"
+      ]
+    },
+    {
+      "name": "Scribo for Mac: Look up anything, anywhere",
+      "url": "https://scribo.cc/mac/",
+      "heading": "Look up anything, anywhere.",
+      "links": [
+        {
+          "name": "Skip to content",
+          "href_pattern": "scribo.cc/mac/"
+        },
+        {
+          "name": "Scribo",
+          "href_pattern": "scribo.cc/"
+        },
+        {
+          "name": "Mac",
+          "href_pattern": "scribo.cc/mac/"
+        },
+        {
+          "name": "Support",
+          "href_pattern": "scribo.cc/support/"
+        },
+        {
+          "name": "한국어",
+          "href_pattern": "scribo.cc/ko/mac/"
+        },
+        {
+          "name": "Get the app",
+          "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+        },
+        {
+          "name": "Download the beta for Mac",
+          "href_pattern": "scribo.cc/downloads/{slug}"
+        },
+        {
+          "name": "Download Scribo on the App Store",
+          "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+        },
+        {
+          "name": "See how it works",
+          "href_pattern": "scribo.cc/"
+        },
+        {
+          "name": "Scribo for Mac",
+          "href_pattern": "scribo.cc/mac/"
+        },
+        {
+          "name": "Privacy Policy",
+          "href_pattern": "scribo.cc/privacy/"
+        },
+        {
+          "name": "Terms of Use",
+          "href_pattern": "scribo.cc/terms/"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "name": "‎Leafy: Learn Languages Reading App - App Store",
+      "url": "https://apps.apple.com/us/app/leafy-learn-languages-reading/id6815684886",
+      "heading": "Leafy: Learn Languages Reading",
+      "links": [
+        {
+          "name": "{n} RATING {n} Stars",
+          "href_pattern": "apps.apple.com/us/developer/dongkeon-nam/{slug}?platform"
+        },
+        {
+          "name": "Halloween Spooky Classics",
+          "href_pattern": "apps.apple.com/us/app/leafy-learn-languages-reading/{slug}?eventid"
+        },
+        {
+          "name": "Developer’s Privacy Policy",
+          "href_pattern": "readleafy.com/privacy"
+        },
+        {
+          "name": "Learn More",
+          "href_pattern": "apps.apple.com/us/iphone/story/{slug}"
+        },
+        {
+          "name": "Learn More",
+          "href_pattern": "apps.apple.com/story/{slug}"
+        },
+        {
+          "name": "Developer Website ↗",
+          "href_pattern": "readleafy.com/?lang"
+        },
+        {
+          "name": "Privacy Policy ↗",
+          "href_pattern": "readleafy.com/privacy"
+        },
+        {
+          "name": "You Might Also Like",
+          "href_pattern": "apps.apple.com/us/app/{n}?platform&see-all"
+        },
+        {
+          "name": "View nawana: Language Learning AI speaking tutor, your voice",
+          "href_pattern": "apps.apple.com/us/app/nawana-language-learning/{slug}"
+        },
+        {
+          "name": "View Script Looper: Learn English Master English w/ YouTube & AI",
+          "href_pattern": "apps.apple.com/us/app/script-looper-learn-english/{slug}"
+        },
+        {
+          "name": "View 네코센세 : JLPT 일본어 학습 Education",
+          "href_pattern": "apps.apple.com/us/app/%EB%84%A4%EC%BD%94%EC%84%BC%EC%84%B8-jlpt-%EC%9D%BC%EB%B3%B8%EC%96%B4-%ED%95%99%EC%8A%B5/{slug}"
+        },
+        {
+          "name": "View 줍줍중국어 Education",
+          "href_pattern": "apps.apple.com/us/app/%EC%A4%8D%EC%A4%8D%EC%A4%91%EA%B5%AD%EC%96%B4/{slug}"
+        },
+        {
+          "name": "View Scribo: AI Language Learning Learn Anything. Make It Yours.",
+          "href_pattern": "apps.apple.com/us/app/scribo-ai-language-learning/{slug}"
+        },
+        {
+          "name": "View 이야기고 Education",
+          "href_pattern": "apps.apple.com/us/app/%EC%9D%B4%EC%95%BC%EA%B8%B0%EA%B3%A0/{slug}"
+        },
+        {
+          "name": "View Vocathon Daily Vocabulary Marathon",
+          "href_pattern": "apps.apple.com/us/app/vocathon/{slug}"
+        },
+        {
+          "name": "View 리슨90 - {n}초체험, 영어가 들려요 영어듣기 리스닝 Education",
+          "href_pattern": "apps.apple.com/us/app/{slug}/{slug}"
+        },
+        {
+          "name": "This page is available in Español (México)",
+          "href_pattern": "apps.apple.com/us/app/leafy-learn-languages-reading/{slug}?l"
+        },
+        {
+          "name": "This page is available in العربية",
+          "href_pattern": "apps.apple.com/us/app/leafy-learn-languages-reading/{slug}?l"
+        },
+        {
+          "name": "This page is available in Русский",
+          "href_pattern": "apps.apple.com/us/app/leafy-learn-languages-reading/{slug}?l"
+        },
+        {
+          "name": "This page is available in 简体中文",
+          "href_pattern": "apps.apple.com/us/app/leafy-learn-languages-reading/{slug}?l"
+        },
+        {
+          "name": "This page is available in Français (France)",
+          "href_pattern": "apps.apple.com/us/app/leafy-learn-languages-reading/{slug}?l"
+        },
+        {
+          "name": "This page is available in 한국어",
+          "href_pattern": "apps.apple.com/us/app/leafy-learn-languages-reading/{slug}?l"
+        },
+        {
+          "name": "This page is available in Português (Brazil)",
+          "href_pattern": "apps.apple.com/us/app/leafy-learn-languages-reading/{slug}?l"
+        },
+        {
+          "name": "This page is available in Tiếng Việt",
+          "href_pattern": "apps.apple.com/us/app/leafy-learn-languages-reading/{slug}?l"
+        },
+        {
+          "name": "This page is available in 繁體中文 (台灣)",
+          "href_pattern": "apps.apple.com/us/app/leafy-learn-languages-reading/{slug}?l"
+        },
+        {
+          "name": "Internet Service Terms",
+          "href_pattern": "www.apple.com/legal/internet-services/"
+        },
+        {
+          "name": "App Store & Privacy",
+          "href_pattern": "www.apple.com/legal/privacy/data/en/app-store/"
+        },
+        {
+          "name": "Cookie Warning",
+          "href_pattern": "www.apple.com/privacy/use-of-cookies/"
+        },
+        {
+          "name": "Support",
+          "href_pattern": "support.apple.com/billing"
+        },
+        {
+          "name": "Apple Inc.",
+          "href_pattern": "www.apple.com/"
+        }
+      ],
+      "notes": [
+        "The list on this screen pages (\"Previous Page\", \"Next Page\")"
+      ]
+    }
+  ],
+  "handoffs": [
+    {
+      "screen": "https://scribo.cc/",
+      "name": "Get the app",
+      "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+    },
+    {
+      "screen": "https://scribo.cc/",
+      "name": "Download Scribo on the App Store",
+      "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+    },
+    {
+      "screen": "https://scribo.cc/terms/",
+      "name": "Get the app",
+      "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+    },
+    {
+      "screen": "https://scribo.cc/support/",
+      "name": "Get the app",
+      "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+    },
+    {
+      "screen": "https://scribo.cc/privacy/",
+      "name": "Get the app",
+      "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+    },
+    {
+      "screen": "https://scribo.cc/mac/",
+      "name": "Get the app",
+      "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+    },
+    {
+      "screen": "https://scribo.cc/mac/",
+      "name": "Download Scribo on the App Store",
+      "href_pattern": "apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+    }
+  ],
+  "findings": [
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "Elements must meet minimum color contrast ratio thresholds (5 elements on scribo.cc/)"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "Elements must have their visible text as part of their accessible name (2 elements on scribo.cc/)"
+    },
+    {
+      "kind": "coverage",
+      "severity": "info",
+      "title": "\"Check\" was not explored: it stayed disabled after every choice the explorer could make"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "high",
+      "title": "Elements must only use supported ARIA attributes (14 elements on apps.apple.com/us/app/scribo-ai-language-learning/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "Elements must only use permitted ARIA attributes (5 elements on apps.apple.com/us/app/scribo-ai-language-learning/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "high",
+      "title": "ARIA attributes must conform to valid values (1 element on apps.apple.com/us/app/scribo-ai-language-learning/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "Elements must meet minimum color contrast ratio thresholds (30 elements on apps.apple.com/us/app/scribo-ai-language-learning/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "Elements must have their visible text as part of their accessible name (1 element on apps.apple.com/us/app/scribo-ai-language-learning/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "<li> elements must be contained in a <ul> or <ol> (1 element on apps.apple.com/us/app/scribo-ai-language-learning/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "Interactive controls must not be nested (1 element on apps.apple.com/us/app/scribo-ai-language-learning/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "All touch targets must be 24px large, or leave sufficient space (1 element on apps.apple.com/us/app/scribo-ai-language-learning/{slug})"
+    },
+    {
+      "kind": "policy",
+      "severity": "info",
+      "title": "POST to unlisted host xp.apple.com blocked by the read-only gate (/report/2/xp_amp_appstore_perf)"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "high",
+      "title": "Elements must only use supported ARIA attributes (14 elements on apps.apple.com/us/app/leafy-learn-languages-reading/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "Elements must only use permitted ARIA attributes (5 elements on apps.apple.com/us/app/leafy-learn-languages-reading/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "high",
+      "title": "ARIA attributes must conform to valid values (1 element on apps.apple.com/us/app/leafy-learn-languages-reading/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "Elements must meet minimum color contrast ratio thresholds (21 elements on apps.apple.com/us/app/leafy-learn-languages-reading/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "Elements must have their visible text as part of their accessible name (2 elements on apps.apple.com/us/app/leafy-learn-languages-reading/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "<li> elements must be contained in a <ul> or <ol> (2 elements on apps.apple.com/us/app/leafy-learn-languages-reading/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "Interactive controls must not be nested (1 element on apps.apple.com/us/app/leafy-learn-languages-reading/{slug})"
+    },
+    {
+      "kind": "accessibility",
+      "severity": "medium",
+      "title": "All touch targets must be 24px large, or leave sufficient space (1 element on apps.apple.com/us/app/leafy-learn-languages-reading/{slug})"
+    }
+  ]
+}

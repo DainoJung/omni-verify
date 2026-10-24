@@ -1,3 +1,6 @@
 .env
 node_modules/
 .DS_Store
+.playwright-mcp/
+# kane-cli context store: shared through a location, never merged with git
+.context/

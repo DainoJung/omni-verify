@@ -2,6 +2,7 @@
 // The key comes from OPENAI_API_KEY in .env and is never logged.
 
 import type { Assertion } from "./claims";
+import type { ExploreMap } from "./explore";
 
 export type Claim = { text: string; assertion: Assertion };
 export type Campaign = { post_copy: string; cta_url: string; campaign_tag: string; claims: Claim[] };
@@ -72,19 +73,33 @@ export async function pageText(url: string, max = 6000): Promise<string> {
 
 const DRAFT_SYSTEM = `You draft one social post for a growth campaign. Every claim in it must be testable in a real browser.
 
+You get the app page's visible text and, when available, a map of the real site made by Kane Explore, a browser agent that walked it: its screens, the links on each (query values are hidden, only the parameter names show) and the links that hand off to an app store. Describe and link only what the map and page text show.
+
 Rules:
 - campaign_tag: the App Store campaign token for this post, lowercase letters, digits and hyphens, at most 40 characters, naming the channel and date (e.g. threads-oct24).
 - cta_url: the app URL you are given, with ?ct=<campaign_tag> added (keep any existing query parameters).
 - post_copy: fits the channel named in the goal, under 400 characters, ends with the cta_url. Describe only what the page text supports. Do not state prices, discounts, trial lengths, ratings or user counts: today we can only verify the tracking link, so those would be unverified claims.
 - claims: exactly one claim, that installs from this post are credited to this campaign. Its assertion is {"type":"param_preserved","value":"ct=<campaign_tag>"}: the link that hands the user off to the App Store must carry this post's own ct value.`;
 
-export async function draftCampaign(input: DraftInput, today = new Date()): Promise<Campaign> {
+// The parts of an Explore map a copywriter needs, kept small.
+export function mapForPrompt(m: ExploreMap): string {
+  return JSON.stringify({
+    explored_at: m.explored_at,
+    site_screens: m.screens.filter((x) => new URL(x.url).hostname === new URL(m.url).hostname)
+      .map((x) => ({ url: x.url, heading: x.heading, links: x.links.map((l) => `${l.name} -> ${l.href_pattern}`), notes: x.notes })),
+    other_screens_reached: m.screens.filter((x) => new URL(x.url).hostname !== new URL(m.url).hostname).map((x) => `${x.url} (${x.heading})`),
+    app_store_handoffs: m.handoffs.map((h) => `${h.screen}: "${h.name}" -> ${h.href_pattern}`),
+  }, null, 1);
+}
+
+export async function draftCampaign(input: DraftInput, map: ExploreMap | null, today = new Date()): Promise<Campaign> {
   const text = await pageText(input.app_url);
   const user = [
     `App URL: ${input.app_url}`,
     `Growth goal: ${input.goal}`,
     `Audience: ${input.audience}`,
     `Today: ${today.toISOString().slice(0, 10)}`,
+    map ? `Kane Explore map of the site:\n${mapForPrompt(map)}` : "Kane Explore map: none yet for this app.",
     `Visible text of the app URL:\n${text}`,
   ].join("\n");
   const c = await callJson<Campaign>(DRAFT_SYSTEM, user, CAMPAIGN_SCHEMA, "campaign");

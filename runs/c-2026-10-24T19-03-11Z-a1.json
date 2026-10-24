@@ -1,0 +1,90 @@
+{
+  "id": "c-2026-10-24T19-03-11Z-a1",
+  "objective": "Find the main call to action that sends the user to the App Store. Before clicking it, read the full href attribute of that link exactly as written, including its query string, and save it as {{handoff_href}}. Then click it, wait for the App Store page to finish loading, and save the current page URL as {{landing_url}}.",
+  "url": "https://scribo.cc?ct=threads-oct24",
+  "startedAt": "2026-10-24T19:03:11.598Z",
+  "endedAt": "2026-10-24T19:04:08.695Z",
+  "exitCode": 0,
+  "result": {
+    "completed": true,
+    "status": "passed",
+    "resultCode": 100,
+    "reasonCode": "success.complete",
+    "summary": "Located the main App Store download link and recorded its complete address, including the tracking details in the link.\nOpened the Scribo App Store listing and waited for it to load.\nThe App Store page loaded successfully at https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715.",
+    "oneLiner": "opened the Scribo App Store listing on Apple App Store",
+    "reason": "Objective completed",
+    "finalState": {
+      "url": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715",
+      "handoff_href": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=site-en-hero&mt=8",
+      "landing_url": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715"
+    },
+    "memory": {
+      "handoff_href": {
+        "value": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=site-en-hero&mt=8",
+        "step": 2,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=site-en-hero&mt=8' (stored, no comparison)"
+      },
+      "landing_url": {
+        "value": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715",
+        "step": 5,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715' (stored, no comparison)"
+      }
+    },
+    "credits": 13.111943499999999,
+    "durationSec": 42.5,
+    "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QMQBJJ5B85CSJ645N5BFJ5/dashboard/share/US_G57CP4NS96FJ4L757R0OTR2JWXDGTL1HN063YN4UCSCUGNH6PRACAWCTTLEH6M8J?type=summary&agentView=true&fqdn=summary-page",
+    "evidencePath": "~/.testmuai/kaneai/sessions/f8ed6ae6-45dd-460f-9f5e-56e1bc6031c3/evidence/7a78a2ef-c6dd-4555-9dae-9ee5d28b835c.evidence",
+    "steps": [
+      {
+        "step": 2,
+        "status": "done",
+        "remark": "navigate: Navigate to https://scribo.cc?ct=threads-oct24",
+        "ts": "2026-10-24T19:03:19.484Z"
+      },
+      {
+        "step": 3,
+        "status": "done",
+        "remark": "analyze: ANALYZE(textual_visual, 'the full href attribute of the main call to action that",
+        "ts": "2026-10-24T19:03:34.021Z"
+      },
+      {
+        "step": 4,
+        "status": "done",
+        "remark": "click: Clicking the Download Scribo on the App Store button",
+        "ts": "2026-10-24T19:03:40.031Z"
+      },
+      {
+        "step": 5,
+        "status": "done",
+        "remark": "wait: PRIMARY: wait 1500 ms for the App Store product page to finish loading",
+        "ts": "2026-10-24T19:03:44.717Z"
+      },
+      {
+        "step": 6,
+        "status": "done",
+        "remark": "analyze: the current page URL is saved as {{landing_url}}",
+        "ts": "2026-10-24T19:03:53.499Z"
+      },
+      {
+        "step": 7,
+        "status": "done",
+        "remark": "wait: Waiting completed App Store handoff and saved URL verification",
+        "ts": "2026-10-24T19:03:56.819Z"
+      }
+    ]
+  },
+  "ndjson": "runs/c-2026-10-24T19-03-11Z-a1.ndjson",
+  "recorder": {
+    "runId": "KR-27",
+    "verdict": "ERRORED (UNVERIFIED)",
+    "proofUrl": "https://kaneclihack.sh/t/omni/proof#run-27"
+  },
+  "verdict": {
+    "status": "FAIL",
+    "reason": "The App Store link carries ct=site-en-hero; the campaign expects ct=threads-oct24 (Kane step 2)."
+  }
+}

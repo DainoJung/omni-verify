@@ -1,0 +1,348 @@
+{
+  "run_id": "",
+  "test_id": "",
+  "objective": "",
+  "start_url": "",
+  "start_time": "",
+  "config": {},
+  "credits_consumed": 32.06104,
+  "steps": [
+    {
+      "step": 1,
+      "duration_ms": 4105.5,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_001.json",
+      "action_type": "click",
+      "action_target": "Clicking Example learning persona card flip control",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 2,
+      "duration_ms": 3954.1,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_002.json",
+      "action_type": "scroll",
+      "action_target": "Scrolling",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 3,
+      "duration_ms": 530.3,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_003.json",
+      "action_type": "click",
+      "action_target": "Clicking learning level A2 tab",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 4,
+      "duration_ms": 6905.4,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_004.json",
+      "action_type": "scroll",
+      "action_target": "Scrolling",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 5,
+      "duration_ms": 537.5,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_005.json",
+      "action_type": "click",
+      "action_target": "Clicking first meaning choice",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 6,
+      "duration_ms": 5316.3,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_006.json",
+      "action_type": "click",
+      "action_target": "Clicking retry quiz button",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 7,
+      "duration_ms": 5701.2,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_007.json",
+      "action_type": "scroll",
+      "action_target": "Scrolling",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 8,
+      "duration_ms": 520.1,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_008.json",
+      "action_type": "click",
+      "action_target": "Clicking first word tile choice",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 9,
+      "duration_ms": 4767.6,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_009.json",
+      "action_type": "click",
+      "action_target": "Clicking next word tile choice",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 10,
+      "duration_ms": 4795.5,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_010.json",
+      "action_type": "click",
+      "action_target": "Clicking next word tile choice",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 11,
+      "duration_ms": 4388.6,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_011.json",
+      "action_type": "click",
+      "action_target": "Clicking next word tile choice",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 12,
+      "duration_ms": 4869.5,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_012.json",
+      "action_type": "click",
+      "action_target": "Clicking enabled Translate exercise Check button",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 13,
+      "duration_ms": 2308.5,
+      "url": "https://scribo.cc/",
+      "status": "complete",
+      "step_file": "step_013.json"
+    },
+    {
+      "step": 1,
+      "duration_ms": 3334.2,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_001.json",
+      "action_type": "scroll",
+      "action_target": "Scrolling",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 2,
+      "duration_ms": 522.9,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_002.json",
+      "action_type": "click",
+      "action_target": "Clicking Spanish word button",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 3,
+      "duration_ms": 5001.8,
+      "url": "https://scribo.cc/",
+      "status": "complete",
+      "step_file": "step_003.json"
+    },
+    {
+      "step": 1,
+      "duration_ms": 4842.9,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_001.json",
+      "action_type": "scroll",
+      "action_target": "Scrolling",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 2,
+      "duration_ms": 529.4,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_002.json",
+      "action_type": "click",
+      "action_target": "Clicking Play button",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 3,
+      "duration_ms": 4642.5,
+      "url": "https://scribo.cc/",
+      "status": "complete",
+      "step_file": "step_003.json"
+    },
+    {
+      "step": 1,
+      "duration_ms": 3724.8,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_001.json",
+      "action_type": "scroll",
+      "action_target": "Scrolling",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 2,
+      "duration_ms": 596.1,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_002.json",
+      "action_type": "click",
+      "action_target": "Clicking Terms of Use link",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 1,
+      "duration_ms": 2874.9,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_001.json",
+      "action_type": "scroll",
+      "action_target": "Scrolling",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 2,
+      "duration_ms": 527.1,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_002.json",
+      "action_type": "click",
+      "action_target": "Clicking \"Recordamos\" word button",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 3,
+      "duration_ms": 4444.3,
+      "url": "https://scribo.cc/",
+      "status": "complete",
+      "step_file": "step_003.json"
+    },
+    {
+      "step": 1,
+      "duration_ms": 4967.4,
+      "url": "https://scribo.cc/terms/",
+      "status": "continue",
+      "step_file": "step_001.json",
+      "action_type": "click",
+      "action_target": "Clicking Support navigation link",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 1,
+      "duration_ms": 3261.0,
+      "url": "https://scribo.cc/terms/",
+      "status": "continue",
+      "step_file": "step_001.json",
+      "action_type": "click",
+      "action_target": "Clicking Privacy Policy link",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 1,
+      "duration_ms": 3850.0,
+      "url": "https://scribo.cc/terms/",
+      "status": "continue",
+      "step_file": "step_001.json",
+      "action_type": "click",
+      "action_target": "Clicking Get the app link",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 1,
+      "duration_ms": 2561.3,
+      "url": "https://scribo.cc/terms/",
+      "status": "continue",
+      "step_file": "step_001.json",
+      "action_type": "scroll",
+      "action_target": "Scrolling",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 2,
+      "duration_ms": 877.5,
+      "url": "https://scribo.cc/terms/",
+      "status": "continue",
+      "step_file": "step_002.json",
+      "action_type": "click",
+      "action_target": "Clicking Scribo for Mac link",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 1,
+      "duration_ms": 4639.3,
+      "url": "https://scribo.cc/",
+      "status": "continue",
+      "step_file": "step_001.json",
+      "action_type": "click",
+      "action_target": "Clicking Get the app link",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 1,
+      "duration_ms": 3678.9,
+      "url": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715",
+      "status": "continue",
+      "step_file": "step_001.json",
+      "action_type": "scroll",
+      "action_target": "Scrolling",
+      "success": true,
+      "method": "dom_action"
+    },
+    {
+      "step": 2,
+      "duration_ms": 567.1,
+      "url": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715",
+      "status": "continue",
+      "step_file": "step_002.json",
+      "action_type": "click",
+      "action_target": "Clicking Leafy app listing link",
+      "success": true,
+      "method": "dom_action"
+    }
+  ],
+  "errors": []
+}

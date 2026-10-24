@@ -5,6 +5,7 @@ import { draftCampaign, MODEL, repairCampaign, type Campaign, type DraftInput, t
 import { compileCampaign, evaluateCampaign, overall, type ClaimVerdict } from "./claims";
 import { runKane, type KaneEvent } from "./kane";
 import { logRun } from "./runlog";
+import { loadMap, mapPath } from "./explore";
 
 export const MAX_ATTEMPTS = 3;
 
@@ -24,6 +25,7 @@ export type CampaignRecord = {
   model: string;
   input: DraftInput;
   draft: Campaign;
+  explore: { path: string; exploration_id: string; run_id: string; explored_at: string; screens: number; handoffs: string[] } | null;
   attempts: Attempt[];
   status: "running" | "verified" | "needs_human";
   final?: Campaign;
@@ -39,10 +41,15 @@ async function save(rec: CampaignRecord) {
 }
 
 export async function runCampaign(input: DraftInput, emit: Emit): Promise<CampaignRecord> {
-  const draft = await draftCampaign(input);
-  const rec: CampaignRecord = { id: `c-${stamp()}`, model: MODEL, input, draft, attempts: [], status: "running" };
+  const map = await loadMap(input.app_url);
+  const draft = await draftCampaign(input, map);
+  const explore = map && {
+    path: mapPath(input.app_url), exploration_id: map.exploration_id, run_id: map.run_id, explored_at: map.explored_at,
+    screens: map.screens.length, handoffs: map.handoffs.map((h) => `"${h.name}" -> ${h.href_pattern}`),
+  };
+  const rec: CampaignRecord = { id: `c-${stamp()}`, model: MODEL, input, draft, explore, attempts: [], status: "running" };
   await save(rec);
-  emit("draft", { id: rec.id, model: MODEL, campaign: draft });
+  emit("draft", { id: rec.id, model: MODEL, campaign: draft, explore });
 
   let campaign = draft;
   for (let n = 1; n <= MAX_ATTEMPTS; n++) {
