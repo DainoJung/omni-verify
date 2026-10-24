@@ -6,19 +6,30 @@
 //   - post links straight to the App Store → that link is the hand-off; Kane opens it and confirms the page.
 // We check the href, not Kane's final URL: the App Store page drops the query string after it loads,
 // so the final URL never shows ct= (seen in fixtures/kane-sample.ndjson).
+//
+// text_visible: "the app page shows this exact phrase", one per sentence of the post.
+// Kane scrolls the page once and stores true/false per phrase. Asserting instead ("verify the text ... is
+// visible") gave a false negative on below-the-fold text and got stuck on absent text
+// (fixtures/kane-verify-sample.ndjson, kane-verify-scroll.ndjson); storing a boolean did neither
+// (fixtures/kane-store-sample.ndjson).
 
 import type { KaneResult } from "./kane";
 
-export type Assertion = { type: "param_preserved"; value: string }; // value: "ct=threads-oct24"
+export type Assertion =
+  | { type: "param_preserved"; value: string } // value: "ct=threads-oct24"
+  | { type: "text_visible"; value: string }; // value: a short exact phrase from the app page
 
 export type Verdict = {
   status: "PASS" | "FAIL" | "UNVERIFIED";
   reason: string;
   evidence: {
-    handoffHref: string | null;
-    handoffSource: "post link" | "Kane read CTA href" | null;
-    handoffStep: number | null;
-    landingUrl: string | null;
+    handoffHref?: string | null;
+    handoffSource?: "post link" | "Kane read CTA href" | null;
+    handoffStep?: number | null;
+    landingUrl?: string | null;
+    textKey?: string;
+    textFound?: string | null;
+    textStep?: number | null;
   };
 };
 
@@ -42,17 +53,45 @@ export function compileObjective(ctaUrl: string): string {
     "Then click it, wait for the App Store page to finish loading, and save the current page URL as {{landing_url}}.";
 }
 
-// All of a campaign's assertions → one plain-English Kane objective, run from the post's link.
-export function compileCampaign(c: { cta_url: string; claims: { assertion: Assertion }[] }): { url: string; objective: string } {
-  const types = new Set(c.claims.map((x) => x.assertion.type));
-  for (const t of types) if (t !== "param_preserved") throw new Error(`No Kane check for assertion type ${t} yet`);
-  return { url: c.cta_url, objective: compileObjective(c.cta_url) };
+function textObjective(phrases: string[]): string {
+  return "Scroll down through the whole page once, to the bottom. " +
+    "Then, for each text below, check whether it appears anywhere on the page and store the answer, true or false, without searching further: " +
+    phrases.map((p, i) => `store whether the text "${p}" appears as 'claim_${i + 1}'`).join("; ") + ".";
+}
+
+// All of a campaign's assertions → one plain-English Kane objective.
+// Text claims are checked on the app's own page; the link claim from the post's link.
+export function compileCampaign(c: { cta_url: string; claims: { assertion: Assertion }[] }, appUrl: string): { url: string; objective: string } {
+  const texts = c.claims.filter((x) => x.assertion.type === "text_visible").map((x) => x.assertion.value);
+  const direct = isAppStore(c.cta_url);
+  if (!texts.length) return { url: c.cta_url, objective: compileObjective(c.cta_url) };
+  if (direct) {
+    return { url: appUrl, objective: `${textObjective(texts)} Then go to ${c.cta_url}. ${compileObjective(c.cta_url)}` };
+  }
+  return { url: c.cta_url, objective: `${textObjective(texts)} Then scroll back to the top of the page. ${compileObjective(c.cta_url)}` };
 }
 
 export type ClaimVerdict = { text: string; assertion: Assertion } & Verdict;
 
+export function evaluateTextVisible(a: Assertion, n: number, kane: KaneResult): Verdict {
+  const key = `claim_${n}`;
+  const mem = kane.memory[key];
+  const got = (mem?.value || kane.finalState[key] || "").trim().toLowerCase();
+  const evidence = { textKey: key, textFound: got || null, textStep: mem?.step ?? null };
+  if (got === "true") return { status: "PASS", reason: `Kane found "${a.value}" on the page.`, evidence };
+  if (got === "false") return { status: "FAIL", reason: `Kane scrolled the whole page and did not find "${a.value}".`, evidence };
+  if (!kane.completed) return { status: "UNVERIFIED", reason: "Kane ended without a run_end event.", evidence };
+  return { status: "UNVERIFIED", reason: `Kane did not report whether "${a.value}" is on the page.`, evidence };
+}
+
 export function evaluateCampaign(c: { cta_url: string; claims: { text: string; assertion: Assertion }[] }, kane: KaneResult): ClaimVerdict[] {
-  return c.claims.map((claim) => ({ ...claim, ...evaluateParamPreserved(claim.assertion, c.cta_url, kane) }));
+  let n = 0;
+  return c.claims.map((claim) => ({
+    ...claim,
+    ...(claim.assertion.type === "text_visible"
+      ? evaluateTextVisible(claim.assertion, ++n, kane)
+      : evaluateParamPreserved(claim.assertion, c.cta_url, kane)),
+  }));
 }
 
 export function overall(vs: Verdict[]): Verdict["status"] {

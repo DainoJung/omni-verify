@@ -82,3 +82,17 @@ test("overall: any FAIL wins, then UNVERIFIED, else PASS", async () => {
   expect(overall([v("PASS"), v("UNVERIFIED")])).toBe("UNVERIFIED");
   expect(overall([v("PASS")])).toBe("PASS");
 });
+
+test("text_visible: real Kane run with the store-a-boolean phrasing", async () => {
+  const { evaluateCampaign } = await import("./claims");
+  const k = parseNdjson(await Bun.file("fixtures/kane-store-sample.ndjson").text());
+  const t = (value: string) => ({ text: value, assertion: { type: "text_visible" as const, value } });
+  const vs = evaluateCampaign({ cta_url: "https://scribo.cc", claims: [t("Try Pro free for 7 days"), t("$4.99 per month"), t("Prices are shown in the App Store for your country")] }, k);
+  expect(vs.map((v) => v.status)).toEqual(["PASS", "FAIL", "PASS"]);
+  expect(vs[1].reason).toBe('Kane scrolled the whole page and did not find "$4.99 per month".');
+});
+
+test("text_visible: no stored answer is UNVERIFIED, never PASS", async () => {
+  const { evaluateTextVisible } = await import("./claims");
+  expect(evaluateTextVisible({ type: "text_visible", value: "x" }, 1, kane).status).toBe("UNVERIFIED");
+});

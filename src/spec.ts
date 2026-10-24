@@ -30,7 +30,7 @@ export function campaignSpec(rec: CampaignRecord): string {
       const a = cl.assertion;
       const how = a.type === "param_preserved"
         ? `The link that hands the visitor off to the App Store carries \`${a.value}\`, and opening it lands on the app's App Store page.`
-        : `${a.type}: ${a.value}`;
+        : `${rec.input.app_url} shows the text "${a.value}".`;
       return `${i + 1}. ${cl.text} ${how}`;
     }),
   ];

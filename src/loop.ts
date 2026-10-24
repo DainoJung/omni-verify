@@ -53,7 +53,7 @@ export async function runCampaign(input: DraftInput, emit: Emit): Promise<Campai
 
   let campaign = draft;
   for (let n = 1; n <= MAX_ATTEMPTS; n++) {
-    const compiled = compileCampaign(campaign);
+    const compiled = compileCampaign(campaign, input.app_url);
     emit("attempt_start", { n, ...compiled });
 
     const run = await runKane({ ...compiled, onEvent: (ev: KaneEvent) => ev.kind !== "end" && emit("kane", { n, ev }) });

@@ -10,7 +10,6 @@ export type DraftInput = { app_url: string; goal: string; audience: string };
 
 export const MODEL = process.env.OPENAI_MODEL ?? "gpt-5.4-mini";
 
-// Today's scope: one claim type. text_visible (price / trial) is the stretch goal.
 const CAMPAIGN_SCHEMA = {
   type: "object",
   additionalProperties: false,
@@ -31,7 +30,7 @@ const CAMPAIGN_SCHEMA = {
             type: "object",
             additionalProperties: false,
             required: ["type", "value"],
-            properties: { type: { type: "string", enum: ["param_preserved"] }, value: { type: "string" } },
+            properties: { type: { type: "string", enum: ["param_preserved", "text_visible"] }, value: { type: "string" } },
           },
         },
       },
@@ -78,8 +77,10 @@ You get the app page's visible text and, when available, a map of the real site 
 Rules:
 - campaign_tag: the App Store campaign token for this post, lowercase letters, digits and hyphens, at most 40 characters, naming the channel and date (e.g. threads-oct24).
 - cta_url: the app URL you are given, with ?ct=<campaign_tag> added (keep any existing query parameters).
-- post_copy: fits the channel named in the goal, under 400 characters, ends with the cta_url. Describe only what the page text supports. Do not state prices, discounts, trial lengths, ratings or user counts: today we can only verify the tracking link, so those would be unverified claims.
-- claims: exactly one claim, that installs from this post are credited to this campaign. Its assertion is {"type":"param_preserved","value":"ct=<campaign_tag>"}: the link that hands the user off to the App Store must carry this post's own ct value.`;
+- post_copy: fits the channel named in the goal, under 400 characters. One to three complete, natural sentences written for the audience, each stating one fact about the app that the page text shows, then the cta_url as the last thing. No other sentences: no filler, no hashtags, no call to action without a fact. Never state a price, discount, rating or number the page text does not show word for word.
+- claims, so that no line of the post is unverified:
+  - exactly one claim that installs from this post are credited to this campaign: {"type":"param_preserved","value":"ct=<campaign_tag>"}. The link that hands the user off to the App Store must carry this post's own ct value.
+  - one claim per sentence of post_copy: its text is that sentence copied exactly, and its assertion is {"type":"text_visible","value":"<phrase>"}, where the phrase is 3 to 12 words copied exactly from the page text that prove the sentence. No double quotes in the phrase.`;
 
 // The parts of an Explore map a copywriter needs, kept small.
 export function mapForPrompt(m: ExploreMap): string {
@@ -102,9 +103,18 @@ export async function draftCampaign(input: DraftInput, map: ExploreMap | null, t
     map ? `Kane Explore map of the site:\n${mapForPrompt(map)}` : "Kane Explore map: none yet for this app.",
     `Visible text of the app URL:\n${text}`,
   ].join("\n");
-  const c = await callJson<Campaign>(DRAFT_SYSTEM, user, CAMPAIGN_SCHEMA, "campaign");
-  validateCampaign(c);
-  return c;
+  let lastError = "";
+  // One retry, telling the model which rule it broke.
+  for (let i = 0; i < 2; i++) {
+    const c = await callJson<Campaign>(DRAFT_SYSTEM, lastError ? `${user}\n\nYour previous draft was rejected: ${lastError}` : user, CAMPAIGN_SCHEMA, "campaign");
+    try {
+      validateCampaign(c);
+      return c;
+    } catch (err) {
+      lastError = err instanceof Error ? err.message : String(err);
+    }
+  }
+  throw new Error(`Draft rejected twice: ${lastError}`);
 }
 
 const REPAIR_SCHEMA = {
@@ -123,8 +133,8 @@ You get the campaign, the failing assertions, what Kane actually saw, and Kane's
 
 Allowed repairs, smallest first:
 - fix_link: change cta_url (and the link inside post_copy) so the claim becomes true. Build the link only from URLs Kane actually observed. Keep every query parameter Kane saw, except set ct to this post's campaign_tag: a link carrying another campaign's ct credits installs to that campaign.
-- rewrite_claim / remove_claim: change or drop a claim that cannot be made true. The param_preserved claim about this post's own campaign_tag must stay: attribution is the point of the campaign.
-- no_change: Kane could not gather evidence (UNVERIFIED), and nothing in the campaign is wrong.
+- rewrite_claim / remove_claim: change or drop a claim that cannot be made true. For a text_visible claim, rewrite or drop its sentence in post_copy too, so every remaining sentence still has its own text_visible claim (text = the sentence copied exactly, value = 3 to 12 words copied exactly from what the page shows). Never keep a sentence whose phrase Kane did not find. The param_preserved claim about this post's own campaign_tag must stay: attribution is the point of the campaign.
+- no_change: Kane could not gather evidence (UNVERIFIED) for the link claim, and nothing in the campaign is wrong. An UNVERIFIED text claim is an unverified sentence: rewrite or remove it.
 
 Keep campaign_tag unchanged. Keep post_copy otherwise as close to the original as possible, and it must contain the new cta_url.
 reason: one line a marketer understands, citing what Kane saw.`;
@@ -162,4 +172,19 @@ export function validateCampaign(c: Campaign): void {
   const pp = c.claims.filter((x) => x.assertion.type === "param_preserved");
   if (pp.length !== 1) throw new Error(`Expected exactly one param_preserved claim, got ${pp.length}`);
   if (pp[0].assertion.value !== `ct=${c.campaign_tag}`) throw new Error(`Claim value ${pp[0].assertion.value} does not match ct=${c.campaign_tag}`);
+  for (const t of c.claims.filter((x) => x.assertion.type === "text_visible")) {
+    const v = t.assertion.value.trim();
+    if (!v || v.length > 120 || v.includes('"')) throw new Error(`text_visible phrase must be 1-120 characters with no double quotes: ${v}`);
+  }
+  // Every sentence of the post is backed by its own text_visible claim.
+  const backed = new Set(c.claims.filter((x) => x.assertion.type === "text_visible").map((x) => norm(x.text)));
+  const unbacked = postSentences(c).filter((s) => !backed.has(norm(s)));
+  if (unbacked.length) throw new Error(`These sentences have no text_visible claim (claim text must copy the sentence exactly): ${unbacked.map((s) => JSON.stringify(s)).join(", ")}`);
+}
+
+const norm = (s: string) => s.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"').replace(/\s+/g, " ").trim();
+
+// The post's sentences, without the link.
+export function postSentences(c: Pick<Campaign, "post_copy" | "cta_url">): string[] {
+  return c.post_copy.split(c.cta_url).join(" ").split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter((s) => /[a-z]/i.test(s));
 }
