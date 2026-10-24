@@ -4,11 +4,11 @@ I built Omni Verify alone, so there is one variant.
 
 ## Dain Jung
 
-I pointed Kane CLI at my own app's funnel, and it caught my growth agent about to ship a post whose tracking tag would die at the App Store button (ct=site-en-hero instead of the post's ct=threads-oct24). The agent rebuilt the link from what Kane saw, and Kane passed it.
+My marketing and my product were drifting apart, and my growth agent would have made it worse. Every App Store button on scribo.cc overwrote the campaign tag, so my Threads installs would have been credited to the website, and my agent would have decided Threads doesn't work. And since Scribo 2.0, my old posts promise a handwriting notebook the app no longer is.
 
-Omni Verify now checks every claim in an AI-written post before it ships: the link, every sentence against the page, and every promised feature, performed by Kane. On TestMu AI's free JSON tool, a planted YAML claim failed and the agent swapped in Minify. Publish to Threads stays locked until Kane passes that exact version.
+Omni Verify makes Kane CLI check every promise in a post before it ships and again after every release. Only a campaign that passes can publish. The first one went out today: https://www.threads.com/@scribo.voca/post/De4-yPnATF5
 
 Repo: https://github.com/DainoJung/omni-verify
 Demo: [VIDEO_URL]
 
-Agents can write the promise. Kane checks whether the funnel keeps it.
+AI can write the promise. Kane checks if the product keeps it.

@@ -1,52 +1,51 @@
 # Table demo (2 minutes)
 
-Two demos, one server: http://localhost:3000 (1 · Campaign links, Scribo) and http://localhost:3000/features.html (2 · Feature claims, TestMu). The header nav on both pages switches between them.
+One problem: marketing promises and the real product drift apart silently, and AI growth agents make it worse. The demo shows the two drifts on my own app and the gate that catches them. Order: drift 1 (the link lies), the live post on the phone, drift 2 (the audit page), feature claims only if time is left.
 
-Most of the 2 minutes replays recorded runs, because a live Kane loop takes longer than the whole demo. The two live parts are fast: Re-verify and the publish confirm.
+Most of it replays recorded runs, because a live Kane loop takes longer than the whole demo. The live parts are fast: Re-verify and the audit page's own checks.
 
 ## Before judges arrive
 
-1. Server running: `bun run dev` in the repo. kane-cli signed in (Re-verify calls Kane).
-2. **Publish mode back to dry run after the 14:30 rehearsal.** Remove `PUBLISH_MODE=live` from `.env` and restart the server. With live mode on, any Verified campaign whose last Kane result passed can be published from the table. The confirm panel says "This posts publicly" in live mode and "Dry run: nothing will be posted" in dry run: check which one it says before the first judge.
-3. Open three tabs:
-   - Tab A: http://localhost:3000
-   - Tab B: http://localhost:3000/features.html
-   - Tab C: https://github.com/DainoJung/omni-verify (README, RUNS.md)
-4. In Tab A, click the recorded run **VERIFIED 2026-10-24T19-41 · 2 runs** once to make sure it loads.
+1. Server running on main after the audit merge: `bun run dev`. kane-cli signed in (Re-verify and the audit call Kane).
+2. **Publish mode is dry run.** `PUBLISH_MODE=live` must not be in `.env` (restart after removing it). The live post is already out; nothing else should post from the table.
+3. Phone: Threads open on https://www.threads.com/@scribo.voca/post/De4-yPnATF5, screen on.
+4. Browser tabs:
+   - Tab A: http://localhost:3000 (1 · Launch gate). Click the recorded run **VERIFIED 2026-10-24T19-41 · 2 runs** once to check it loads.
+   - Tab B: http://localhost:3000/audit.html (Audit past posts). Open it once after the merge and note the exact button and post names; update this file if they differ from below.
+   - Tab C: http://localhost:3000/features.html (2 · Feature claims), only if time.
+   - Tab D: https://github.com/DainoJung/omni-verify (README, RUNS.md).
 
 ## Click path
 
-| Time | Tab | Do | Live or replay | Say |
+| Time | Where | Do | Live or replay | Say |
 |---|---|---|---|---|
-| 0:00 | A | Nothing yet. | | "My growth agent writes posts. It never clicks its own links. Kane does." |
-| 0:10 | A | Click **VERIFIED 2026-10-24T19-41 · 2 runs** in Recorded runs. Scroll to **Kane run 1 FAIL**. Point at the hand-off link `ct=site-en-hero`. | Replay | "Kane read the App Store button on my site. It carries the website's tag, so my Threads post's `ct=threads-oct24` dies at the click." |
-| 0:30 | A | Scroll to **Repair** (link diff), then **Kane run 2 PASS**, then **Verified for launch**. | Replay | "The agent rebuilt the link from the URL Kane saw. Kane ran it again: pass. Every sentence of the post is checked too." |
-| 0:45 | A | On the Verified card, press **Re-verify**. | **Live, 5 to 10 s** | "Kane recorded the passing run as a test. This replays it right now and judges every claim again." |
-| 0:55 | A | Under **Publish**, point at the reason ("Re-verify N … passed this exact version"). Press **Publish to Threads**. The confirm panel shows @scribo.voca, the exact text and the Kane result. | **Live, 1 to 3 s** (account check) | "Publishing stays locked unless Kane's latest result passed this exact version. Then it still needs my confirm." |
-| 1:05 | A | Dry run: press **Confirm dry run** (nothing is posted). If the rehearsal post went live on this campaign, the card shows **Published** with the post URL instead: click the URL. | Live | "In dry run nothing goes out." / "This is the post that went out after Kane passed it." |
-| 1:15 | B | Click nav **2 · Feature claims (TestMu)**. Click the recorded run **VERIFIED … 2026-10-24T20-04**. Point at **Convert JSON to YAML: FAIL** and Kane's output. | Replay | "For a tool, Kane does the feature. I told the agent to slip in one the page doesn't have. Kane clicked YAML and got JSON back." |
-| 1:35 | B | Scroll to **Repair** (YAML sentence replaced with Minify) and the **Minify PASS**, then **Verified**. | Replay | "The agent swapped in a real feature, and Kane performed it." |
-| 1:50 | B or C | Close. Optionally show RUNS.md in Tab C. | | "Agents can write the promise. Kane checks whether the funnel keeps it." |
+| 0:00 | Tab A | Nothing yet. | | "I let an AI agent write my app's marketing and I judge it by tracking tags. Promises and the product drift apart silently, and the agent learns from the numbers." |
+| 0:15 | Tab A | Click **VERIFIED 2026-10-24T19-41 · 2 runs**. Scroll to **Kane run 1 FAIL**; point at the hand-off link `ct=site-en-hero`. | Replay | "Drift 1: the link lies. Every App Store button on my site overwrites the campaign tag. Every Threads install would have been credited to the website, and my agent would have decided Threads doesn't work." |
+| 0:35 | Tab A | Scroll to **Repair** (link diff) and **Kane run 2 PASS**, then the Verified card. Press **Re-verify**. | Replay, then Re-verify **live, 5 to 10 s** | "The agent rebuilt the link from what Kane saw, and Kane passed it. Kane recorded that run as a test, so after any release it re-checks in seconds." |
+| 0:50 | Tab A, then phone | On the Verified card, point at **Published: Posted to Threads as @scribo.voca** and its URL. Hand over the phone. | Live post | "Only a campaign that passes can publish. The button stayed locked until Kane's re-check passed this exact version. This is the post that went out." |
+| 1:10 | Tab B | Open **Audit past posts**. Point at an old @scribo.voca post that promises a handwriting vocabulary notebook and its result against today's scribo.cc. | As the page runs it | "Drift 2: the product moves on. Scribo 2.0 turned a handwriting vocabulary app into a content learning app. My old posts still promise the old app and still bring people in. The audit checks them against today's product." |
+| 1:40 | Tab C (if time) | Click **2 · Feature claims (TestMu)**, then the recorded run dated **2026-10-24T20-04**. Point at **Convert JSON to YAML: FAIL**, then **Minify PASS**. | Replay | "For a tool, Kane does the feature. I seeded one false claim here to show the repair: YAML came back as JSON, so the agent swapped in Minify." |
+| 1:50 | | Close. | | "Before my agent learns from a post, Kane proves the funnel tells the truth. AI can write the promise. Kane checks if the product keeps it." |
 
-If a judge wants to type their own goal: do it **after** Re-verify and Publish. In Tab A, edit the goal and press **Draft and verify**. It takes about 2.5 minutes (two Kane runs) and streams live. While it runs, Re-verify and Publish on the campaign page answer "A Kane run is in progress".
+If a judge wants to try their own goal: after the click path, in Tab A, edit the goal and press **Draft and verify**. It takes about 2.5 minutes (two Kane runs). While it runs, Re-verify and Publish answer "A Kane run is in progress".
 
 ## Live vs replay
 
 | Part | Mode | Takes | Kane credits |
 |---|---|---|---|
-| Campaign loop (draft, FAIL, repair, PASS) | Replay of `runs/c-2026-10-24T19-41-41Z.json` | instant | none |
+| Drift 1 loop (draft, FAIL, repair, PASS) | Replay of `runs/c-2026-10-24T19-41-41Z.json` | instant | none |
 | Re-verify | Live (`kane-cli testmd run` replay of the saved test) | 5 to 10 s | not reported by the replay stream |
-| Publish to Threads confirm | Live (read-only account check; posts only in live mode) | 1 to 3 s | none |
+| Live post | Already published (KR-85 gate) | phone | none |
+| Audit past posts | As built on the audit-past-posts branch; check after the merge whether it runs Kane live or shows recorded results | check after merge | check after merge |
 | Feature claims (YAML FAIL, Minify PASS) | Replay of `runs/f-2026-10-24T20-04-05Z.json` | instant | none |
-| A judge's own campaign goal | Live, full loop | about 2.5 min (136 to 148 s measured) | 18 to 60 measured |
-| A new feature-claims run | Live, one Kane run per claim plus the repair | about 5 min (3 claims) | about 136 measured (4 Kane runs) |
+| A judge's own goal | Live, full loop | about 2.5 min (136 to 148 s measured) | 18 to 60 measured |
 
 Replays are labeled on the page: "Recorded run …, replayed from runs/. Not live."
 
 ## If Kane is slow or fails
 
-- **Re-verify takes more than 30 s**, or shows an error: say "this replays live, here's the one from earlier", and point at the **Re-verify 1** and **Re-verify 2** cards already shown under the Verified card (both PASS, recorder KR-77 and KR-85). Reload the page if the button stays on "Replaying…".
-- **Publish button locked**: the reason line says why. "Re-verify before publishing" means press Re-verify. "A Kane run is in progress" means a live loop is running.
-- **A live loop drags**: keep talking over the streamed steps, or switch to the recorded run (left panel). A running loop can't be cancelled from the page; it finishes on its own (max 3 attempts).
-- **Kane or the network is down**: everything except Re-verify and the publish account check still works from recorded runs. Each Kane card links to its run in Test Manager, and RUNS.md lists every run with time, result and credits.
-- **The server is down**: `bun run dev` again; nothing is lost, runs are files in `runs/`.
+- **Re-verify takes more than 30 s** or errors: point at the **Re-verify 1** and **Re-verify 2** cards already under the Verified card (both PASS; Re-verify 2 is KR-85, the one that unlocked the live post). Reload the page if the button stays on "Replaying…".
+- **The audit page is slow**: show its recorded results if it has them, or skip to the phone and the close. Drift 2 is also told in the README.
+- **A live loop drags**: keep talking over the streamed steps, or switch to a recorded run. A running loop can't be cancelled from the page; it finishes on its own (max 3 attempts).
+- **Kane or the network is down**: drift 1 and the feature demo still work from recorded runs, and the live post is on the phone. Each Kane card links to its run in Test Manager; RUNS.md lists every run.
+- **The server is down**: `bun run dev` again. Runs are files in `runs/`.

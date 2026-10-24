@@ -1,76 +1,70 @@
 # Omni Verify deck outline
 
-Slide outline for the Studio deck. Every visual is a real capture from docs/ or the running app.
+Slide outline for the Studio deck. Every visual is a real capture.
 
 ## Slide 1: Omni Verify
 
-**Headline:** Agents can write the promise. Kane checks whether the funnel keeps it.
+**Headline:** AI can write the promise. Kane checks if the product keeps it.
 
-**Subhead:** A launch gate for AI-written growth posts.
+**Subhead:** Every promise in an AI-written post is checked before it ships and after every release.
 
 **Footer:** Dain Jung · solo · Kane CLI Hack Day · 24 October 2026
 
-**Visual:** docs/verified-card.png
+## Slide 2: The problem
 
-## Slide 2: My agent never clicked its own link
+**Headline:** Marketing promises and the real product drift apart silently.
 
-**Headline:** The link loaded. The tracking died at the button.
+**Copy:** AI growth agents make it worse. They write promises at scale, and they learn from the numbers. Who: solo founders who let an agent post their marketing and judge it by tracking tags.
 
-**Copy:** My Threads post carried ct=threads-oct24. Every App Store button on scribo.cc hard-codes ct=site-en-hero, so the install would be credited to the website.
+## Slide 3: Drift 1, the link lies (at publish time)
+
+**Headline:** Every Threads install would have been credited to the website.
+
+**Copy:** Every App Store button on scribo.cc overwrites the campaign tag with ct=site-en-hero. No error, just a wrong number. My agent would have concluded Threads doesn't work and stopped posting there.
 
 **Visual:** The two URLs side by side, cropped to the ct parameter.
 
-## Slide 3: Every claim becomes an assertion
+## Slide 4: Drift 2, the product moves on (after every release)
 
-**Headline:** Link, words, features.
+**Headline:** My old posts promise an app I no longer ship.
 
-**Copy:** The link keeps the post's own campaign tag. Every sentence is backed by text Kane finds on the page. Every promised feature is performed by Kane on the real tool.
+**Copy:** Scribo 2.0 (October 1) turned a handwriting vocabulary app into a content learning app. Old @scribo.voca posts still promise a handwriting vocabulary notebook, and still bring people in.
 
-**Visual:** The draft card with its claims and assertions.
+**Visual:** An old post next to today's scribo.cc.
 
-## Slide 4: Kane FAIL, repair, Kane PASS
+## Slide 5: The fix
 
-**Headline:** The agent fixes the post from what Kane saw.
+**Headline:** Kane checks every promise, before shipping and after every release.
 
-**Copy:** Kane read the button's href: ct=site-en-hero. FAIL (KR-63). The agent rebuilt the link from that URL with ct=threads-oct24. PASS (KR-68). Same result in all five full loops.
+**Copy:** The agent turns each promise into a check: the link's tag, every sentence, every feature. Kane checks it in real Chrome. Failed promises are repaired from what Kane saw (FAIL KR-63, PASS KR-68). After a release: Re-verify for campaigns, Audit past posts for old posts.
 
-**Visual:** docs/live-run.png, cropped to Kane run 1, the repair diff and Kane run 2.
+**Visual:** docs/live-run.png, cropped to Kane run 1 FAIL, the repair diff, Kane run 2 PASS.
 
-## Slide 5: Features are checked by doing them
+## Slide 6: Only campaigns that pass can publish
 
-**Headline:** "Converts JSON to YAML." Kane clicked it. Still JSON.
+**Headline:** A real post, published through the gate.
 
-**Copy:** On TestMu AI's free JSON Prettify tool, stretch mode makes the agent add one capability the page doesn't show. Kane performed it: FAIL (KR-100). The agent swapped in Minify: PASS (KR-102). Prettify and Validate passed first try.
+**Copy:** Publish to Threads stayed locked until Kane's re-check (KR-85) passed that exact version, then needed my confirm. https://www.threads.com/@scribo.voca/post/De4-yPnATF5
+
+**Visual:** The live post on the phone, next to the Verified card.
+
+## Slide 7: Supporting example
+
+**Headline:** Features are checked by doing them.
+
+**Copy:** On TestMu AI's free JSON tool I seeded a false "convert JSON to YAML" claim. Kane clicked it and got JSON back: FAIL (KR-100). The agent swapped in Minify: PASS (KR-102).
 
 **Visual:** docs/feature-claims.jpg
 
-## Slide 6: Kane, end to end
+## Slide 8: Honest limits
 
-**Headline:** Explore, run, design, replay.
+**Headline:** What a PASS means.
 
-**Copy:** Explore mapped scribo.cc and showed every App Store button sets its own tag. Kane designed tests from the verified campaign: 2/2 passed (KR-46), 75% coverage; the other 25%, install credit, Kane marked unmeasurable from a browser. Every passing run is recorded as a test, and Re-verify replays it in about 10 seconds (KR-77, KR-85).
+**Copy:** The promises are true when the post ships. Not that installs went up: install credit is unmeasurable from a browser, and Kane's own test design marked it so (75% coverage). Kane had one false negative on below-the-fold text; storing true or false per phrase fixed it.
 
-**Visual:** docs/reverify.png
+## Slide 9: Close
 
-## Slide 7: Nothing ships without a PASS
-
-**Headline:** Publish to Threads unlocks only for the version Kane passed.
-
-**Copy:** Locked unless the latest Kane result passed that exact version of the post. Then a click and a confirm showing the account, the text and the Kane run it rests on. Dry-run tested; the first live post is next.
-
-**Visual:** docs/publish-confirm.png
-
-## Slide 8: Where Kane was wrong, and what I changed
-
-**Headline:** A false negative, caught and worked around.
-
-**Copy:** "Verify the text is visible" said no to text that is on the page (KR-51). Asking Kane to store true or false per phrase got every answer right (KR-58). A PASS means the funnel keeps the promises today, not that installs went up.
-
-**Visual:** The phrasing table from the README.
-
-## Slide 9: Links
-
-**Headline:** Try it, read the runs.
+**Headline:** Before my agent learns from a post, Kane proves the funnel tells the truth.
 
 **Copy:** Repo: https://github.com/DainoJung/omni-verify · Demo: [VIDEO_URL] · Ship Page: https://kaneclihack.sh/ship/omni
 

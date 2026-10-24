@@ -1,9 +1,22 @@
 # Omni Verify
 
-> **Recorder proof:** Kane run **KR-46** was logged by the kanehack recorder as **PASSED (VERIFIED source)**: Kane's own designed tests for the campaign, 2/2 passed ([proof tab](https://kaneclihack.sh/t/omni/proof#run-46)). **KR-77**, a Re-verify replay of a verified campaign, is also PASSED (VERIFIED source) ([proof tab](https://kaneclihack.sh/t/omni/proof#run-77)). Every other run is listed in [RUNS.md](RUNS.md) (why most show ERRORED: see *Known limits*).
+**The problem:** marketing promises and the real product drift apart silently. AI growth agents make it worse: they write promises at scale, and they learn from the numbers those promises produce.
 
-**What it is:** a launch gate for AI-written growth campaigns. An OpenAI agent drafts the post, every claim in it becomes an assertion, Kane walks the real funnel in a browser, and only campaigns Kane passes are marked *Verified for launch*.
-**Who it's for:** solo founders and small teams who let an agent write and post their marketing, and need to know the link and the copy hold up before it goes out.
+**Who:** solo founders who let an AI agent write and post their marketing, and judge what works from tracking tags.
+
+**When it breaks:**
+- **At publish time, the link lies.** Every App Store button on my app's site, scribo.cc, overwrites the campaign tag with `ct=site-en-hero`. Every install from my Threads posts would have been credited to the website. No error, just a wrong number, and my agent would have concluded Threads doesn't work and stopped posting there.
+- **After every release, the product moves on.** Scribo 2.0 (October 1) turned a handwriting vocabulary app into a content learning app. Old @scribo.voca posts still promise a handwriting vocabulary notebook and keep bringing people in, who then find a different product and may leave.
+
+**The fix:** the agent drafts a post and turns every promise in it into a check. Kane CLI checks each one in a real browser before the post ships (the link's tag, every sentence against the page, every promised feature), and again after every release (Re-verify for campaigns, Audit past posts for old posts). Failed promises are repaired from what Kane saw. Only a campaign that passes can publish.
+
+**Proof:**
+- A real post went out through the gate: [@scribo.voca/post/De4-yPnATF5](https://www.threads.com/@scribo.voca/post/De4-yPnATF5). The button unlocked only because Re-verify **KR-85** passed that exact version (`a9480fade25c1e68`).
+- The link lie, caught: Kane read `ct=site-en-hero` on the button, FAIL (KR-63). The agent rebuilt the link from the URL Kane saw, PASS (KR-68). The same in all five full loops.
+- The kanehack recorder logged **KR-46** (Kane-designed tests, 2/2), **KR-77** and **KR-85** (Re-verify) as PASSED (VERIFIED source). Every run is in [RUNS.md](RUNS.md).
+- Supporting example: feature claims on TestMu AI's free JSON tool. I seeded a false "convert JSON to YAML" claim to show the repair: FAIL (KR-100), the agent swapped in Minify, PASS (KR-102).
+
+Before my agent learns from a post, Kane proves the funnel tells the truth.
 
 ![Verified for launch card](docs/verified-card.png)
 
@@ -15,7 +28,7 @@ bun install && bun run dev
 ```
 
 You need:
-- `.env` with `OPENAI_API_KEY` and `OPENAI_MODEL` (we use `gpt-5.4-mini`, picked by timing the models this key can list).
+- `.env` with `OPENAI_API_KEY` and `OPENAI_MODEL` (I use `gpt-5.4-mini`, picked by timing the models this key can list).
 - `kane-cli` (0.10.0-rc.3) signed in, and `kanehack` paired. Every Kane call goes through `kanehack report -- kane-cli …`.
 - Optional, once per app: `bun run explore https://your.app` maps the site with Kane Explore into `explore/<host>.json`; drafts for that app are grounded in the map. scribo.cc is already mapped.
 
@@ -28,14 +41,19 @@ The left panel also lists recorded runs. Clicking one replays it on the same tim
 A Verified card has a **Publish to Threads** button. It stays locked unless the latest Kane result (the last attempt, or the last Re-verify) is a PASS for this exact campaign version (a hash of the copy, link and claims), and the campaign isn't already published. Publishing takes a click and then a confirm that shows the Threads account, the exact text and the Kane result it rests on; the server checks the gate again and needs the confirmed version.
 
 - `PUBLISH_MODE` defaults to dry run: the confirm checks the Threads account and records the attempt, and nothing is posted. Set `PUBLISH_MODE=live` in `.env` (and restart) to post for real.
+- One real post has gone out this way: [@scribo.voca/post/De4-yPnATF5](https://www.threads.com/@scribo.voca/post/De4-yPnATF5), from campaign `c-2026-10-24T19-41-41Z`, gated on Re-verify 2 (KR-85 PASSED) for version `a9480fade25c1e68`.
 - Posting goes through the existing Hermes script, `~/.hermes/scripts/threads_api.py`, with `THREADS_PROFILE` (default `scribo`, i.e. @scribo.voca; `default` uses the script's default token file). The script reads its own token file; Omni Verify never reads or stores a token.
 - The published post URL is stored with the campaign (`runs/c-*.json`, `published`) and shown on the card.
 
 ![Publish confirm](docs/publish-confirm.png)
 
+## Audit past posts (after a release)
+
+Drift 2 happens after a post is published: the product changes and the post doesn't. Scribo 2.0 (October 1) turned a handwriting vocabulary app into a content learning app, while older @scribo.voca posts still promise a handwriting vocabulary notebook. The Audit past posts page (`/audit.html`) checks old posts against today's product with Kane, so the posts that now promise something the app no longer does can be found and taken down or rewritten. It ships from the `audit-past-posts` branch; its own runs are its evidence.
+
 ## The Scribo finding
 
-Scribo (https://scribo.cc) is my own app. Every App Store button on the site has a hard-coded tracking tag (`ct=site-en-hero`, `ct=site-en-nav`, `ct=site-en-get`), and the site never reads the incoming URL's query. So a Threads post that links to `https://scribo.cc?ct=threads-oct24` loses its tag at the button, and App Store Connect credits the install to "site-en-hero". Attribution breaks silently: the post looks right, the click works, the numbers are wrong.
+Scribo (https://scribo.cc) is my own app. Every App Store button on the site has a hard-coded tracking tag (`ct=site-en-hero`, `ct=site-en-nav`, `ct=site-en-get`), and the site never reads the incoming URL's query. So a Threads post that links to `https://scribo.cc?ct=threads-oct24` loses its tag at the button, and App Store Connect would credit the install to "site-en-hero". Attribution breaks silently: the post looks right, the click works, the numbers would be wrong. (I haven't checked App Store Connect numbers; this is what the tags say would happen.)
 
 The demo loop, from the UI ([runs/c-2026-10-24T19-26-21Z.json](runs/c-2026-10-24T19-26-21Z.json), 136 s):
 
@@ -125,10 +143,10 @@ Seen on the real tool: JSON Prettify's tab-indented output puts spaces around co
 
 ## Known limits
 
-- **Phrase-level backing.** A sentence is backed by a 3–12 word phrase copied from the page. The phrase can prove only part of a longer sentence (in the demo run, "rewrites them for the learner you are today" backs a longer sentence that is on the page in full, but the check covers only the phrase).
+- **Phrase-level backing.** A sentence is backed by a 3 to 12 word phrase copied from the page. The phrase can prove only part of a longer sentence (in the demo run, "rewrites them for the learner you are today" backs a longer sentence that is on the page in full, but the check covers only the phrase).
 - **It stops at the App Store.** Kane checks the link and that it lands on the right listing. It does not install the app or follow the funnel inside it.
 - **Verification is not measurement.** A PASS means the funnel keeps the post's promises today. It does not mean installs went up, or that App Store Connect credited them (see the unmeasurable 25%).
-- **Recorder bug H-0007.** kane-cli 0.10.0-rc.3 sends a `coverage` event before `run_end`, so the kanehack recorder never sees `run_end` as the completion event and marks passing `kane-cli run` calls as ERRORED (UNVERIFIED). Reported as help ticket H-0007. Our own record of every run (time, Kane's own status, credits, Test Manager link) is in [RUNS.md](RUNS.md). `testrun` is unaffected: KR-46 shows PASSED.
+- **Recorder bug H-0007.** kane-cli 0.10.0-rc.3 sends a `coverage` event before `run_end`, so the kanehack recorder never sees `run_end` as the completion event and marks passing `kane-cli run` calls as ERRORED (UNVERIFIED). Reported as help ticket H-0007. My own record of every run (time, Kane's own status, credits, Test Manager link) is in [RUNS.md](RUNS.md). `testrun` is unaffected: KR-46 shows PASSED.
 - **Pre-launch post.** Nothing is published before the gate passes, so Kane's designed tests open `/post/<id>`, a preview page Omni Verify serves, labeled "not published".
 - **Re-verify has not caught a regression yet.** The replays so far passed; the checks are re-computed during the replay (their timestamps in the pack are the replay's), but a FAIL needs the site to change. A replay whose recordings no longer match the page heals by re-authoring, which costs more and is slower.
 - The test files of failed attempts stay in `.testmuai/tests/` too (Kane writes every named run); only the passing one is linked as the regression test.
@@ -155,3 +173,5 @@ Seen on the real tool: JSON Prettify's tab-indented output puts spaces around co
 | Real Kane output used by the tests | `fixtures/` |
 
 Built at Kane CLI Hack Day, 2026-10-24.
+
+AI can write the promise. Kane checks if the product keeps it.

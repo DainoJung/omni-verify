@@ -1,26 +1,28 @@
 # LinkedIn post
 
-My AI growth agent was about to ship a post with a broken link. It never clicked it. Kane CLI did.
+Marketing promises and the real product drift apart silently. AI growth agents make it worse: they write promises at scale, and they learn from the numbers.
 
-I'm a solo founder. Building my app was the easy part; getting users is not, so I'm building a growth agent. The problem with growth agents is that they write for clicks and never click their own links. So at Kane CLI Hack Day I built Omni Verify, a launch gate where every claim in an AI-written post has to pass a real browser check before it can ship.
+I'm a solo founder. I let an agent write and post marketing for my app, Scribo, and I judge what works from tracking tags. At Kane CLI Hack Day I found two ways that goes wrong, both on my own app.
 
-What it caught on my own app, Scribo: every App Store button on scribo.cc hard-codes ct=site-en-hero. A Threads post that links to the site with its own tag loses it at the click, and App Store Connect credits the install to the website. The post looks right, the link works, the numbers are wrong. Kane read the button's href, Omni Verify marked the claim FAIL, the agent rebuilt the link from what Kane saw, and Kane passed it.
+Drift 1, the link lies. Every App Store button on scribo.cc overwrites the campaign tag with ct=site-en-hero. Every install from my Threads posts would have been credited to the website. No error, just a wrong number, and my agent would have concluded Threads doesn't work and stopped posting there.
 
-It checks more than links:
+Drift 2, the product moves on. Scribo 2.0 (October 1) turned a handwriting vocabulary app into a content learning app. My older posts still promise a handwriting vocabulary notebook, and they keep bringing people in, who then find a different product.
 
-- Every sentence of the post must be backed by text Kane finds on the page.
-- For a post about a tool, Kane performs each promised feature. On @TestMu AI's free JSON Prettify tool, I had the agent add one feature the page doesn't show, "convert JSON to YAML". Kane clicked it, the output was still JSON, FAIL. The agent swapped in Minify, and Kane passed it.
-- Kane records each passing run as a test, and Re-verify replays it in about 10 seconds.
-- Publish to Threads stays locked unless Kane's latest result passed that exact version, and it needs a human confirm. Tested in dry-run mode so far; the first live post is next.
+So I built Omni Verify. The agent drafts a post and turns every promise in it into a check: the link's tag, every sentence against the page, every promised feature. Kane CLI checks each one in a real browser before the post ships, and again after every release. Failed promises are repaired from what Kane saw. Only a campaign that passes can publish.
 
-What a PASS means, and what it doesn't: the funnel keeps the post's promises today. It doesn't prove installs went up, and Kane itself marked install credit as unmeasurable from a browser.
+It's real: this Threads post went out through the gate today, and the Publish button stayed locked until Kane's re-check passed that exact version.
+https://www.threads.com/@scribo.voca/post/De4-yPnATF5
 
-Built with OpenAI (gpt-5.4-mini) and tested with Kane CLI.
+A supporting example on @TestMu AI's free JSON tool: I seeded a false "convert JSON to YAML" claim to show the repair. Kane clicked it and the output was still JSON, so it failed. The agent swapped in Minify, and Kane passed it.
 
-Repo, Kane runs and evidence: https://github.com/DainoJung/omni-verify
+What a PASS doesn't mean: it doesn't mean installs went up, and I haven't checked App Store Connect numbers. It means the post's promises are true when it ships.
+
+Before my agent learns from a post, Kane proves the funnel tells the truth.
+
+Repo and every Kane run: https://github.com/DainoJung/omni-verify
 Demo: [VIDEO_URL]
 
-Agents can write the promise. Kane checks whether the funnel keeps it.
+AI can write the promise. Kane checks if the product keeps it.
 
 #KaneCLIHackDay #KaneCLI #BuildInPublic
 

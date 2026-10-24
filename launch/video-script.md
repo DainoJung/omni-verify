@@ -4,52 +4,56 @@ Narration and shot list for a 3:00 screen recording. Record real screens. Start 
 
 ## 0:00-0:15 | Kane catches it
 
-**Picture:** The Kane run 1 card in the timeline: FAIL, with the href Kane read (ct=site-en-hero).
+**Picture:** The Kane run 1 card: FAIL, with the href Kane read (ct=site-en-hero).
 
 **On-screen text:** My agent never clicked its own link. Kane did.
 
-**Narration:** This is Kane catching my growth agent about to ship a post whose tracking would die at the first click.
+**Narration:** This is Kane catching my growth agent about to publish a post whose numbers would have lied to it.
 
-## 0:15-0:40 | Who I am and the problem
+## 0:15-0:40 | The problem
 
-**Picture:** scribo.cc, then zoom to the App Store button.
+**Picture:** An @scribo.voca post, then scribo.cc.
 
-**Narration:** I'm Dain, a solo founder. Building my app, Scribo, was easy. Getting users isn't, so I'm building a growth agent. But growth agents write for clicks and never click their own links. On my own site, every App Store button hard-codes ct=site-en-hero. A Threads post that links here with its own tag loses it at the button, and the install is credited to the website.
+**Narration:** I'm Dain, a solo founder. I let an AI agent write and post marketing for my app, Scribo, and I judge what works from tracking tags. The problem: marketing promises and the real product drift apart silently. Agents make it worse, because they write promises at scale and learn from the numbers.
 
-## 0:40-1:20 | The loop
+## 0:40-1:10 | Drift 1, the link lies
 
-**Picture:** Press "Draft and verify" on the campaign page. Show the draft card with its claims, Kane run 1 steps streaming, FAIL, then the repair diff, Kane run 2 PASS and the Verified card.
+**Picture:** The campaign page: draft, Kane run 1 FAIL with the href, the repair diff, Kane run 2 PASS, Verified.
 
-**On-screen text:** Draft → Kane → FAIL → repair → Kane → PASS
+**On-screen text:** ct=threads-oct24 → ct=site-en-hero
 
-**Narration:** The agent, gpt-5.4-mini, drafts the post and turns every claim into an assertion: the link keeps the post's tag, and every sentence is on the page. Kane walks the real funnel in Chrome. It reads the button's href before clicking: site-en-hero. FAIL. The agent rebuilds the link from the URL Kane saw, with the post's own tag. Kane runs again: PASS. Verified for launch.
+**Narration:** Every App Store button on my site overwrites the campaign tag. Every install from my Threads posts would have been credited to the website, and my agent would have decided Threads doesn't work. Kane read the button's href before clicking: FAIL. The agent rebuilt the link from what Kane saw. Kane checked again: PASS.
 
-## 1:20-1:50 | Features are checked by doing them
+## 1:10-1:35 | Only passing campaigns publish
 
-**Picture:** /features.html, the TestMu AI JSON Prettify run: Prettify PASS, Validate PASS, "Convert JSON to YAML" FAIL with the JSON output, the repair, Minify PASS.
+**Picture:** The Verified card: Re-verify pressed and passing in seconds, the Publish section, then the live post open on the phone.
 
-**On-screen text:** Stretch mode: one planted false claim
+**Narration:** Kane records every passing run as a test, so after any release Re-verify checks it again in seconds. Publishing stays locked until Kane's latest check passes this exact version. This post went out through that gate today.
 
-**Narration:** For a post about a tool, Kane doesn't just read the page. It does the feature. Here I told the agent to slip in one capability TestMu's JSON tool doesn't have: converting to YAML. Kane clicked it and the output was still JSON. FAIL. The agent swapped in Minify, and Kane minified the sample. PASS.
+## 1:35-2:05 | Drift 2, the product moves on
 
-## 1:50-2:20 | Re-verify and publish
+**Picture:** The Audit past posts page: an old post promising a handwriting vocabulary notebook, checked against today's scribo.cc.
 
-**Picture:** Back on the Verified campaign card. Press Re-verify, show the replay passing in seconds. Then the Publish to Threads button unlocked and its confirm panel.
+**Narration:** On October 1, Scribo 2.0 turned a handwriting vocabulary app into a content learning app. My old posts still promise the handwriting notebook, and they still bring people in, who find a different product. The audit checks old posts against today's product, so I know which ones to take down or rewrite.
 
-**Narration:** Kane records every passing run as a test, so Re-verify replays it in about ten seconds and judges every claim again. Publishing stays locked unless Kane's latest result passed this exact version, and it still needs my confirm.
+**Note:** Use the real labels and results from the audit page as merged. Don't narrate a result the page doesn't show.
 
-**Note:** Only say the post went live if the live publish has happened by recording time. Until then: "tested in dry-run".
+## 2:05-2:30 | Supporting example
 
-## 2:20-2:45 | Honest limits
+**Picture:** /features.html, the TestMu AI JSON tool run: "Convert JSON to YAML" FAIL with Kane's JSON output, the repair, Minify PASS.
+
+**Narration:** For a tool, Kane doesn't just read the page, it does the feature. I seeded one false claim here, converting to YAML. Kane clicked it and got JSON back. The agent swapped in Minify, and Kane passed it.
+
+## 2:30-2:45 | Honest limits
 
 **Picture:** README, Known limits, and RUNS.md.
 
-**Narration:** Kane also caught me trusting it too much. "Verify the text is visible" said no to text that is on the page, so now I ask Kane to store true or false instead. And a PASS means the funnel keeps the post's promises today. It doesn't mean installs went up. Every run, failures included, is in the repo.
+**Narration:** A pass means the promises are true when the post ships, not that installs went up. Every Kane run, failures included, is in the repo.
 
 ## 2:45-3:00 | Close
 
 **Picture:** End card: Omni Verify, Dain Jung, https://github.com/DainoJung/omni-verify.
 
-**On-screen text:** Built with OpenAI. Tested with Kane CLI.
+**On-screen text:** AI can write the promise. Kane checks if the product keeps it.
 
-**Narration:** Agents can write the promise. Kane checks whether the funnel keeps it.
+**Narration:** Before my agent learns from a post, Kane proves the funnel tells the truth.
