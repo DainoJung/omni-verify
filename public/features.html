@@ -1,91 +1,29 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Omni Verify: feature claims</title>
-<style>
-  :root {
-    --bg: #000; --fg: #fff; --dim: #8a8a8a; --line: #262626; --panel: #0b0b0b;
-    --pass: #22c55e; --fail: #ef4444; --warn: #eab308;
-    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-    --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 var(--sans); }
-  header { padding: 20px 28px; border-bottom: 1px solid var(--line); display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
-  header h1 { margin: 0; font-size: 18px; letter-spacing: 0.02em; }
-  header p { margin: 0; color: var(--dim); font-size: 13px; flex: 1; }
-  header nav a { color: var(--dim); font-size: 13px; }
-  main { display: grid; grid-template-columns: 360px 1fr; min-height: calc(100vh - 63px); }
-  @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
-  aside { padding: 24px 28px; border-right: 1px solid var(--line); }
-  label { display: block; font-size: 12px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 6px; }
-  label:first-child { margin-top: 0; }
-  label.check { display: flex; gap: 8px; align-items: flex-start; text-transform: none; letter-spacing: 0; font-size: 13px; color: #c8c8c8; }
-  label.check input { width: auto; margin-top: 3px; }
-  input, textarea { width: 100%; background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; font: inherit; }
-  input { font-family: var(--mono); font-size: 13px; }
-  input:focus, textarea:focus { outline: none; border-color: #555; }
-  button { margin-top: 22px; width: 100%; padding: 12px; background: var(--fg); color: var(--bg); border: 0; border-radius: 6px; font: 600 14px var(--sans); cursor: pointer; }
-  button:disabled { opacity: 0.4; cursor: default; }
-  button.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); margin-top: 10px; font-weight: 500; text-align: left; }
-  .hint { color: var(--dim); font-size: 12px; margin-top: 14px; }
-  #timeline { padding: 24px 28px 80px; display: flex; flex-direction: column; min-width: 0; }
-  .empty { color: var(--dim); }
-  .node { position: relative; padding: 0 0 22px 26px; border-left: 1px solid var(--line); margin-left: 6px; min-width: 0; }
-  .node:last-child { border-left-color: transparent; }
-  .node::before { content: ""; position: absolute; left: -6px; top: 4px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 1px solid var(--dim); }
-  .node.pass::before { background: var(--pass); border-color: var(--pass); }
-  .node.fail::before { background: var(--fail); border-color: var(--fail); }
-  .node.live::before { border-color: var(--fg); animation: pulse 1.2s infinite; }
-  @keyframes pulse { 50% { background: var(--fg); } }
-  .node h2 { margin: 0 0 8px; font-size: 14px; font-weight: 600; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
-  .node h2 .meta { color: var(--dim); font-weight: 400; font-size: 12px; }
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
-  .card + .card { margin-top: 10px; }
-  .k { color: var(--dim); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; margin: 12px 0 4px; }
-  .k:first-child { margin-top: 0; }
-  .mono, code { font-family: var(--mono); font-size: 12.5px; word-break: break-word; }
-  .copy { white-space: pre-wrap; }
-  pre.out { margin: 0; padding: 8px 10px; background: #000; border: 1px solid var(--line); border-radius: 6px; font: 12px/1.45 var(--mono); white-space: pre-wrap; word-break: break-all; max-height: 180px; overflow: auto; color: #c8c8c8; }
-  .steps { list-style: none; margin: 0; padding: 0; font-family: var(--mono); font-size: 12px; color: var(--dim); }
-  .steps li { padding: 2px 0; }
-  .steps li.done { color: #c8c8c8; }
-  .tag { font: 600 11px var(--mono); padding: 2px 7px; border-radius: 4px; border: 1px solid currentColor; white-space: nowrap; }
-  .tag.PASS { color: var(--pass); } .tag.FAIL { color: var(--fail); } .tag.UNVERIFIED { color: var(--warn); }
-  .claim h3 { margin: 0; font-size: 14px; font-weight: 500; display: flex; gap: 10px; align-items: baseline; }
-  .claim h3 .s { flex: 1; }
-  .why { color: #c8c8c8; font-size: 13px; margin-top: 6px; }
-  .row { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; align-items: start; padding: 10px 0; border-top: 1px solid var(--line); }
-  .row:first-of-type { border-top: 0; padding-top: 0; }
-  .row .act { grid-column: 2; color: var(--dim); font-size: 13px; }
-  a { color: var(--fg); }
-  .links { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; margin-top: 10px; }
-  .links span { color: var(--dim); }
-  del { background: rgba(239, 68, 68, 0.18); color: #fca5a5; text-decoration: line-through; }
-  ins { background: rgba(34, 197, 94, 0.18); color: #86efac; text-decoration: none; }
-  .verdict { border-width: 2px; }
-  .verdict.ok { border-color: var(--pass); }
-  .verdict.no { border-color: var(--fail); }
-  .verdict h3 { margin: 0 0 6px; font-size: 18px; }
-  .verdict.ok h3 { color: var(--pass); } .verdict.no h3 { color: var(--fail); }
-  .error { color: var(--fail); font-family: var(--mono); font-size: 13px; }
-</style>
+<link rel="stylesheet" href="/vendor/basecoat.cdn.min.css">
+<link rel="stylesheet" href="/omni.css">
 </head>
 <body>
-<header>
-  <h1>Omni Verify</h1>
-  <p>Feature claims: every sentence that promises a feature is performed by Kane in real Chrome before it ships.</p>
-  <nav><a href="/">Campaign links →</a></nav>
+<header class="topnav">
+  <a class="brand" href="/"><span class="brand-mark">O</span><span class="brand-name">Omni Verify</span></a>
+  <nav class="navtabs"><a href="/">Launch gate</a><a href="/features.html" aria-current="page">Feature claims</a></nav>
+  <span class="tagline">Every promised feature is performed by Kane in real Chrome before it ships.</span>
 </header>
 <main>
   <aside>
-    <form id="form">
-      <label for="tool_url">Tool URL</label>
-      <input id="tool_url" name="tool_url" value="https://www.testmuai.com/free-online-tools/json-prettify/" required>
-      <label for="channel">Channel</label>
-      <input id="channel" name="channel" value="Launch post on X" required>
+    <div class="page-head">
+      <h1>Feature claims</h1>
+      <p>Each sentence that promises a feature becomes an action and an expected result. Kane does it in real Chrome.</p>
+    </div>
+    <form id="form" class="form">
+      <div class="grid"><label for="tool_url">Tool URL</label>
+      <input type="text" id="tool_url" name="tool_url" value="https://www.testmuai.com/free-online-tools/json-prettify/" required></div>
+      <div class="grid"><label for="channel">Channel</label>
+      <input type="text" id="channel" name="channel" value="Launch post on X" required></div>
       <label class="check"><input type="checkbox" id="stretch" name="stretch" checked> Stretch mode: the agent is told to include one capability the page doesn't show, the kind of overreach a copywriter might add. Kane decides whether it's true.</label>
       <button id="run" type="submit">Draft and verify features</button>
     </form>
@@ -153,6 +91,15 @@ function claimRow(c, note = "") {
     <span class="act">${esc(c.verdict.reason)} ${c.kane.testUrl ? `<a href="${esc(c.kane.testUrl)}" target="_blank" rel="noopener">Test Manager</a>` : ""}</span></div>`;
 }
 
+// The final post as a social post, its link styled as a link.
+function postPreview(copy, url) {
+  let host = "your account";
+  try { host = new URL(url).hostname.replace(/^www\./, ""); } catch {}
+  const body = esc(copy).split(esc(url)).join(`<span class="threads-link">${esc(url)}</span>`);
+  return `<div class="threads"><div class="threads-avatar">${esc(host.slice(0, 1).toUpperCase())}</div>
+    <div><div class="threads-head"><b>${esc(host)}</b><span>preview</span></div><div class="copy">${body}</div></div></div>`;
+}
+
 // Claims Kane failed that are no longer in the final post.
 function replaced(rec) {
   const kept = new Set(rec.verdicts.map((c) => c.claim.text));
@@ -164,7 +111,7 @@ let toolUrl = "";
 const handlers = {
   draft(d) {
     toolUrl = d.input.tool_url;
-    node("pass", "Draft", `${esc(d.model)} · ${esc(d.id)}${d.input.stretch ? " · stretch mode" : ""}`, `<div class="card">
+    node("draft", "Draft", `${esc(d.model)} · ${esc(d.id)}${d.input.stretch ? " · stretch mode" : ""}`, `<div class="card">
       <div class="k">Post (${esc(d.input.channel)})</div><div class="copy">${esc(d.post.post_copy)}</div>
       <div class="k">Tool</div><div>${esc(d.post.tool_name)} · <span class="mono">${esc(d.input.tool_url)}</span></div>
       <div class="k">Claims → actions</div>
@@ -172,7 +119,7 @@ const handlers = {
         <span class="act">Kane will: ${esc(c.action)} Expect: ${esc(c.expected)}</span></div>`).join("")}</div>`);
   },
   attempt_start(d) {
-    node("", `Kane, attempt ${d.n}`, `${d.claims} claim${d.claims === 1 ? "" : "s"} to perform${d.carried.length ? ` · ${d.carried.length} already passed, unchanged` : ""}`, "");
+    node("group", `Kane, attempt ${d.n}`, `${d.claims} claim${d.claims === 1 ? "" : "s"} to perform${d.carried.length ? ` · ${d.carried.length} already passed, unchanged` : ""}`, "");
   },
   check_start(d) {
     checks[`${d.n}.${d.i}`] = node("live", `Claim ${d.i + 1}`, "Kane running", `<div class="card claim">
@@ -200,7 +147,7 @@ const handlers = {
   repair(r) {
     const removed = r.before.claims.filter((c) => !r.after.claims.some((x) => x.text === c.text));
     const added = r.after.claims.filter((c) => !r.before.claims.some((x) => x.text === c.text));
-    node("pass", "Repair", esc(r.action), `<div class="card">
+    node("repair", "Repair", esc(r.action), `<div class="card">
       <div class="k">Why</div><div>${esc(r.reason)}</div>
       <div class="k">Post</div><div class="copy">${diff(r.before.post_copy, r.after.post_copy)}</div>
       ${removed.map((c) => `<div class="row"><span class="tag FAIL">DROPPED</span><span>${esc(c.text)}</span></div>`).join("")}
@@ -214,11 +161,11 @@ const handlers = {
       <h3>${ok ? "Verified for launch" : "Needs a human"}</h3>
       <div>${ok ? `Kane performed every feature the post promises and saw it work (${runs} Kane runs, ${rec.attempts.length} attempt${rec.attempts.length === 1 ? "" : "s"}).`
                 : `Some promises still fail after ${rec.attempts.length} attempts.`}</div>
-      <div class="k">Final post</div><div class="copy">${esc(final.post_copy)}</div>
+      <div class="k">Final post (${esc(rec.input.channel)})</div>${postPreview(final.post_copy, rec.input.tool_url)}
       <div class="k">Change from first draft</div><div class="copy">${diff(rec.draft.post_copy, final.post_copy)}</div>
       <div class="k">Each claim, the action Kane took, and the verdict</div>
-      ${rec.verdicts.map((c) => claimRow(c)).join("")}
-      ${replaced(rec).map((c) => claimRow(c, "replaced after this FAIL")).join("")}
+      <div class="claims">${rec.verdicts.map((c) => claimRow(c)).join("")}
+      ${replaced(rec).map((c) => claimRow(c, "replaced after this FAIL")).join("")}</div>
       <div class="links"><a href="/api/features/${esc(rec.id)}" target="_blank">Full run record (JSON)</a></div></div>`);
   },
   error(e) {
