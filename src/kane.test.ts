@@ -74,3 +74,11 @@ test("Kane-read CTA href with the site's hard-coded ct fails, citing the step", 
   expect(v.status).toBe("FAIL");
   expect(v.reason).toBe("The App Store link carries ct=site-en-hero; the campaign expects ct=threads-oct24 (Kane step 3).");
 });
+
+test("overall: any FAIL wins, then UNVERIFIED, else PASS", async () => {
+  const { overall } = await import("./claims");
+  const v = (status: "PASS" | "FAIL" | "UNVERIFIED") => ({ status, reason: "", evidence: {} as any });
+  expect(overall([v("PASS"), v("UNVERIFIED"), v("FAIL")])).toBe("FAIL");
+  expect(overall([v("PASS"), v("UNVERIFIED")])).toBe("UNVERIFIED");
+  expect(overall([v("PASS")])).toBe("PASS");
+});

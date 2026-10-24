@@ -18,7 +18,7 @@ column comes from Kane's own \`run_end\` event.
 
 const cell = (s: string) => s.replace(/\|/g, "\\|").replace(/\n/g, " ");
 
-export async function logRun(id: string, run: KaneRun, verdict: Verdict | null) {
+export async function logRun(id: string, run: KaneRun, verdict: Pick<Verdict, "status" | "reason"> | null) {
   await mkdir("runs", { recursive: true });
   await writeFile(`runs/${id}.ndjson`, run.ndjson);
   await writeFile(`runs/${id}.json`, JSON.stringify({ id, ...run, ndjson: `runs/${id}.ndjson`, verdict }, null, 2));

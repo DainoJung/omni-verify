@@ -1,0 +1,156 @@
+{
+  "id": "c-2026-10-24T18-55-01Z",
+  "model": "gpt-5.4-mini",
+  "input": {
+    "app_url": "https://scribo.cc",
+    "goal": "Get new learners to install Scribo from a Threads post",
+    "audience": "Adults learning a second language who journal or write daily"
+  },
+  "draft": {
+    "post_copy": "If you journal or write in a second language, Scribo can help you learn from articles, videos, and PDFs you actually care about. It rewrites them at your level, breaks them into short sections, and asks quick questions as you go. https://scribo.cc?ct=threads-oct24",
+    "cta_url": "https://scribo.cc?ct=threads-oct24",
+    "campaign_tag": "threads-oct24",
+    "claims": [
+      {
+        "text": "Installs from this post are credited to this campaign because the App Store handoff keeps ct=threads-oct24.",
+        "assertion": {
+          "type": "param_preserved",
+          "value": "ct=threads-oct24"
+        }
+      }
+    ]
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "campaign": {
+        "post_copy": "If you journal or write in a second language, Scribo can help you learn from articles, videos, and PDFs you actually care about. It rewrites them at your level, breaks them into short sections, and asks quick questions as you go. https://scribo.cc?ct=threads-oct24",
+        "cta_url": "https://scribo.cc?ct=threads-oct24",
+        "campaign_tag": "threads-oct24",
+        "claims": [
+          {
+            "text": "Installs from this post are credited to this campaign because the App Store handoff keeps ct=threads-oct24.",
+            "assertion": {
+              "type": "param_preserved",
+              "value": "ct=threads-oct24"
+            }
+          }
+        ]
+      },
+      "compiled": {
+        "url": "https://scribo.cc?ct=threads-oct24",
+        "objective": "Find the main call to action that sends the user to the App Store. Before clicking it, read the full href attribute of that link exactly as written, including its query string, and save it as {{handoff_href}}. Then click it, wait for the App Store page to finish loading, and save the current page URL as {{landing_url}}."
+      },
+      "kaneRunId": "c-2026-10-24T18-55-01Z-a1",
+      "verdicts": [
+        {
+          "text": "Installs from this post are credited to this campaign because the App Store handoff keeps ct=threads-oct24.",
+          "assertion": {
+            "type": "param_preserved",
+            "value": "ct=threads-oct24"
+          },
+          "status": "FAIL",
+          "reason": "The App Store link carries ct=site-en-hero; the campaign expects ct=threads-oct24 (Kane step 3).",
+          "evidence": {
+            "handoffHref": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=site-en-hero&mt=8",
+            "handoffSource": "Kane read CTA href",
+            "handoffStep": 3,
+            "landingUrl": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715"
+          }
+        }
+      ],
+      "overall": "FAIL",
+      "kane": {
+        "status": "passed",
+        "exitCode": 0,
+        "summary": "You asked to find the main App Store call to action and open its destination.\nThe App Store link was identified as https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=site-en-hero&mt=8.\nThe call to action was selected, and the Scribo AI Language Learning App Store page finished loading.",
+        "credits": 21.296892500000002,
+        "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QM8CTNZE4MTCQ3E2ZDJWH1/dashboard/share/US_LUE7OCJ7E5IK6UPR15TBMIHULLKO0RSHLM2CWO3LNXIBTZ1GAA8KA7DL9Z822G9D?type=summary&agentView=true&fqdn=summary-page",
+        "evidencePath": "~/.testmuai/kaneai/sessions/9954414a-f4ff-49e5-8a2d-531f17056bbe/evidence/b124f8f5-7444-4558-a79c-d9c42a858364.evidence",
+        "recorder": "KR-15 ERRORED (UNVERIFIED)"
+      },
+      "repair": {
+        "action": "fix_link",
+        "reason": "Kane saw the App Store CTA use ct=site-en-hero, so the install attribution needs the same observed App Store URL with ct changed to threads-oct24.",
+        "campaign": {
+          "post_copy": "If you journal or write in a second language, Scribo can help you learn from articles, videos, and PDFs you actually care about. It rewrites them at your level, breaks them into short sections, and asks quick questions as you go. https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+          "cta_url": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+          "campaign_tag": "threads-oct24",
+          "claims": [
+            {
+              "text": "Installs from this post are credited to this campaign because the App Store handoff keeps ct=threads-oct24.",
+              "assertion": {
+                "type": "param_preserved",
+                "value": "ct=threads-oct24"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "n": 2,
+      "campaign": {
+        "post_copy": "If you journal or write in a second language, Scribo can help you learn from articles, videos, and PDFs you actually care about. It rewrites them at your level, breaks them into short sections, and asks quick questions as you go. https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+        "cta_url": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+        "campaign_tag": "threads-oct24",
+        "claims": [
+          {
+            "text": "Installs from this post are credited to this campaign because the App Store handoff keeps ct=threads-oct24.",
+            "assertion": {
+              "type": "param_preserved",
+              "value": "ct=threads-oct24"
+            }
+          }
+        ]
+      },
+      "compiled": {
+        "url": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+        "objective": "Wait for the App Store page to finish loading. Save the current page URL as {{landing_url}}. Save the app name shown on the page as {{app_name}}."
+      },
+      "kaneRunId": "c-2026-10-24T18-55-01Z-a2",
+      "verdicts": [
+        {
+          "text": "Installs from this post are credited to this campaign because the App Store handoff keeps ct=threads-oct24.",
+          "assertion": {
+            "type": "param_preserved",
+            "value": "ct=threads-oct24"
+          },
+          "status": "PASS",
+          "reason": "The App Store link carries ct=threads-oct24, and Kane landed on App Store app id6794793715.",
+          "evidence": {
+            "handoffHref": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+            "handoffSource": "post link",
+            "handoffStep": null,
+            "landingUrl": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715"
+          }
+        }
+      ],
+      "overall": "PASS",
+      "kane": {
+        "status": "passed",
+        "exitCode": 0,
+        "summary": "Waited for the App Store page to finish loading.\nRecorded the page URL: https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715.\nConfirmed the app shown on the page is “Scribo: AI Language Learning.”",
+        "credits": 3.9448125,
+        "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QMAAPEYJWXJWJXWPQPF9Y2/dashboard/share/US_VLYNN85TXQ2118JJ0VH5XPMNS2IZBJL7C4XAMDFJP3AL6A7LTAQX6WI0LUJXI9NM?type=summary&agentView=true&fqdn=summary-page",
+        "evidencePath": "~/.testmuai/kaneai/sessions/dc5aa275-e10e-4e33-a98b-92ddabdc45cc/evidence/c4168d4a-1258-427e-835e-17c671c2647b.evidence",
+        "recorder": "KR-16 ERRORED (UNVERIFIED)"
+      }
+    }
+  ],
+  "status": "verified",
+  "final": {
+    "post_copy": "If you journal or write in a second language, Scribo can help you learn from articles, videos, and PDFs you actually care about. It rewrites them at your level, breaks them into short sections, and asks quick questions as you go. https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+    "cta_url": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+    "campaign_tag": "threads-oct24",
+    "claims": [
+      {
+        "text": "Installs from this post are credited to this campaign because the App Store handoff keeps ct=threads-oct24.",
+        "assertion": {
+          "type": "param_preserved",
+          "value": "ct=threads-oct24"
+        }
+      }
+    ]
+  }
+}

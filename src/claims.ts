@@ -49,6 +49,18 @@ export function compileCampaign(c: { cta_url: string; claims: { assertion: Asser
   return { url: c.cta_url, objective: compileObjective(c.cta_url) };
 }
 
+export type ClaimVerdict = { text: string; assertion: Assertion } & Verdict;
+
+export function evaluateCampaign(c: { cta_url: string; claims: { text: string; assertion: Assertion }[] }, kane: KaneResult): ClaimVerdict[] {
+  return c.claims.map((claim) => ({ ...claim, ...evaluateParamPreserved(claim.assertion, c.cta_url, kane) }));
+}
+
+export function overall(vs: Verdict[]): Verdict["status"] {
+  if (vs.some((v) => v.status === "FAIL")) return "FAIL";
+  if (vs.some((v) => v.status === "UNVERIFIED")) return "UNVERIFIED";
+  return "PASS";
+}
+
 function splitParam(value: string): [string, string] {
   const i = value.indexOf("=");
   return i < 0 ? [value, ""] : [value.slice(0, i), value.slice(i + 1)];

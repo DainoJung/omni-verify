@@ -1,0 +1,77 @@
+{
+  "id": "c-2026-10-24T18-53-04Z-a2",
+  "objective": "Wait for the App Store page to finish loading. Save the current page URL as {{landing_url}}. Save the app name shown on the page as {{app_name}}.",
+  "url": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+  "startedAt": "2026-10-24T18:54:00.311Z",
+  "endedAt": "2026-10-24T18:54:40.497Z",
+  "exitCode": 0,
+  "result": {
+    "completed": true,
+    "status": "passed",
+    "resultCode": 100,
+    "reasonCode": "success.complete",
+    "summary": "Waited for the App Store page to finish loading.\nConfirmed the page was for “Scribo: AI Language Learning.”\nThe App Store listing loaded successfully, and its URL was recorded.",
+    "oneLiner": "loaded the Scribo: AI Language Learning listing on the Apple App Store",
+    "reason": "Objective completed",
+    "finalState": {
+      "url": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715",
+      "app_name": "Scribo: AI Language Learning"
+    },
+    "memory": {
+      "landing_url": {
+        "value": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715' (stored, no comparison)"
+      },
+      "app_name": {
+        "value": "Scribo: AI Language Learning",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'Scribo: AI Language Learning' (stored, no comparison)"
+      }
+    },
+    "credits": 15.8374575,
+    "durationSec": 27.7,
+    "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QM6H1KZ1YMEZ0BP210YEED/dashboard/share/US_0D0LBX70Y9919IO3K3CZFPKQK4XNZO1L9VWI9X2A8ZP2Y45HSMFSW9NT7Z2459DM?type=summary&agentView=true&fqdn=summary-page",
+    "evidencePath": "~/.testmuai/kaneai/sessions/755c2c0d-1d6c-4434-8922-d68ca869bc59/evidence/8ab1b6e5-f600-4bcf-b99b-cdf003aee5ad.evidence",
+    "steps": [
+      {
+        "step": 2,
+        "status": "done",
+        "remark": "navigate: Navigate to https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=",
+        "ts": "2026-10-24T18:54:06.838Z"
+      },
+      {
+        "step": 3,
+        "status": "done",
+        "remark": "wait: PRIMARY: wait 1000 ms for the App Store app detail page to finish loading",
+        "ts": "2026-10-24T18:54:15.361Z"
+      },
+      {
+        "step": 4,
+        "status": "done",
+        "remark": "analyze: ANALYZE(textual_visual, 'the app name shown on the page is stored as {{app_name}",
+        "ts": "2026-10-24T18:54:26.693Z"
+      },
+      {
+        "step": 5,
+        "status": "done",
+        "remark": "wait: Waiting with the loaded App Store page and verified checkpoint values",
+        "ts": "2026-10-24T18:54:29.684Z"
+      }
+    ]
+  },
+  "ndjson": "runs/c-2026-10-24T18-53-04Z-a2.ndjson",
+  "recorder": {
+    "runId": "KR-14",
+    "verdict": "ERRORED (UNVERIFIED)",
+    "proofUrl": "https://kaneclihack.sh/t/omni/proof#run-14"
+  },
+  "verdict": {
+    "status": "PASS",
+    "reason": "The App Store link carries ct=threads-oct24, and Kane landed on App Store app id6794793715."
+  }
+}

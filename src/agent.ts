@@ -92,6 +92,47 @@ export async function draftCampaign(input: DraftInput, today = new Date()): Prom
   return c;
 }
 
+const REPAIR_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  required: ["action", "reason", "campaign"],
+  properties: {
+    action: { type: "string", enum: ["fix_link", "rewrite_claim", "remove_claim", "no_change"] },
+    reason: { type: "string" },
+    campaign: CAMPAIGN_SCHEMA,
+  },
+};
+
+const REPAIR_SYSTEM = `You repair a growth campaign that failed a real-browser check by Kane, a browser testing agent.
+You get the campaign, the failing assertions, what Kane actually saw, and Kane's own summary.
+
+Allowed repairs, smallest first:
+- fix_link: change cta_url (and the link inside post_copy) so the claim becomes true. Build the link only from URLs Kane actually observed. Keep every query parameter Kane saw, except set ct to this post's campaign_tag: a link carrying another campaign's ct credits installs to that campaign.
+- rewrite_claim / remove_claim: change or drop a claim that cannot be made true. The param_preserved claim about this post's own campaign_tag must stay: attribution is the point of the campaign.
+- no_change: Kane could not gather evidence (UNVERIFIED), and nothing in the campaign is wrong.
+
+Keep campaign_tag unchanged. Keep post_copy otherwise as close to the original as possible, and it must contain the new cta_url.
+reason: one line a marketer understands, citing what Kane saw.`;
+
+export type Repair = { action: "fix_link" | "rewrite_claim" | "remove_claim" | "no_change"; reason: string; campaign: Campaign };
+
+export async function repairCampaign(c: Campaign, failures: unknown, kane: { summary: string | null; steps: { step: number; remark: string }[] }): Promise<Repair> {
+  const user = JSON.stringify({ campaign: c, failing_assertions: failures, kane_summary: kane.summary, kane_steps: kane.steps.map((s) => s.remark) }, null, 2);
+  let lastError = "";
+  // One retry, telling the model which rule it broke.
+  for (let i = 0; i < 2; i++) {
+    const r = await callJson<Repair>(REPAIR_SYSTEM, lastError ? `${user}\n\nYour previous repair was rejected: ${lastError}` : user, REPAIR_SCHEMA, "repair");
+    try {
+      if (r.campaign.campaign_tag !== c.campaign_tag) throw new Error(`Repair changed the campaign tag from ${c.campaign_tag} to ${r.campaign.campaign_tag}`);
+      validateCampaign(r.campaign);
+      return r;
+    } catch (err) {
+      lastError = err instanceof Error ? err.message : String(err);
+    }
+  }
+  throw new Error(`Repair rejected twice: ${lastError}`);
+}
+
 // Reject drafts that break the contract instead of quietly fixing them.
 export function validateCampaign(c: Campaign): void {
   if (!/^[a-z0-9-]{1,40}$/.test(c.campaign_tag)) throw new Error(`Bad campaign_tag: ${c.campaign_tag}`);
@@ -102,6 +143,7 @@ export function validateCampaign(c: Campaign): void {
     throw new Error(`cta_url is not a URL: ${c.cta_url}`);
   }
   if (url.searchParams.get("ct") !== c.campaign_tag) throw new Error(`cta_url does not carry ct=${c.campaign_tag}: ${c.cta_url}`);
+  if (!c.post_copy.includes(c.cta_url)) throw new Error(`post_copy does not contain the cta_url ${c.cta_url}`);
   const pp = c.claims.filter((x) => x.assertion.type === "param_preserved");
   if (pp.length !== 1) throw new Error(`Expected exactly one param_preserved claim, got ${pp.length}`);
   if (pp[0].assertion.value !== `ct=${c.campaign_tag}`) throw new Error(`Claim value ${pp[0].assertion.value} does not match ct=${c.campaign_tag}`);
