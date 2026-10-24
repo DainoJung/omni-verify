@@ -1,22 +1,30 @@
-# X launch thread draft
+# X launch thread
 
-The Ship Page is still a draft. Replace [REPO_URL] before posting. Each post is under 280 characters as written, counting each URL as 23 characters.
+Replace [VIDEO_URL] before posting. Character counts count each URL as 23 and keep every post under 280.
 
-1. We built Omni Verify at Kane CLI Hack Day: a launch gate for AI-written campaign links. Built with @OpenAI, tested with Kane CLI from @testmuai. Ship Page: https://kaneclihack.sh/ship/omni
-<!-- 179 characters -->
+1. My AI growth agent was about to ship a post with a broken link. It never clicked it. @kane_cli did.
 
-2. AI growth agents publish campaigns without clicking their own links. My Scribo site button replaced a Threads campaign's ct=threads-oct24 with ct=site-en-hero, crediting installs to the website.
-<!-- 194 characters -->
+So I built Omni Verify at #KaneCLIHackDay: a launch gate where every claim in an AI-written post has to pass a real browser check before it ships.
 
-3. Kane opened Scribo's App Store CTA and recorded the handoff URL. Omni Verify's campaign assertion failed: the link carried ct=site-en-hero, not ct=threads-oct24.
-<!-- 161 characters -->
+2. The link loaded fine. The tracking didn't survive. Every App Store button on my app's site (scribo.cc) hard-codes ct=site-en-hero, so my Threads post's ct=threads-oct24 dies at the click and the install is credited to the website.
 
-4. The agent, running gpt-5.4-mini via Chat Completions, changed the CTA to Scribo's App Store link with ct=threads-oct24. Omni Verify's assertion passed on rerun; Kane's browser run completed both times.
-<!-- 201 characters -->
+3. Kane read the button's href before clicking: ct=site-en-hero. FAIL. My agent (gpt-5.4-mini) read what Kane saw and rebuilt the link: same App Store URL, ct=threads-oct24. Kane ran it again: PASS. Verified for launch.
 
-5. AI can write the promise. Kane checks if the funnel keeps it. Dain Jung built Omni Verify at Kane CLI Hack Day. @daino0416 Repo: [REPO_URL] #KaneCLIHackDay
-<!-- 168 characters -->
+4. Links aren't the only claim. Every sentence of the post has to be backed by text Kane finds on the page. And when the post is about a tool, Kane performs each promised feature in real Chrome.
 
-## Posting note
+5. On TestMu AI's free JSON Prettify tool, I had the agent slip in one feature the page doesn't show: "converts JSON to YAML". Kane clicked it. The output was still JSON. FAIL. The agent swapped in Minify. Kane ran it: PASS.
 
-Post 1 uses the canonical Ship Page URL, which is currently unpublished. Publish the page and replace [REPO_URL] with the public repository before posting. Attach one real hero screenshot to post 1 and one reviewed failed-step screenshot to post 3 only after checking the image text.
+6. Kane records every passing run as a test, so Re-verify replays it in about 10 seconds. Publish to Threads stays locked unless Kane's latest result passed that exact version, then needs my confirm. Dry-run tested; the live post is next.
+
+7. Agents can write the promise. @kane_cli checks whether the funnel keeps it.
+
+Code, Kane runs and evidence: https://github.com/DainoJung/omni-verify
+Demo: [VIDEO_URL]
+
+#KaneCLIHackDay
+
+## Attachments
+
+- Post 1: docs/verified-card.png
+- Post 3: docs/live-run.png, cropped to Kane run 1 FAIL and the repair diff
+- Post 5: docs/feature-claims.jpg

@@ -2,28 +2,30 @@
 
 Title:
 
-Show HN: Omni Verify checks campaign tracking through a real app funnel
+Show HN: Omni Verify, a launch gate that makes AI-written posts pass a real browser test
 
 Submission URL:
 
-https://kaneclihack.sh/ship/omni
-
-The Ship Page is currently a draft. Publish it and confirm it loads before submitting to HN.
+https://github.com/DainoJung/omni-verify
 
 First comment:
 
-Hi HN, I'm Dain Jung. I built Omni Verify at Kane CLI Hack Day because my own app, Scribo, was losing campaign attribution at the last click.
+Hi HN, I'm Dain. I'm a solo founder building a growth agent for my own app, Scribo. Growth agents write for clicks and never click their own links, so I built Omni Verify at Kane CLI Hack Day: every claim in an AI-written post becomes an assertion, and Kane CLI (a browser testing agent) checks it in real Chrome before the post can ship.
 
-The prototype takes an app URL, a growth goal, and an audience. gpt-5.4-mini through the Chat Completions API drafts a post and a campaign tag. Kane CLI opens the real page in a browser and records the App Store CTA href and destination. Omni Verify compares that handoff with the tag the campaign promised.
+What it caught on my own site: every App Store button on scribo.cc hard-codes ct=site-en-hero. A Threads post that links to the site with ct=threads-oct24 loses its tag at the button, and App Store Connect credits the install to the website. Kane read the href before clicking, Omni Verify marked the claim FAIL, the agent (gpt-5.4-mini) rebuilt the link from the URL Kane observed, and Kane passed it.
 
-In one recorded two-attempt loop, the campaign used ct=threads-oct24, but Scribo's website button handed visitors to the App Store with ct=site-en-hero. Omni Verify marked the assertion FAIL. The agent changed the CTA to the observed App Store listing with ct=threads-oct24, and the assertion passed on the next attempt.
+Three claim types today:
 
-The Kane browser runs themselves reported passed both times; the campaign assertion is what failed and passed. The event recorder showed ERRORED (UNVERIFIED) on the rc.3 run, so the app keeps those statuses separate. Today's prototype checks tracking parameters only. It does not yet verify price or trial claims.
+- Link: the hand-off to the App Store carries the post's own campaign tag.
+- Text: every sentence is backed by a phrase Kane finds on the page.
+- Feature: Kane performs each promised feature on the real tool. On TestMu AI's free JSON Prettify tool I made the agent add one feature the page doesn't show ("convert JSON to YAML"). Kane clicked it, got JSON back, FAIL; the agent swapped in Minify, PASS.
 
-The rough parts are real: the demo is tied to Scribo, the public repo and Ship Page still need publishing, and we have not checked broader claim types. The code uses bun install && bun run dev to start locally; it expects OpenAI and Kane CLI credentials in the environment.
+Kane only extracts (the href, true or false per phrase, the feature's output) and my code judges, so the verdict is the same check every run. Kane records each passing run as a test, and a Re-verify button replays it in about 10 seconds. Publishing to Threads is locked unless Kane's latest result passed that exact version of the post, plus a human confirm. That path is tested in dry-run; I haven't done a live post yet.
 
-Source: [REPO_URL] at [FINAL_SUBMITTED_SHA]
+Rough edges, honestly: one app and one channel for links, one tool for features. Kane's "verify the text is visible" gave me a false negative on below-the-fold text, so I ask it to store true or false instead. A PASS says the funnel keeps the post's promises today; install credit itself isn't observable from a browser. Every run, including the failures, is in RUNS.md.
 
-I'd value feedback on two things: what is the best way to model attribution across redirects and deep links, and which campaign claims would you want a launch gate to check next?
+Run it: `bun install && bun run dev` (needs an OpenAI key and kane-cli). Demo video: [VIDEO_URL]
 
-Timing: Submit only after the Ship Page is public and the repository link and SHA are filled in. The author should stay available to answer comments.
+I'd like feedback on two things: which claims you'd want a gate like this to check next, and how you'd test attribution past a redirect you can't observe.
+
+Timing: submit once the video is up, and stay around to answer comments.

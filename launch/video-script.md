@@ -1,78 +1,55 @@
-# Omni Verify three-minute demo video script
+# Omni Verify demo video script
 
-Draft for a 3:00 screen-recorded video. This is narration and a shot list only, not a rendered video. Record real screens; no reviewed screenshots or evidence pack were found in the workspace. Keep the Kane browser result and Omni Verify campaign verdict distinct: Kane's run_end passed on both runs, while the campaign assertion went FAIL then PASS.
+Narration and shot list for a 3:00 screen recording. Record real screens. Start on a Kane run report, as the video rules ask. Replace [VIDEO_URL] in the other drafts once it is uploaded.
 
-## 0:00–0:20 | Hook
+## 0:00-0:15 | Kane catches it
 
-**Picture:** Start on the actual Omni Verify campaign screen. Show the campaign name and the app URL field.
+**Picture:** The Kane run 1 card in the timeline: FAIL, with the href Kane read (ct=site-en-hero).
 
-**On-screen text:** AI can write the promise. Kane checks if the funnel keeps it.
+**On-screen text:** My agent never clicked its own link. Kane did.
 
-**Narration:** AI growth agents publish campaigns without ever clicking their own links. I built Omni Verify to make that click part of the launch process. It checks the link a person will actually follow, then holds the campaign until its tracking promise matches the destination.
+**Narration:** This is Kane catching my growth agent about to ship a post whose tracking would die at the first click.
 
-## 0:20–0:43 | The problem
+## 0:15-0:40 | Who I am and the problem
 
-**Picture:** Show the real Scribo home page, then zoom to the App Store button. Keep the address bar visible.
+**Picture:** scribo.cc, then zoom to the App Store button.
 
-**On-screen text:** Campaign link: ct=threads-oct24
+**Narration:** I'm Dain, a solo founder. Building my app, Scribo, was easy. Getting users isn't, so I'm building a growth agent. But growth agents write for clicks and never click their own links. On my own site, every App Store button hard-codes ct=site-en-hero. A Threads post that links here with its own tag loses it at the button, and the install is credited to the website.
 
-**Narration:** I found the problem on my own app, Scribo. I was preparing a Threads post with ct=threads-oct24. The post's link opened the Scribo website, but the App Store button on that page had its own tag, ct=site-en-hero. The page loaded. Attribution would point at the website instead of the post.
+## 0:40-1:20 | The loop
 
-## 0:43–1:05 | What Omni Verify does
+**Picture:** Press "Draft and verify" on the campaign page. Show the draft card with its claims, Kane run 1 steps streaming, FAIL, then the repair diff, Kane run 2 PASS and the Verified card.
 
-**Picture:** Show entering scribo.cc, a growth goal, and an audience. Show the generated campaign and its CTA.
+**On-screen text:** Draft → Kane → FAIL → repair → Kane → PASS
 
-**On-screen text:** Draft → follow the CTA → check the campaign claim
+**Narration:** The agent, gpt-5.4-mini, drafts the post and turns every claim into an assertion: the link keeps the post's tag, and every sentence is on the page. Kane walks the real funnel in Chrome. It reads the button's href before clicking: site-en-hero. FAIL. The agent rebuilds the link from the URL Kane saw, with the post's own tag. Kane runs again: PASS. Verified for launch.
 
-**Narration:** Omni Verify takes an app URL, a growth goal, and an audience. It reads the visible page text and asks an OpenAI model to draft one campaign post and its tagged link. It turns the promise about the campaign tag into an assertion the browser can check.
+## 1:20-1:50 | Features are checked by doing them
 
-## 1:05–1:28 | The OpenAI piece
+**Picture:** /features.html, the TestMu AI JSON Prettify run: Prettify PASS, Validate PASS, "Convert JSON to YAML" FAIL with the JSON output, the repair, Minify PASS.
 
-**Picture:** Show the campaign post and the claim card. Do not show environment files or keys.
+**On-screen text:** Stretch mode: one planted false claim
 
-**On-screen text:** gpt-5.4-mini · Chat Completions
+**Narration:** For a post about a tool, Kane doesn't just read the page. It does the feature. Here I told the agent to slip in one capability TestMu's JSON tool doesn't have: converting to YAML. Kane clicked it and the output was still JSON. FAIL. The agent swapped in Minify, and Kane minified the sample. PASS.
 
-**Narration:** The recorded campaign used gpt-5.4-mini through Chat Completions. The model drafts the copy and link. After a failed assertion, it gets the exact browser observation and chooses a repair. The campaign tag stays fixed, so the agent cannot turn a wrong result into a pass by changing what it was supposed to check.
+## 1:50-2:20 | Re-verify and publish
 
-## 1:28–1:57 | Kane follows the real link
+**Picture:** Back on the Verified campaign card. Press Re-verify, show the replay passing in seconds. Then the Publish to Threads button unlocked and its confirm panel.
 
-**Picture:** Show the Kane run progress in the app. Cut to the actual captured CTA href, with only the relevant query parameter visible.
+**Narration:** Kane records every passing run as a test, so Re-verify replays it in about ten seconds and judges every claim again. Publishing stays locked unless Kane's latest result passed this exact version, and it still needs my confirm.
 
-**On-screen text:** Expected: ct=threads-oct24
-**On-screen text:** Observed: ct=site-en-hero
+**Note:** Only say the post went live if the live publish has happened by recording time. Until then: "tested in dry-run".
 
-**Narration:** Kane CLI opened Scribo, read the main App Store button's full href, clicked it, and recorded the destination. The observed link carried ct=site-en-hero. Kane's browser run completed, but Omni Verify's campaign assertion failed because the campaign's own tag did not survive the handoff.
+## 2:20-2:45 | Honest limits
 
-## 1:57–2:20 | The agent repairs the campaign
+**Picture:** README, Known limits, and RUNS.md.
 
-**Picture:** Show the repair reason and the changed CTA. Keep the URL readable, with ct=threads-oct24.
+**Narration:** Kane also caught me trusting it too much. "Verify the text is visible" said no to text that is on the page, so now I ask Kane to store true or false instead. And a PASS means the funnel keeps the post's promises today. It doesn't mean installs went up. Every run, failures included, is in the repo.
 
-**On-screen text:** Repair: use the observed App Store listing and keep the campaign tag
+## 2:45-3:00 | Close
 
-**Narration:** The agent used the URL Kane observed. It changed the CTA to the Scribo App Store listing and set its ct value to threads-oct24. It did not change the campaign tag or claim that the first attempt had passed.
-
-## 2:20–2:42 | The rerun
-
-**Picture:** Show the second browser run landing on Scribo's App Store listing, then the Omni Verify PASS state.
-
-**On-screen text:** Campaign assertion: PASS
-
-**Narration:** Kane ran the browser path again. The destination was the Scribo App Store listing, and the campaign assertion found ct=threads-oct24 on the handoff. The browser run reported passed, and Omni Verify marked the campaign Verified.
-
-## 2:42–2:53 | Scope and limits
-
-**Picture:** Show the campaign report, then a simple note on screen.
-
-**On-screen text:** Today: App Store tracking tag. Next: more claim types.
-
-**Narration:** Today's prototype checks this tracking claim. It does not yet verify prices, free trials, or every feature in the copy. That is the next part to build and test.
-
-## 2:53–3:00 | Close
-
-**Picture:** End card with Omni Verify, Dain Jung, the published Ship Page URL, and repository URL once available.
+**Picture:** End card: Omni Verify, Dain Jung, https://github.com/DainoJung/omni-verify.
 
 **On-screen text:** Built with OpenAI. Tested with Kane CLI.
 
-**Narration:** AI can write the promise. Kane checks if the funnel keeps it.
-
-**Links to insert after publishing:** https://kaneclihack.sh/ship/omni · [REPO_URL]
+**Narration:** Agents can write the promise. Kane checks whether the funnel keeps it.

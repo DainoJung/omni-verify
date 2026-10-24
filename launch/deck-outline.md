@@ -1,79 +1,77 @@
 # Omni Verify deck outline
 
-Draft only. This is a slide outline, not a published deck. The Ship Page is unpublished, screenshots have not been reviewed, and repository details remain placeholders. Reuse this wording in the event Studio deck after the visual proof is checked.
+Slide outline for the Studio deck. Every visual is a real capture from docs/ or the running app.
 
 ## Slide 1: Omni Verify
 
-**Headline:** AI can write the promise. Kane checks if the funnel keeps it.
+**Headline:** Agents can write the promise. Kane checks whether the funnel keeps it.
 
-**Subhead:** A launch gate for AI-written campaign links.
+**Subhead:** A launch gate for AI-written growth posts.
 
-**Footer:** Dain Jung · Kane CLI Hack Day · 24 October 2026
+**Footer:** Dain Jung · solo · Kane CLI Hack Day · 24 October 2026
 
-**Visual:** A real capture of Omni Verify's campaign screen. Do not use a mockup.
+**Visual:** docs/verified-card.png
 
-## Slide 2: The link looked right until the click
+## Slide 2: My agent never clicked its own link
 
-**Headline:** The campaign tag changed at Scribo's App Store button.
+**Headline:** The link loaded. The tracking died at the button.
 
-**Copy:** The post arrived with ct=threads-oct24. The website CTA handed off ct=site-en-hero.
+**Copy:** My Threads post carried ct=threads-oct24. Every App Store button on scribo.cc hard-codes ct=site-en-hero, so the install would be credited to the website.
 
-**Visual:** Two actual URLs side by side, cropped to the relevant ct parameter. Review the screenshot before use.
+**Visual:** The two URLs side by side, cropped to the ct parameter.
 
-## Slide 3: One campaign, one launch decision
+## Slide 3: Every claim becomes an assertion
 
-**Headline:** Omni Verify checks the campaign claim through the real funnel.
+**Headline:** Link, words, features.
 
-**Copy:** Enter the app URL and growth goal. Draft the post. Follow the CTA. Mark the campaign Verified only when its tracking assertion passes.
+**Copy:** The link keeps the post's own campaign tag. Every sentence is backed by text Kane finds on the page. Every promised feature is performed by Kane on the real tool.
 
-**Visual:** Actual product screen showing the campaign and its status.
+**Visual:** The draft card with its claims and assertions.
 
-## Slide 4: The campaign promise becomes an assertion
+## Slide 4: Kane FAIL, repair, Kane PASS
 
-**Headline:** This post promised ct=threads-oct24 would survive the App Store handoff.
+**Headline:** The agent fixes the post from what Kane saw.
 
-**Copy:** Today's prototype checks that tracking parameter. Price, trial, and feature assertions are not implemented yet.
+**Copy:** Kane read the button's href: ct=site-en-hero. FAIL (KR-63). The agent rebuilt the link from that URL with ct=threads-oct24. PASS (KR-68). Same result in all five full loops.
 
-**Visual:** Show the actual assertion text and CTA tag from the run record.
+**Visual:** docs/live-run.png, cropped to Kane run 1, the repair diff and Kane run 2.
 
-## Slide 5: OpenAI drafts, then repairs
+## Slide 5: Features are checked by doing them
 
-**Headline:** The agent used what the browser saw to change the link.
+**Headline:** "Converts JSON to YAML." Kane clicked it. Still JSON.
 
-**Copy:** gpt-5.4-mini via Chat Completions drafted the campaign. After the assertion failed, it changed the CTA to the observed App Store listing with ct=threads-oct24.
+**Copy:** On TestMu AI's free JSON Prettify tool, stretch mode makes the agent add one capability the page doesn't show. Kane performed it: FAIL (KR-100). The agent swapped in Minify: PASS (KR-102). Prettify and Validate passed first try.
 
-**Visual:** A simple three-step diagram: campaign draft → Kane observation → repaired CTA.
+**Visual:** docs/feature-claims.jpg
 
-## Slide 6: The first campaign check failed
+## Slide 6: Kane, end to end
 
-**Headline:** Scribo handed off ct=site-en-hero.
+**Headline:** Explore, run, design, replay.
 
-**Copy:** Omni Verify marked the campaign assertion FAIL. Kane's browser run completed and recorded the actual App Store CTA URL.
+**Copy:** Explore mapped scribo.cc and showed every App Store button sets its own tag. Kane designed tests from the verified campaign: 2/2 passed (KR-46), 75% coverage; the other 25%, install credit, Kane marked unmeasurable from a browser. Every passing run is recorded as a test, and Re-verify replays it in about 10 seconds (KR-77, KR-85).
 
-**Visual:** Reserved for a reviewed screenshot of the failed assertion and its captured href. No evidence pack or screenshot was found in the workspace.
+**Visual:** docs/reverify.png
 
-## Slide 7: The repaired campaign passed
+## Slide 7: Nothing ships without a PASS
 
-**Headline:** The next assertion found ct=threads-oct24 on the handoff.
+**Headline:** Publish to Threads unlocks only for the version Kane passed.
 
-**Copy:** The agent linked directly to Scribo's App Store page with the campaign's own tag. Omni Verify marked the assertion PASS.
+**Copy:** Locked unless the latest Kane result passed that exact version of the post. Then a click and a confirm showing the account, the text and the Kane run it rests on. Dry-run tested; the first live post is next.
 
-**Visual:** Reserved for a reviewed screenshot of the passing assertion and destination.
+**Visual:** docs/publish-confirm.png
 
-## Slide 8: Keep the verdicts distinct
+## Slide 8: Where Kane was wrong, and what I changed
 
-**Headline:** The browser run passed; the campaign assertion first failed, then passed.
+**Headline:** A false negative, caught and worked around.
 
-**Copy:** Kane's run_end event was passed for both runs. The campaign-level check produced FAIL, then PASS. The rc.3 recorder also reported ERRORED (UNVERIFIED), so the prototype did not treat that recorder label as the assertion result.
+**Copy:** "Verify the text is visible" said no to text that is on the page (KR-51). Asking Kane to store true or false per phrase got every answer right (KR-58). A PASS means the funnel keeps the promises today, not that installs went up.
 
-**Visual:** A small, readable status comparison using values from the local run log.
+**Visual:** The phrasing table from the README.
 
-## Slide 9: What is working, and what is next
+## Slide 9: Links
 
-**Headline:** Start with the tracking handoff; add claim types after it is reliable.
+**Headline:** Try it, read the runs.
 
-**Copy:** Today: one campaign tag assertion for Scribo. Next: reviewed price and trial checks, more app paths, and a public repo and demo.
+**Copy:** Repo: https://github.com/DainoJung/omni-verify · Demo: [VIDEO_URL] · Ship Page: https://kaneclihack.sh/ship/omni
 
-**Links:** Ship Page https://kaneclihack.sh/ship/omni (draft) · Repo [REPO_URL] · Deck [DECK_URL]
-
-**Credits:** Built with OpenAI. Tested with Kane CLI.
+**Credits:** Built with OpenAI. Tested with Kane CLI by TestMu AI.

@@ -1,65 +1,68 @@
 project: Omni Verify
-pitch: A launch gate that checks whether an AI-written campaign keeps its claims and tracking through the real app funnel.
-hook: AI growth agents publish campaigns without ever clicking their own links.
-problem: Solo founders lose attribution or mislead customers when a CTA changes the campaign tag or the page cannot support a claim.
-who: Solo founders using AI to write and publish growth campaigns.
-solution: Draft one campaign from the app's visible content. Turn its tracking promise into a browser assertion. Repair the link when the assertion fails, then verify the rerun.
-demo: Record the Omni Verify campaign screen, the Scribo CTA result, the failed campaign assertion, the repaired App Store link, and the passing assertion. No screenshots or screen recording are in the workspace yet.
-demo_narration: The campaign starts at Scribo with ct=threads-oct24. The home page CTA hands off ct=site-en-hero, so Omni's assertion fails. The agent links directly to the App Store with the campaign's own tag; the assertion passes.
-why: AI can write the promise. Kane checks if the funnel keeps it.
-openai: gpt-5.4-mini via Chat Completions drafts campaign copy and repairs a failed link.
-fix: The agent changed the CTA from Scribo's homepage to the observed App Store URL with ct=threads-oct24.
-hero: [Add a checked hero screenshot after reviewing the real app capture.]
-ship_url: https://kaneclihack.sh/ship/omni (draft, not published)
-deck_url: [No deck page published yet.]
-credits: Dain Jung; built with OpenAI, tested with Kane CLI; TestMu AI is named as event/tooling credit.
+pitch: A launch gate for AI-written growth posts. Every claim in the post is checked by Kane in a real browser before it can ship.
+hook: My AI growth agent was about to ship a post with a broken link. It never clicked it. Kane did.
+problem: AI growth agents write for clicks and never click their own links. A post can look right while its tracking tag dies at the CTA, or promise a feature the product does not do.
+who: Solo founders who let an agent write and post their marketing.
+solution: The agent drafts the post and turns every claim into an assertion: the link keeps its campaign tag, every sentence is on the page, every promised feature works. Kane walks the funnel or performs the feature. Failed claims are repaired from what Kane saw and checked again. Only a post Kane passes can be published, after a human confirm.
+demo: Scribo campaign: Kane FAIL on the tracking tag, repair, Kane PASS, Verified, Re-verify replay, Publish to Threads unlocks. Then feature claims on TestMu AI's JSON Prettify tool: the YAML claim FAILs, the agent swaps in Minify, PASS.
+demo_narration: Kane reads the App Store button on scribo.cc and finds ct=site-en-hero, so the Threads post's ct=threads-oct24 would be lost. The agent rebuilds the link from what Kane saw, and Kane passes it. On the TestMu tool, Kane clicks the button the post promises converts to YAML and the output is still JSON, so that sentence is replaced with Minify, which Kane then performs.
+why: Agents can write the promise. Kane checks whether the funnel keeps it.
+openai: gpt-5.4-mini via Chat Completions drafts the post, writes each claim as a checkable assertion, and repairs failed claims from Kane's observations.
+fix: The agent replaced the scribo.cc link with the App Store URL Kane observed, set to ct=threads-oct24. On the feature demo it replaced the YAML sentence with Minify.
+hero: docs/verified-card.png
+ship_url: https://kaneclihack.sh/ship/omni
+repo: https://github.com/DainoJung/omni-verify
+video: [VIDEO_URL]
+credits: Dain Jung, solo. Built with OpenAI, tested with Kane CLI by TestMu AI.
 
 ## Ten-line digest
 
-1. Omni Verify is a launch gate for AI-written growth campaigns.
-2. Solo founders are the user; a broken CTA tag can misattribute installs or leave a promise unsupported.
-3. The specific app is Scribo at https://scribo.cc.
-4. The initial campaign used ct=threads-oct24 on the Scribo homepage link.
-5. Kane recorded the page CTA handoff as ct=site-en-hero.
-6. Omni Verify's campaign assertion failed on that mismatch; the Kane browser run itself completed with run_end passed.
-7. The OpenAI model recorded for the verified campaign was gpt-5.4-mini using Chat Completions.
-8. The agent repaired the CTA to the observed App Store listing with ct=threads-oct24.
-9. On the rerun, Omni Verify's assertion passed and the Kane browser run completed with run_end passed.
-10. The Ship Page is https://kaneclihack.sh/ship/omni (draft); repository URL, final SHA, deck, and reviewed screenshots remain placeholders.
+1. Omni Verify is a launch gate for AI-written growth posts, built solo at Kane CLI Hack Day.
+2. The agent drafts a post and turns every claim into an assertion before anything ships.
+3. Kane CLI checks each assertion in real Chrome: it reads links, finds text on the page, and performs promised features.
+4. On my app Scribo, every App Store button hard-codes ct=site-en-hero, so a Threads post's ct=threads-oct24 is lost at the click.
+5. Kane read that href, Omni Verify marked the claim FAIL (KR-63), the agent rebuilt the link from what Kane saw, and Kane passed it (KR-68).
+6. Every sentence of the post is backed by a phrase Kane finds on the app's page.
+7. On TestMu AI's free JSON Prettify tool, a planted "Convert JSON to YAML" claim FAILed (KR-100) and the agent swapped in Minify, which PASSed (KR-102).
+8. Re-verify replays Kane's own recording of the passing run in about 10 seconds (KR-77, KR-85 PASSED, VERIFIED source).
+9. Publish to Threads stays locked unless the latest Kane result passed that exact version; dry-run tested, live publish not done yet.
+10. Repo: https://github.com/DainoJung/omni-verify. Ship Page: https://kaneclihack.sh/ship/omni.
 
 ## Description
 
-Omni Verify is a launch gate for AI growth campaigns. A founder gives it an app URL, a growth goal, and an audience. The agent drafts a post and CTA link from the app's visible page content. Kane CLI follows the actual browser path. Omni Verify checks whether the campaign's own App Store campaign tag survives the CTA. When it does not, the agent can repair the link and request another check.
+Omni Verify is a launch gate for AI growth posts. I give it an app URL, a growth goal and an audience. An OpenAI agent drafts the post and turns every claim in it into something a browser can check. Kane CLI then walks the real funnel. If a claim fails, the agent reads what Kane saw, repairs the post, and Kane checks again. Only a post Kane passes is marked Verified for launch, and only a Verified post can be published.
 
-The first build centers on Scribo, a language-learning app whose website App Store button hard-codes ct=site-en-hero. A Threads campaign began with ct=threads-oct24, but the website button handed the visitor to the App Store with the site tag instead. The current prototype verifies this tracking claim. It does not yet verify prices, trial lengths, or every product feature claim.
+It checks three kinds of claims:
 
-## How we used OpenAI
+- **The link.** The link that hands a visitor to the App Store must carry the post's own campaign tag. On scribo.cc it did not: every App Store button hard-codes ct=site-en-hero, so a Threads post's tag dies at the click.
+- **The words.** Every sentence must be backed by a phrase Kane finds on the app's page.
+- **The features.** For a post about a tool, Kane performs each promised feature and checks the result. On TestMu AI's JSON Prettify tool, the YAML claim failed because the output was still JSON.
 
-The campaign record used gpt-5.4-mini. The code calls the Chat Completions API. The model drafts a post and its campaign link, then receives the failed assertion and Kane's observations to choose a small repair. The current prompt keeps the campaign tag fixed and allows the agent to repair the link; broader claim types are outside today's verified scope.
+## How I used OpenAI
 
-## How we used Kane CLI
+gpt-5.4-mini through Chat Completions, with strict JSON schemas. It drafts the post grounded in the page text and a Kane Explore map of the site, writes one claim per sentence, and repairs failed claims. Repairs are constrained: the link can only be rebuilt from URLs Kane observed, the campaign tag cannot change, and every repair is validated before Kane runs again.
 
-- Command wrapper in the project: kanehack report -- kane-cli run <objective> --url <URL> --agent --headless --timeout 300.
-- Assertion: the App Store handoff must contain ct=threads-oct24 and reach the Scribo App Store listing.
-- Failure: Kane recorded the existing CTA handoff with ct=site-en-hero; Omni Verify marked the campaign assertion FAIL.
-- Repair and pass: the agent changed the CTA to the observed App Store URL with ct=threads-oct24; the next assertion was PASS.
-- Status nuance: Kane's run_end event reported passed on both browser runs. The separate campaign assertion was FAIL, then PASS. The event recorder displayed ERRORED (UNVERIFIED) for rc.3, as noted in the project run log.
-- Local source of run details: RUNS.md and redacted runs/ records. No .evidence pack or reviewed screenshot is in this workspace.
+## How I used Kane CLI
+
+- `kane-cli run --agent` for every check, through `kanehack report`. Kane stores what it sees (the href, true or false per phrase, the feature result) and my code judges it.
+- `kane-cli explore` mapped scribo.cc: every App Store button links to `?ct&mt&pt`, so each sets its own tag.
+- The assurance loop: the verified campaign became a requirement, Kane designed the tests, they passed (KR-46), and coverage is 75%. The other 25% is install credit, which Kane marked unmeasurable from a browser.
+- `--name` and `testmd run`: Kane records each passing run as a test, and Re-verify replays it.
+- Kane also caught me trusting it too much: "verify the text is visible" gave a false negative on below-the-fold text (KR-51). Asking Kane to store true or false per phrase fixed it (KR-58).
 
 ## Links
 
-- Repo and submitted SHA: [REPO_URL] at [FINAL_SUBMITTED_SHA]
-- Demo URL: [No public Omni Verify URL known. Run locally with bun install && bun run dev.]
-- Ship Page: https://kaneclihack.sh/ship/omni (draft)
-- Deck: [Not published]
-- Screenshots or screen recording: [Not present in workspace]
+- Repo: https://github.com/DainoJung/omni-verify at [FINAL_SUBMITTED_SHA]
+- Ship Page: https://kaneclihack.sh/ship/omni
+- Video: [VIDEO_URL]
+- Run locally: `bun install && bun run dev`
 
 ## Team
 
-| Name | Role | X | LinkedIn | Posting |
-|---|---|---|---|---|
-| Dain Jung | Builder and captain | @daino0416 | linkedin.com/in/daino-jung | Captain draft only; confirm other teammates before crediting |
+| Name | Role | X | LinkedIn |
+|---|---|---|---|
+| Dain Jung | Solo builder | @daino0416 | linkedin.com/in/daino-jung |
 
 ## Voice notes
 
-Use the plain, direct language in Dain's brief: “AI growth agents publish campaigns without ever clicking their own links.” Keep the real Scribo details, avoid unsupported outcome claims, and close with “AI can write the promise. Kane checks if the funnel keeps it.”
+First person, plain, specific. Keep the real Scribo and TestMu details and the KR run numbers. Say the YAML claim was planted in stretch mode. Say the live Threads publish has not happened until it has. Close with "Agents can write the promise. Kane checks whether the funnel keeps it."
