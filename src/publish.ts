@@ -47,7 +47,9 @@ export function publishGate(rec: CampaignRecord): Gate {
 
 // Run the Hermes script. Its stdout is JSON without tokens; it is parsed here and never logged.
 async function threads(args: string[]): Promise<{ code: number; out: string }> {
-  const proc = Bun.spawn(["python3", "-I", SCRIPT, "--profile", PROFILE, ...args], { stdout: "pipe", stderr: "ignore" });
+  // THREADS_PROFILE=default means the script's own default token file (no --profile).
+  const profile = PROFILE && PROFILE !== "default" ? ["--profile", PROFILE] : [];
+  const proc = Bun.spawn(["python3", "-I", SCRIPT, ...profile, ...args], { stdout: "pipe", stderr: "ignore" });
   const out = await new Response(proc.stdout).text();
   return { code: await proc.exited, out };
 }
