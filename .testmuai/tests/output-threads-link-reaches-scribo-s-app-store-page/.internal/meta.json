@@ -1,0 +1,25 @@
+{
+  "test_id": "f68bb677-f840-45d7-9147-a9f31d5aecf6",
+  "project_id": "01M5QFK845A9PX95YRENJ1Z5XD",
+  "folder_id": "01M5QFMZXMFNG1GNNPGK53JTKV",
+  "org_id": "3399240",
+  "session_name": "threads-link-reaches-scribo-s-app-store-page",
+  "commit_id": "847fb064-a916-4e6d-a429-eaad9faa11d8",
+  "testcase_id": "01M5QNF1HY815HF01BRGASH5PX",
+  "executions": [
+    {
+      "execution_id": "b98304f4-eb88-4ef4-b4af-ad58a64c83fc",
+      "run_kind": "author",
+      "status": "passed",
+      "valid": true,
+      "at": "2026-10-24T19:17:02.194Z"
+    },
+    {
+      "execution_id": "ddc6cf8b-8681-42fe-a096-50dd18400af8",
+      "run_kind": "author",
+      "status": "passed",
+      "at": "2026-10-24T19:17:11.155Z",
+      "uploaded": true
+    }
+  ]
+}

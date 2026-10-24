@@ -1,0 +1,13 @@
+[
+  {
+    "ref": "uc-1",
+    "resolution": "edited",
+    "reason": "Approved by the campaign owner. The App Store drops the query string from the address bar after load (seen in Kane run KR-5), so attribution is checked on the link itself (criterion 1), and criterion 2 checks the landing page by app id.",
+    "edit": {
+      "criteria": [
+        "The direct App Store link in the post includes ct=threads-oct24.",
+        "Opening the campaign link lands on Scribo's App Store page (app id 6794793715)."
+      ]
+    }
+  }
+]

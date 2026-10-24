@@ -1,0 +1,25 @@
+{
+  "test_id": "79a1c89d-04ff-4e69-a36a-ba77b8ca01c9",
+  "project_id": "01M5QFK845A9PX95YRENJ1Z5XD",
+  "folder_id": "01M5QFMZXMFNG1GNNPGK53JTKV",
+  "org_id": "3399240",
+  "session_name": "threads-link-excludes-the-site-en-hero-campaign-token",
+  "commit_id": "b70d903c-7d31-4f4d-8900-db899f520646",
+  "testcase_id": "01M5QNDXV6H7K0XHP0P8RX9T50",
+  "executions": [
+    {
+      "execution_id": "760dc307-6795-4e50-9427-f34b0bb0768c",
+      "run_kind": "author",
+      "status": "passed",
+      "valid": true,
+      "at": "2026-10-24T19:16:01.379Z"
+    },
+    {
+      "execution_id": "ddc6cf8b-8681-42fe-a096-50dd18400af8",
+      "run_kind": "author",
+      "status": "passed",
+      "at": "2026-10-24T19:17:11.150Z",
+      "uploaded": true
+    }
+  ]
+}

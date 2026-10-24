@@ -54,6 +54,26 @@ app.get("/api/campaigns/:id", async (c) => {
   return c.json({ ...rec, steps });
 });
 
+// Pre-launch preview of a campaign's post, with its real link. Kane's designed tests start here
+// ({{threads_post_url}}) because nothing is published before the gate passes.
+app.get("/post/:id", async (c) => {
+  const id = c.req.param("id");
+  if (!/^c-[\w-]+Z$/.test(id)) return c.text("bad id", 400);
+  const f = Bun.file(`runs/${id}.json`);
+  if (!(await f.exists())) return c.text("not found", 404);
+  const rec = (await f.json()) as CampaignRecord;
+  const post = rec.final ?? rec.attempts.at(-1)?.campaign ?? rec.draft;
+  const esc = (s: string) => s.replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]!);
+  const body = esc(post.post_copy).replace(esc(post.cta_url), `<a href="${esc(post.cta_url)}">${esc(post.cta_url)}</a>`);
+  return c.html(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Post preview: ${esc(post.campaign_tag)}</title>
+<style>body{margin:0;background:#000;color:#fff;font:16px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;display:grid;place-items:start center;padding:48px 16px}
+article{max-width:560px;border:1px solid #262626;border-radius:12px;padding:20px 22px;background:#0b0b0b}
+.label{font:12px ui-monospace,Menlo,monospace;color:#8a8a8a;margin-bottom:12px}a{color:#fff;word-break:break-all}</style></head>
+<body><article><div class="label">Post preview, not published · campaign ${esc(post.campaign_tag)} · ${esc(rec.id)} · ${esc(rec.status)}</div>
+<p>${body}</p></article></body></html>`);
+});
+
 app.use("/*", serveStatic({ root: "./public" }));
 
 export default { port: 3000, fetch: app.fetch, idleTimeout: 0 };

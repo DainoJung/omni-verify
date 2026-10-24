@@ -1,0 +1,7 @@
+{
+  "threads_post_url": {
+    "value": "http://localhost:3000/post/c-2026-10-24T18-55-01Z",
+    "secret": false,
+    "description": "URL of the published Threads post for Scribo's threads-oct24 campaign; required to inspect and follow the actual post link."
+  }
+}

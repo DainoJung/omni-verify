@@ -4,3 +4,6 @@ node_modules/
 .playwright-mcp/
 # kane-cli context store: shared through a location, never merged with git
 .context/
+# Sealed Kane evidence packs contain local home paths; kept out of the public repo until decided
+evidence/assurance/packs/
+.testmuai/evidence/

@@ -1,0 +1,21 @@
+{"type":"gitignore_updated","v":1,"verb":"extract","path":".gitignore"}
+{"type":"ingested","v":1,"verb":"extract","source_id":"campaign-threads-oct24","status":"created","cid":"sha256:97c84ef6e44f1e55999a25e3611febe6c5fa0d30df9915181f925c0af81d7fd9"}
+{"type":"run_start","v":1,"verb":"extract","mode":"agent","trace":"~/.testmuai/kaneai/assurance/ctx-b92e3a345e2e/logs/extract-as-20261024T1901-som2a3rs.log","session":"as-20261024T1901-som2a3rs"}
+{"type":"corpus","v":1,"verb":"extract","sources":[{"source_id":"campaign-threads-oct24","cid":"sha256:97c84ef6e44f1e55999a25e3611febe6c5fa0d30df9915181f925c0af81d7fd9"}],"skipped":[]}
+{"type":"source_start","v":1,"verb":"extract","source_id":"campaign-threads-oct24","cid":"sha256:97c84ef6e44f1e55999a25e3611febe6c5fa0d30df9915181f925c0af81d7fd9","index":1,"total":1,"resumed":false}
+{"type":"agent_activity","v":1,"verb":"extract","kind":"tool","label":"→ list sources…"}
+{"type":"agent_activity","v":1,"verb":"extract","kind":"tool","label":"→ list a source's items…"}
+{"type":"agent_activity","v":1,"verb":"extract","kind":"tool","label":"→ find similar items…"}
+{"type":"usage","v":1,"verb":"extract","credits":1.05,"total_credits":1.05}
+{"type":"agent_activity","v":1,"verb":"extract","kind":"decision","label":"checking which sources there are"}
+{"type":"agent_activity","v":1,"verb":"extract","kind":"tool","label":"✓ list sources"}
+{"type":"agent_activity","v":1,"verb":"extract","kind":"decision","label":"checking what came from a source"}
+{"type":"agent_activity","v":1,"verb":"extract","kind":"tool","label":"✓ list a source's items"}
+{"type":"agent_activity","v":1,"verb":"extract","kind":"decision","label":"checking a possible duplicate"}
+{"type":"agent_activity","v":1,"verb":"extract","kind":"tool","label":"✓ find similar items"}
+{"type":"agent_activity","v":1,"verb":"extract","kind":"tool","label":"→ propose use-cases…"}
+{"type":"usage","v":1,"verb":"extract","credits":1.18,"total_credits":2.23}
+{"type":"agent_activity","v":1,"verb":"extract","kind":"decision","label":"putting the result together"}
+{"type":"agent_activity","v":1,"verb":"extract","kind":"tool","label":"✓ propose use-cases"}
+{"type":"commit","v":1,"verb":"extract","source_id":"campaign-threads-oct24","proposal_id":"20261024T190143-campaign-threads-oct24","trusted":0,"derived":1,"archived":0,"superseded":0,"assumed":0,"evidence_matched":0,"minted":[{"cid":"sha256:29a62bc1384631b270c4553c4185cfd98939de15fe2dc3443d5db29a07dacce4","logical_id":"uc-1"}]}
+{"type":"done","v":1,"verb":"extract","status":"complete","exit_code":0}

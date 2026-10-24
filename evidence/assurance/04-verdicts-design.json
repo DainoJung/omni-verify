@@ -1,0 +1,6 @@
+[
+  { "ref": "ac-1", "resolution": "approved", "reason": "Approved by the campaign owner: attribution is checked on the hand-off link itself." },
+  { "ref": "ac-4", "resolution": "approved", "reason": "Approved by the campaign owner." },
+  { "ref": "ac-5", "resolution": "approved", "reason": "Approved by the campaign owner." },
+  { "ref": "ac-2", "resolution": "rejected", "reason": "Cannot be observed: the App Store strips the query string from the address bar after load (Kane run KR-5 final URL has no query). ac-1 already covers attribution on the hand-off link." }
+]

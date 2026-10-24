@@ -14,3 +14,17 @@ column comes from Kane's own `run_end` event.
 | 2026-10-24T18:56:43Z | KR-16 ERRORED (UNVERIFIED) | passed | 0 | PASS: The App Store link carries ct=threads-oct24, and Kane landed on App Store app id6794793715. | 3.9 | https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8 | [LambdaTest](https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QMAAPEYJWXJWJXWPQPF9Y2/dashboard/share/US_VLYNN85TXQ2118JJ0VH5XPMNS2IZBJL7C4XAMDFJP3AL6A7LTAQX6WI0LUJXI9NM?type=summary&agentView=true&fqdn=summary-page) · [run](runs/c-2026-10-24T18-55-01Z-a2.json) |
 | 2026-10-24T19:04:08Z | KR-27 ERRORED (UNVERIFIED) | passed | 0 | FAIL: The App Store link carries ct=site-en-hero; the campaign expects ct=threads-oct24 (Kane step 2). | 13.1 | https://scribo.cc?ct=threads-oct24 | [LambdaTest](https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QMQBJJ5B85CSJ645N5BFJ5/dashboard/share/US_G57CP4NS96FJ4L757R0OTR2JWXDGTL1HN063YN4UCSCUGNH6PRACAWCTTLEH6M8J?type=summary&agentView=true&fqdn=summary-page) · [run](runs/c-2026-10-24T19-03-11Z-a1.json) |
 | 2026-10-24T19:04:49Z | KR-28 ERRORED (UNVERIFIED) | passed | 0 | PASS: The App Store link carries ct=threads-oct24, and Kane landed on App Store app id6794793715. | 5.4 | https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8 | [LambdaTest](https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QMS4X7WMHSTKZJN61GVY1A/dashboard/share/US_SBVNQG9KYDJAE7MMKXNMJC8G6KTCZNNNSCX5SKDTU02DEYA47IBBTHXNTRQYCWCY?type=summary&agentView=true&fqdn=summary-page) · [run](runs/c-2026-10-24T19-03-11Z-a2.json) |
+
+## Explore and the assurance loop
+
+Run once each, through `kanehack report`. Streams are in `explore/` and `evidence/assurance/`.
+
+| Time (UTC) | Command | kanehack | Kane result | What it produced | Credits |
+|---|---|---|---|---|---|
+| 2026-10-24T19:01:59Z | `explore run (read_only, 12 leases)` | KR-23 ERRORED (UNVERIFIED) | stopped: budget | 7 screens, 7 flows verified, 20 findings | 39.0 |
+| 2026-10-24T19:01Z | `context ingest campaign spec` | KR-24 ERRORED (UNVERIFIED) | complete | 1 use case proposed (uc-1) | 2.23 |
+| 2026-10-24T19:07Z | `design tests uc-1 --max 4` | - | complete | 5 criteria, 3 scenarios, 2 tests, 2 gaps | 13.21 |
+| 2026-10-24T19:12Z | `design tests --force (before archive)` | - | nothing_to_change | ac-2 rejection only held | 6.62 |
+| 2026-10-24T19:14Z | `design tests --force (after archive)` | - | nothing_to_change | t-1 not seen as stale | 5.5 |
+| 2026-10-24T19:14Z | `maintain evolve t-1 --because …` | - | complete | t-1 superseded by t-3 (no ac-2 check) | 10.05 |
+| 2026-10-24T19:17:11Z | `testrun run t-2 t-3 (post preview)` | KR-46 PASSED (VERIFIED source) | passed | 2/2 passed, coverage 75% | not in stream |

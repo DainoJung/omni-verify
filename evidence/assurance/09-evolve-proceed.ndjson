@@ -1,0 +1,59 @@
+{"type":"evolve_target","v":1,"verb":"evolve","ref":"t-1","use_case":"uc-1","pairs":3,"because":"ac-2 was archived on the campaign owner's instruction: the App Store strips the query string after load, so the opened App Store URL cannot show ct. t-1 step 2 still asserts it. Redesign t-1 from the approved criteria (ac-1, ac-4, ac-5)."}
+{"type":"child_start","v":1,"verb":"evolve","child":"design","subject":"uc-1"}
+{"type":"run_start","v":1,"verb":"design","mode":"agent","trace":"~/.testmuai/kaneai/assurance/ctx-b92e3a345e2e/logs/design-as-20261024T1914-my7bhqst.log","use_case":"uc-1","session":"as-20261024T1914-my7bhqst"}
+{"type":"message_sent","v":1,"verb":"design","sid":"design-20261024T191446-a089a889","chars":520}
+{"type":"agent_activity","v":1,"verb":"design","kind":"thinking_done","label":"thought for 1.2s"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"→ read source…"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"→ read an item…"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"→ read an item's links…"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"→ list sources…"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"→ read history…"}
+{"type":"usage","v":1,"verb":"design","credits":3.17,"total_credits":3.17}
+{"type":"agent_activity","v":1,"verb":"design","kind":"decision","label":"checking what the source says"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"✓ read source"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"decision","label":"checking what's already there"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"✓ read an item"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"decision","label":"checking what's already there"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"✓ read an item's links"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"decision","label":"checking which sources there are"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"✓ list sources"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"decision","label":"checking an item's past versions"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"✓ read history"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"thinking_done","label":"thought for 1.2s"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"→ search source…"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"→ read an item…"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"→ read an item…"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"→ read an item's links…"}
+{"type":"usage","v":1,"verb":"design","credits":1.58,"total_credits":4.75}
+{"type":"agent_activity","v":1,"verb":"design","kind":"decision","label":"searching the source"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"✓ search source"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"decision","label":"checking what's already there"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"✓ read an item"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"decision","label":"checking what's already there"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"✓ read an item"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"decision","label":"checking what's already there"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"✓ read an item's links"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"→ propose design…"}
+{"type":"usage","v":1,"verb":"design","credits":2.31,"total_credits":7.06}
+{"type":"agent_activity","v":1,"verb":"design","kind":"decision","label":"putting the result together"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"✓ propose design"}
+{"type":"commit","v":1,"verb":"design","acs":0,"scenarios":0,"tests":2,"gaps":0,"warnings":0,"minted":[{"temp_ref":"t1","cid":"sha256:4d9b769266a93be99b23f3d6634da560e9c7824b0b26ab459365018bcfe59418","logical_id":"t-3"},{"temp_ref":"t2","cid":"sha256:c0917353d1e67ca505a4a7ef35cb4399b0cc502097e12583352d7aa2291d20c7"}]}
+{"type":"receipt","v":1,"verb":"design","commit_n":1,"phase":"rework","committed":[{"temp_ref":"t1","cid":"sha256:4d9b769266a93be99b23f3d6634da560e9c7824b0b26ab459365018bcfe59418","logical_id":"t-3"},{"temp_ref":"t2","cid":"sha256:c0917353d1e67ca505a4a7ef35cb4399b0cc502097e12583352d7aa2291d20c7"}],"reused":0,"rejected":[],"warnings":[],"parity":{"live_scenarios":3,"live_tests":2,"missing":["sc-3"],"blocked":[],"unresolved_blockers":[]}}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"→ search source…"}
+{"type":"usage","v":1,"verb":"design","credits":1.11,"total_credits":8.17}
+{"type":"agent_activity","v":1,"verb":"design","kind":"decision","label":"searching the source"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"✗ search source"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"→ search source…"}
+{"type":"usage","v":1,"verb":"design","credits":0.74,"total_credits":8.91}
+{"type":"agent_activity","v":1,"verb":"design","kind":"decision","label":"searching the source"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"✓ search source"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"→ propose design…"}
+{"type":"usage","v":1,"verb":"design","credits":1.14,"total_credits":10.05}
+{"type":"agent_activity","v":1,"verb":"design","kind":"decision","label":"putting the result together"}
+{"type":"agent_activity","v":1,"verb":"design","kind":"tool","label":"✓ propose design"}
+{"type":"commit","v":1,"verb":"design","acs":0,"scenarios":0,"tests":0,"gaps":1,"warnings":0,"minted":[{"temp_ref":"g1","cid":"sha256:ef76cc83276de9850816c326f86826407ab30e3dd4fb8cc3e8ee303a6e03c061","logical_id":"gap-3"}]}
+{"type":"receipt","v":1,"verb":"design","commit_n":2,"phase":"tests","committed":[{"temp_ref":"g1","cid":"sha256:ef76cc83276de9850816c326f86826407ab30e3dd4fb8cc3e8ee303a6e03c061","logical_id":"gap-3"}],"reused":0,"rejected":[],"warnings":[],"parity":{"live_scenarios":3,"live_tests":2,"missing":[],"blocked":["sc-3"],"unresolved_blockers":[]}}
+{"type":"session_complete","v":1,"verb":"design","sid":"design-20261024T191446-a089a889"}
+{"type":"child_end","v":1,"verb":"evolve","ok":true,"dur_s":35,"exit_code":0}
+{"type":"evolve_diff","v":1,"verb":"evolve","use_case":"uc-1","generation":{"before":7,"after":11},"superseded":[{"scenario":"sc-1","test":"t-1"}],"minted":[{"scenario":"sc-1","test":"t-3"}],"retained":[{"scenario":"sc-2","test":"t-2"},{"scenario":"sc-3","test":null}],"moves":[{"ac":"ac-1","before":["t-2","t-1"],"after":["t-3","t-2"]},{"ac":"ac-4","before":["t-1"],"after":["t-3"]}]}
+{"type":"done","v":1,"verb":"evolve","status":"complete","exit_code":0}

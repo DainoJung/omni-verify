@@ -1,0 +1,5 @@
+1 archive(s) held for interactive confirmation (re-run with --allow-archive --because "<reason>" to apply headlessly)
+{"ref":"ac-1","cid":"sha256:fc8e125346ef02662df868c1b3b352fc3db8760f5922ce0d5d640ec4f4de9b1c","resolution":"approved"}
+{"ref":"ac-4","cid":"sha256:24c9b6460f005aa537ef08b7dc27cf914362f0f6e0f1832b54f41ef06239a3ca","resolution":"approved"}
+{"ref":"ac-5","cid":"sha256:9adead82461835d9c12e4ec2e29be422176f3b05e5da0f436a7bb468aefdabfe","resolution":"approved"}
+{"ref":"ac-2","cid":"sha256:1f8b9c9c7be66691b97423803516847d5c04bc3ddfa99b9cf8220e483cb35de8","resolution":"rejected"}
