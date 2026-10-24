@@ -1,0 +1,28 @@
+{
+  "id": "c-2026-10-24T18-45-09Z",
+  "model": "gpt-5.4-mini",
+  "input": {
+    "app_url": "https://scribo.cc",
+    "goal": "Get new learners to install Scribo from a Threads post",
+    "audience": "Adults learning a second language who journal or write daily"
+  },
+  "draft": {
+    "post_copy": "If you journal or write daily in a second language, Scribo can turn articles, videos, PDFs, or pasted text into reading at your level. After each part, it asks quick questions, and saved words come back just before you’d forget them. https://scribo.cc?ct=threads-oct24",
+    "cta_url": "https://scribo.cc?ct=threads-oct24",
+    "campaign_tag": "threads-oct24",
+    "claims": [
+      {
+        "text": "Installs from this post are credited to this campaign.",
+        "assertion": {
+          "type": "param_preserved",
+          "value": "ct=threads-oct24"
+        }
+      }
+    ]
+  },
+  "compiled": {
+    "url": "https://scribo.cc?ct=threads-oct24",
+    "objective": "Find the main call to action that sends the user to the App Store. Before clicking it, read the full href attribute of that link exactly as written, including its query string, and save it as {{handoff_href}}. Then click it, wait for the App Store page to finish loading, and save the current page URL as {{landing_url}}."
+  },
+  "attempts": []
+}

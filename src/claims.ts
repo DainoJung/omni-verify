@@ -42,6 +42,13 @@ export function compileObjective(ctaUrl: string): string {
     "Then click it, wait for the App Store page to finish loading, and save the current page URL as {{landing_url}}.";
 }
 
+// All of a campaign's assertions → one plain-English Kane objective, run from the post's link.
+export function compileCampaign(c: { cta_url: string; claims: { assertion: Assertion }[] }): { url: string; objective: string } {
+  const types = new Set(c.claims.map((x) => x.assertion.type));
+  for (const t of types) if (t !== "param_preserved") throw new Error(`No Kane check for assertion type ${t} yet`);
+  return { url: c.cta_url, objective: compileObjective(c.cta_url) };
+}
+
 function splitParam(value: string): [string, string] {
   const i = value.indexOf("=");
   return i < 0 ? [value, ""] : [value.slice(0, i), value.slice(i + 1)];

@@ -1,13 +1,31 @@
 import { Hono } from "hono";
 import { streamSSE } from "hono/streaming";
 import { runKane } from "./kane";
-import { compileObjective, evaluateParamPreserved, type Assertion } from "./claims";
+import { mkdir, writeFile } from "node:fs/promises";
+import { compileCampaign, compileObjective, evaluateParamPreserved, type Assertion } from "./claims";
 import { logRun } from "./runlog";
+import { draftCampaign, MODEL, type DraftInput } from "./agent";
 
 const app = new Hono();
 let busy = false; // one Kane run at a time: each costs ~22 credits
 
 app.get("/", (c) => c.text("Omni Verify: UI arrives in step 5. POST /api/verify { cta_url, ct } streams a Kane run."));
+
+app.post("/api/draft", async (c) => {
+  const input = await c.req.json<Partial<DraftInput>>();
+  if (!input.app_url || !input.goal || !input.audience) return c.json({ error: "app_url, goal and audience are required" }, 400);
+  try {
+    const campaign = await draftCampaign(input as DraftInput);
+    const compiled = compileCampaign(campaign);
+    const id = `c-${new Date().toISOString().replace(/[:.]/g, "-").replace(/-\d+Z$/, "Z")}`;
+    const record = { id, model: MODEL, input, draft: campaign, compiled, attempts: [] };
+    await mkdir("runs", { recursive: true });
+    await writeFile(`runs/${id}.json`, JSON.stringify(record, null, 2));
+    return c.json(record);
+  } catch (err) {
+    return c.json({ error: String(err instanceof Error ? err.message : err) }, 502);
+  }
+});
 
 app.post("/api/verify", async (c) => {
   const body = await c.req.json<{ cta_url?: string; ct?: string }>();
