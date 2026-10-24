@@ -4,6 +4,7 @@ import { streamSSE } from "hono/streaming";
 import { readdir } from "node:fs/promises";
 import type { DraftInput } from "./agent";
 import { reverifyCampaign, runCampaign, type CampaignRecord } from "./loop";
+import { PUBLISH_MODE, publishCampaign, publishGate, threadsAccount } from "./publish";
 
 const app = new Hono();
 let busy = false; // one campaign at a time: Kane drives one browser
@@ -50,6 +51,39 @@ app.post("/api/campaigns/:id/reverify", async (c) => {
       busy = false;
     }
   });
+});
+
+// Publish state for the UI: the gate, the mode, and (with ?account=1) which Threads account would post.
+app.get("/api/campaigns/:id/publish", async (c) => {
+  const id = c.req.param("id");
+  if (!/^c-[\w-]+Z$/.test(id)) return c.json({ error: "bad id" }, 400);
+  const f = Bun.file(`runs/${id}.json`);
+  if (!(await f.exists())) return c.json({ error: "not found" }, 404);
+  const rec = (await f.json()) as CampaignRecord;
+  let account: string | null = null;
+  let accountError: string | null = null;
+  if (c.req.query("account")) await threadsAccount().then((a) => (account = a), (e) => (accountError = String(e.message ?? e)));
+  return c.json({ mode: PUBLISH_MODE, gate: publishGate(rec), published: rec.published ?? null, dryRuns: rec.publishDryRuns ?? [], account, accountError, text: rec.final?.post_copy ?? null });
+});
+
+// The only route that can post. Needs the gate, the confirmed version and confirm: true.
+app.post("/api/campaigns/:id/publish", async (c) => {
+  const id = c.req.param("id");
+  if (!/^c-[\w-]+Z$/.test(id)) return c.json({ error: "bad id" }, 400);
+  const f = Bun.file(`runs/${id}.json`);
+  if (!(await f.exists())) return c.json({ error: "not found" }, 404);
+  if (busy) return c.json({ error: "A Kane run is in progress" }, 409);
+  const body = await c.req.json<{ version?: string; confirm?: boolean }>().catch(() => ({}));
+  const rec = (await f.json()) as CampaignRecord;
+  try {
+    const r = await publishCampaign(rec, body);
+    if (r.mode === "live") rec.published = r.published;
+    else rec.publishDryRuns = [...(rec.publishDryRuns ?? []), r.dryRun];
+    await Bun.write(`runs/${id}.json`, JSON.stringify(rec, null, 2));
+    return c.json(r);
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : String(err) }, 403);
+  }
 });
 
 // Recorded campaign runs (runs/c-<time>.json), newest first.

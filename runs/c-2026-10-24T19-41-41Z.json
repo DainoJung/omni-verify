@@ -362,6 +362,78 @@
         "recorder": "KR-77 PASSED (VERIFIED source)",
         "surface": "testmd"
       }
+    },
+    {
+      "k": 2,
+      "at": "2026-10-24T19:52:23.729Z",
+      "kaneRunId": "c-2026-10-24T19-41-41Z-rv2",
+      "path": ".testmuai/tests/c-2026-10-24T19-41-41Z-a2_test.md",
+      "version": "a9480fade25c1e68",
+      "verdicts": [
+        {
+          "text": "Learn a language from the videos, articles and PDFs you actually care about.",
+          "assertion": {
+            "type": "text_visible",
+            "value": "videos, articles and PDFs"
+          },
+          "status": "PASS",
+          "reason": "Kane found \"videos, articles and PDFs\" on the page.",
+          "evidence": {
+            "textKey": "claim_1",
+            "textFound": "true",
+            "textStep": 3
+          }
+        },
+        {
+          "text": "Scribo rewrites them at your level, in sections you can finish in about five minutes.",
+          "assertion": {
+            "type": "text_visible",
+            "value": "in sections you can finish"
+          },
+          "status": "PASS",
+          "reason": "Kane found \"in sections you can finish\" on the page.",
+          "evidence": {
+            "textKey": "claim_2",
+            "textFound": "true",
+            "textStep": 4
+          }
+        },
+        {
+          "text": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+          "assertion": {
+            "type": "param_preserved",
+            "value": "ct=threads-oct24"
+          },
+          "status": "PASS",
+          "reason": "The App Store link carries ct=threads-oct24, and Kane landed on App Store app id6794793715.",
+          "evidence": {
+            "handoffHref": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+            "handoffSource": "post link",
+            "handoffStep": null,
+            "landingUrl": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715"
+          }
+        }
+      ],
+      "overall": "PASS",
+      "kane": {
+        "status": "passed",
+        "exitCode": 0,
+        "summary": null,
+        "credits": null,
+        "testUrl": null,
+        "evidencePath": "~/.testmuai/kaneai/sessions/009ba51f-0230-4e43-8378-176665ad8729/evidence/4f9b866b-1e76-49b5-9355-5f27ace90aca.evidence",
+        "recorder": "KR-85 PASSED (VERIFIED source)",
+        "surface": "testmd"
+      }
+    }
+  ],
+  "publishDryRuns": [
+    {
+      "account": "scribo.voca",
+      "version": "a9480fade25c1e68",
+      "at": "2026-10-24T19:52:36.224Z",
+      "kane": "Re-verify 2 (KR-85 PASSED (VERIFIED source))",
+      "text": "Learn a language from the videos, articles and PDFs you actually care about. Scribo rewrites them at your level, in sections you can finish in about five minutes. https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8"
     }
   ]
 }

@@ -5,6 +5,7 @@ import { draftCampaign, MODEL, repairCampaign, type Campaign, type DraftInput, t
 import { compileCampaign, evaluateCampaign, overall, type ClaimVerdict } from "./claims";
 import { replayTest, runKane, type KaneEvent, type KaneRun } from "./kane";
 import { logRun } from "./runlog";
+import { campaignVersion, type DryRun, type Published } from "./publish";
 import { loadMap, mapPath } from "./explore";
 
 export const MAX_ATTEMPTS = 3;
@@ -32,6 +33,8 @@ export type CampaignRecord = {
   // Kane's own recording of the passing attempt: a _test.md that Re-verify replays.
   regression?: { path: string; url: string; recorded_by: string };
   reverifications?: Reverification[];
+  published?: Published;
+  publishDryRuns?: DryRun[];
 };
 
 export type Reverification = {
@@ -39,6 +42,7 @@ export type Reverification = {
   at: string;
   kaneRunId: string;
   path: string;
+  version: string; // campaignVersion of the campaign this replay judged
   kane: Attempt["kane"] & { surface: string | null };
   verdicts: ClaimVerdict[];
   overall: ClaimVerdict["status"];
@@ -127,7 +131,7 @@ export async function reverifyCampaign(id: string, emit: Emit): Promise<Reverifi
   await logRun(kaneRunId, run, { status, reason: verdicts.map((v) => v.reason).join(" ") });
 
   const rv: Reverification = {
-    k, at: run.endedAt, kaneRunId, path: rec.regression.path, verdicts, overall: status,
+    k, at: run.endedAt, kaneRunId, path: rec.regression.path, version: campaignVersion(rec.final), verdicts, overall: status,
     kane: { ...kaneSummary(run), surface: run.result.surface },
   };
   rec.reverifications = [...(rec.reverifications ?? []), rv];

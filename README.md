@@ -23,6 +23,16 @@ You need:
 
 The left panel also lists recorded runs. Clicking one replays it on the same timeline without spending credits, labeled as recorded.
 
+## Publish to Threads (gated)
+
+A Verified card has a **Publish to Threads** button. It stays locked unless the latest Kane result (the last attempt, or the last Re-verify) is a PASS for this exact campaign version (a hash of the copy, link and claims), and the campaign isn't already published. Publishing takes a click and then a confirm that shows the Threads account, the exact text and the Kane result it rests on; the server checks the gate again and needs the confirmed version.
+
+- `PUBLISH_MODE` defaults to dry run: the confirm checks the Threads account and records the attempt, and nothing is posted. Set `PUBLISH_MODE=live` in `.env` (and restart) to post for real.
+- Posting goes through the existing Hermes script, `~/.hermes/scripts/threads_api.py`, with `THREADS_PROFILE` (default `scribo`, i.e. @scribo.voca). The script reads its own token file; Omni Verify never reads or stores a token.
+- The published post URL is stored with the campaign (`runs/c-*.json`, `published`) and shown on the card.
+
+![Publish confirm](docs/publish-confirm.png)
+
 ## The Scribo finding
 
 Scribo (https://scribo.cc) is my own app. Every App Store button on the site has a hard-coded tracking tag (`ct=site-en-hero`, `ct=site-en-nav`, `ct=site-en-get`), and the site never reads the incoming URL's query. So a Threads post that links to `https://scribo.cc?ct=threads-oct24` loses its tag at the button, and App Store Connect credits the install to "site-en-hero". Attribution breaks silently: the post looks right, the click works, the numbers are wrong.

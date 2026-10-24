@@ -188,7 +188,7 @@ const handlers = {
     const ok = rec.status === "verified";
     const last = rec.attempts[rec.attempts.length - 1];
     const final = rec.final ?? last.campaign;
-    node(ok ? "pass" : "fail", ok ? "Verified for launch" : "Needs a human", esc(rec.id), `<div class="card verdict ${ok ? "ok" : "no"}">
+    const card = node(ok ? "pass" : "fail", ok ? "Verified for launch" : "Needs a human", esc(rec.id), `<div class="card verdict ${ok ? "ok" : "no"}">
       <h3>${ok ? "Verified for launch" : "Needs a human"}</h3>
       <div>${ok ? `Kane passed every claim on attempt ${last.n} of ${rec.attempts.length}.` : `Kane still fails after ${rec.attempts.length} attempts.`}</div>
       <div class="k">Final post</div><div class="copy">${esc(final.post_copy)}</div>
@@ -203,6 +203,7 @@ const handlers = {
         <button class="ghost reverify" data-id="${esc(rec.id)}">Re-verify</button>` : ""}</div>`);
     const b = timeline.querySelector(`button.reverify[data-id="${CSS.escape(rec.id)}"]`);
     if (b) b.onclick = () => startReverify(rec.id, b);
+    document.dispatchEvent(new CustomEvent("omni:result", { detail: { rec, el: card } }));
   },
   reverify_start(d) {
     attempts[d.n] = node("live", "Re-verify", "replaying Kane's saved test", `<div class="card">
@@ -214,6 +215,7 @@ const handlers = {
     el.className = `node ${rv.overall === "PASS" ? "pass" : "fail"}`;
     $("h2", el).innerHTML = `Re-verify ${esc(rv.k)}<span class="meta"><span class="tag ${rv.overall}">${rv.overall}</span> ${esc(rv.at.slice(0, 16).replace("T", " "))} UTC</span>`;
     $(".result", el).innerHTML = `<div class="k">Assertions</div>${verdictsHtml(rv.verdicts)}${kaneLinks(rv.kane)}`;
+    document.dispatchEvent(new CustomEvent("omni:reverified", { detail: { id: rv.kaneRunId.replace(/-rv\d+$/, "") } }));
   },
   error(e) {
     node("fail", "Error", "", `<div class="card error">${esc(e.message)}</div>`);
@@ -296,5 +298,6 @@ $("#form").addEventListener("submit", async (e) => {
   }
 });
 </script>
+<script src="/publish.js"></script>
 </body>
 </html>
