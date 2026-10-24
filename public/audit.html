@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Omni Verify: past posts</title>
+<link rel="stylesheet" href="/vendor/basecoat.cdn.min.css">
+<link rel="stylesheet" href="/omni.css">
+</head>
+<body>
+<header class="topnav">
+  <a class="brand" href="/"><span class="brand-mark">O</span><span class="brand-name">Omni Verify</span></a>
+  <nav class="navtabs"><a href="/">1 · Launch gate (Scribo)</a><a href="/features.html">2 · Feature claims (TestMu)</a><a href="/audit.html" aria-current="page">3 · Past posts (Scribo)</a></nav>
+  <span class="tagline">Old posts keep promising the product you used to have. Kane checks them against today's.</span>
+</header>
+<main>
+  <aside>
+    <div class="page-head">
+      <h1>Past posts</h1>
+      <p>Scribo 2.0 (Oct 1) turned a handwriting vocabulary app into a content learning app. @scribo.voca's older posts still promise the old app. Kane reads today's site and checks every promise they make.</p>
+    </div>
+    <div class="card" id="source"><div class="k">Posts</div><div class="hint" style="margin:0">Loading…</div></div>
+    <button id="run" type="button" style="margin-top:16px">Audit past posts</button>
+    <p class="hint">The agent extracts each product promise (Korean original, English gloss). Kane reads scribo.cc/ko and scribo.cc once each. Nothing on Threads is edited, deleted or posted.</p>
+    <div id="past"></div>
+  </aside>
+  <section id="timeline"><p class="empty">The audit appears here: each post's promises, what Kane found on today's site, and a proposed action for each promise the product no longer keeps.</p></section>
+</main>
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const timeline = $("#timeline");
+
+function node(cls, title, meta, body) {
+  const el = document.createElement("div");
+  el.className = `node ${cls}`;
+  el.innerHTML = `<h2>${title}${meta ? `<span class="meta">${meta}</span>` : ""}</h2>${body}`;
+  timeline.appendChild(el);
+  el.scrollIntoView({ behavior: "smooth", block: "end" });
+  return el;
+}
+
+function kaneLinks(k) {
+  return `<div class="links">
+    ${k.testUrl ? `<a href="${esc(k.testUrl)}" target="_blank" rel="noopener">Kane run in Test Manager</a>` : ""}
+    ${k.credits != null ? `<span>${k.credits.toFixed(1)} credits</span>` : ""}
+    <span>Kane: ${esc(k.status ?? "no result")} · exit ${esc(k.exitCode)}</span>
+    ${k.recorder ? `<span>kanehack: ${esc(k.recorder)}</span>` : ""}
+  </div>`;
+}
+
+// Kane's true/false for one site, and the sentence it relied on (for false: only the closest sentence).
+const site = (s, label) => `<div class="ev"><span class="mono">${label}: ${esc(s.value ?? "not reported")}</span>${s.quote
+  ? ` · ${s.value === "true" ? "" : "closest: "}<span class="quote">“${esc(s.quote)}”</span>` : ""}</div>`;
+
+// One row per promise; the post and its proposed action span the post's promises.
+function auditTable(rec, verdicts) {
+  const rows = [];
+  for (const post of rec.posts) {
+    const ps = rec.promises.map((p, i) => ({ p, v: verdicts[i] })).filter((x) => x.p.post_id === post.id);
+    if (!ps.length) continue;
+    const prop = rec.proposals.find((x) => x.post_id === post.id);
+    const action = prop
+      ? `<span class="tag ${prop.action === "archive" ? "FAIL" : "UNVERIFIED"}">${prop.action === "archive" ? "Unpin / archive" : "Rewrite"}</span>
+         ${prop.text_ko ? `<div class="copy ko">${esc(prop.text_ko)}</div><div class="gloss">${esc(prop.gloss_en)}</div>` : ""}
+         <div class="why-line">${esc(prop.reason)}</div>`
+      : ps.some((x) => x.v?.status === "FAIL") ? `<span class="hint">No proposal</span>` : `<span class="hint">Keep: every promise still holds.</span>`;
+    ps.forEach((x, j) => {
+      rows.push(`<tr>
+        ${j === 0 ? `<td rowspan="${ps.length}" class="post"><div class="mono">${esc(post.timestamp.slice(0, 10))}</div>
+          <a class="mono" href="${esc(post.permalink)}" target="_blank" rel="noopener">${esc(post.id)}</a>
+          <div class="copy post-text">${esc(post.text)}</div></td>` : ""}
+        <td><div class="ko">${esc(x.p.ko)}</div><div class="gloss">${esc(x.p.en)}</div></td>
+        <td>${x.v ? `<span class="tag ${x.v.status}">${x.v.status}</span><div class="why-line">${esc(x.v.reason)}</div>${site(x.v.ko, "scribo.cc/ko")}${site(x.v.en, "scribo.cc")}` : `<span class="tag st">…</span>`}</td>
+        ${j === 0 ? `<td rowspan="${ps.length}" class="action">${action}</td>` : ""}
+      </tr>`);
+    });
+  }
+  return `<div class="table-wrap"><table class="audit"><thead><tr><th>Post</th><th>Promise</th><th>Kane, today's site</th><th>Proposed action</th></tr></thead><tbody>${rows.join("")}</tbody></table></div>`;
+}
+
+const checks = {};
+const handlers = {
+  promises(d) {
+    node("draft", "Promises in past posts", `${esc(d.id)} · ${d.promises.length} promises in ${new Set(d.promises.map((p) => p.post_id)).size} of ${d.posts.length} posts`,
+      `<div class="card">${d.promises.map((p) => `<div class="row"><span class="tag">${esc(p.post_id.slice(0, 6))}</span><span class="ko">${esc(p.ko)}</span><span class="act">${esc(p.en)}</span></div>`).join("")}</div>`);
+  },
+  kane_start(d) {
+    checks[d.lang] = node("live", `Kane reads ${d.lang === "ko" ? "scribo.cc/ko" : "scribo.cc"}`, "Kane running", `<div class="card">
+      <div class="k">Start URL</div><div class="mono">${esc(d.url)}</div>
+      <div class="k">Objective</div><div class="mono">${esc(d.objective)}</div>
+      <div class="k">Kane's steps</div><ul class="steps"></ul><div class="result"></div></div>`);
+  },
+  kane({ lang, ev }) {
+    const el = checks[lang]; if (!el || ev.kind !== "step") return;
+    const ul = $(".steps", el);
+    let li = ul.querySelector(`[data-step="${ev.step}"]`);
+    if (!li) { li = document.createElement("li"); li.dataset.step = ev.step; ul.appendChild(li); }
+    li.className = ev.status;
+    li.textContent = ev.status === "running" ? `${ev.remark} …` : ev.remark;
+  },
+  kane_end(c) {
+    const el = checks[c.lang]; if (!el) return;
+    el.className = `node ${c.kane.status === "passed" ? "pass" : "fail"}`;
+    $("h2 .meta", el).textContent = c.kaneRunId;
+    $(".result", el).innerHTML = `${c.test ? `<div class="k">Recorded test (Re-audit replays it)</div><div class="mono">${esc(c.test)}</div>` : ""}${kaneLinks(c.kane)}`;
+  },
+  verdicts() {},
+  result(rec) {
+    const fail = rec.verdicts.filter((v) => v.status === "FAIL").length;
+    const pass = rec.verdicts.filter((v) => v.status === "PASS").length;
+    const unv = rec.verdicts.length - fail - pass;
+    const ok = fail === 0 && unv === 0;
+    const card = node(ok ? "pass" : "fail", "Audit", esc(rec.id), `<div class="card verdict ${ok ? "ok" : "no"}">
+      <h3>${ok ? "Every past promise still holds" : `${fail} promise${fail === 1 ? "" : "s"} the product no longer keeps`}</h3>
+      <div>${pass} still true on today's site · ${fail} no longer true${unv ? ` · ${unv} unverified` : ""} · ${rec.posts.length} posts from ${esc(rec.account)} (${esc(rec.posts_source)})</div>
+      ${rec.error ? `<div class="card error" style="margin-top:12px">${esc(rec.error)}</div>` : ""}
+      <div class="k">Each promise against today's product</div>${auditTable(rec, rec.verdicts)}
+      <div class="links">${rec.checks.map((c) => `${c.kane.testUrl ? `<a href="${esc(c.kane.testUrl)}" target="_blank" rel="noopener">Kane on ${c.lang === "ko" ? "scribo.cc/ko" : "scribo.cc"}</a>` : ""}<span>${esc(c.kane.recorder ?? "")}</span>`).join("")}
+        <a href="/api/audit/${esc(rec.id)}" target="_blank">Full audit record (JSON)</a></div>
+      <div class="actions"><div class="k">After the next release</div>
+        <div class="hint" style="margin-top:0">Re-audit replays Kane's recorded tests on today's site and judges every promise again. Nothing on Threads changes.</div>
+        <button class="ghost reaudit" data-id="${esc(rec.id)}" ${rec.checks.some((c) => c.test) ? "" : "disabled"}>Re-audit</button>
+        <div class="reaudits">${(rec.reaudits ?? []).map((ra) => reauditHtml(rec, ra)).join("")}</div></div></div>`);
+    const b = $("button.reaudit", card);
+    if (b) b.onclick = () => startReaudit(rec, b);
+  },
+  reaudit(ra) {},
+  error(e) {
+    node("fail", "Error", "", `<div class="card error">${esc(e.message)}</div>`);
+  },
+};
+
+function reauditHtml(rec, ra) {
+  const changed = ra.verdicts.map((v, i) => ({ v, was: rec.verdicts[i], p: rec.promises[i] })).filter((x) => x.v.status !== x.was?.status);
+  return `<div class="card" style="margin-top:12px"><div class="k">Re-audit ${esc(ra.k)} · ${esc(ra.at.slice(0, 16).replace("T", " "))} UTC</div>
+    <div>${ra.verdicts.filter((v) => v.status === "PASS").length} PASS · ${ra.verdicts.filter((v) => v.status === "FAIL").length} FAIL · ${ra.verdicts.filter((v) => v.status === "UNVERIFIED").length} UNVERIFIED${changed.length ? "" : " · no change from the audit"}</div>
+    ${changed.map((x) => `<div class="row"><span class="tag ${x.v.status}">${x.v.status}</span><span>${esc(x.p.en)} <span class="hint">(was ${esc(x.was?.status)})</span></span></div>`).join("")}
+    ${ra.checks.map((c) => kaneLinks(c.kane)).join("")}</div>`;
+}
+
+async function stream(res) {
+  const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
+  let buf = "";
+  for (;;) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buf += value;
+    let i;
+    while ((i = buf.indexOf("\n\n")) >= 0) {
+      const block = buf.slice(0, i); buf = buf.slice(i + 2);
+      const ev = /^event: (.*)$/m.exec(block)?.[1];
+      const data = block.split("\n").filter((l) => l.startsWith("data: ")).map((l) => l.slice(6)).join("\n");
+      if (ev && handlers[ev]) handlers[ev](JSON.parse(data));
+    }
+  }
+}
+
+// Replay a recorded audit from runs/: same view, no Kane credits.
+async function replay(id) {
+  const rec = await (await fetch(`/api/audit/${encodeURIComponent(id)}`)).json();
+  timeline.innerHTML = `<p class="hint">Recorded audit ${esc(rec.id)}, replayed from runs/. Not live: press "Audit past posts" for new Kane runs.</p>`;
+  handlers.promises({ id: rec.id, posts: rec.posts, promises: rec.promises });
+  for (const c of rec.checks) {
+    handlers.kane_start({ lang: c.lang, url: c.url, objective: c.objective, kaneRunId: c.kaneRunId });
+    for (const s of c.steps) handlers.kane({ lang: c.lang, ev: { kind: "step", status: "done", ...s } });
+    handlers.kane_end(c);
+  }
+  if (rec.status === "done") handlers.result(rec);
+}
+
+async function startReaudit(rec, btn) {
+  btn.disabled = true; btn.textContent = "Replaying Kane's tests…";
+  try {
+    const res = await fetch(`/api/audit/${encodeURIComponent(rec.id)}/reaudit`, { method: "POST" });
+    if (!res.ok) handlers.error({ message: (await res.json()).error ?? res.statusText });
+    else await stream(res);
+  } catch (err) {
+    handlers.error({ message: String(err) });
+  } finally {
+    replay(rec.id);
+  }
+}
+
+async function loadSource() {
+  const s = await (await fetch("/api/audit/posts")).json();
+  $("#source").innerHTML = `<div class="k">Posts (${esc(s.source)})</div>
+    ${s.posts.map((p) => `<div class="mono"><a href="${esc(p.permalink)}" target="_blank" rel="noopener">${esc(p.timestamp.slice(0, 10))} · ${esc(p.id)}</a></div>`).join("")}
+    <div class="hint">${s.source === "threads-api" ? "From the Threads API (read-only)." : "Read by Kane from the public post pages. The full list comes from the Threads API (read-only) when it is approved on this machine."}</div>
+    <button class="ghost refresh" style="margin-top:12px">Refresh from Threads API</button><div class="msg"></div>`;
+  const b = $("#source button.refresh");
+  b.onclick = async () => {
+    b.disabled = true; b.textContent = "Reading @scribo.voca…";
+    const res = await fetch("/api/audit/posts?refresh=1");
+    if (res.ok) return loadSource();
+    $("#source .msg").innerHTML = `<div class="error">${esc((await res.json()).error)}</div>`;
+    b.disabled = false; b.textContent = "Refresh from Threads API";
+  };
+}
+
+async function loadPast() {
+  const list = await (await fetch("/api/audit")).json();
+  if (!list.length) return;
+  $("#past").innerHTML = `<label>Recorded audits</label>` + list.map((r) =>
+    `<button class="ghost" data-id="${esc(r.id)}"><span class="tag ${r.fail ? "FAIL" : "PASS"}">${r.fail} FAIL</span> ${esc(r.id.slice(2, 18))} · ${r.promises} promises${r.reaudits ? ` · ${r.reaudits} re-audit${r.reaudits > 1 ? "s" : ""}` : ""}</button>`).join("");
+  for (const b of document.querySelectorAll("#past button")) b.onclick = () => replay(b.dataset.id);
+}
+loadSource();
+loadPast();
+
+$("#run").addEventListener("click", async () => {
+  const btn = $("#run");
+  btn.disabled = true; btn.textContent = "Running…";
+  timeline.innerHTML = "";
+  try {
+    const res = await fetch("/api/audit/run", { method: "POST" });
+    if (!res.ok) handlers.error({ message: (await res.json()).error ?? res.statusText });
+    else await stream(res);
+  } catch (err) {
+    handlers.error({ message: String(err) });
+  } finally {
+    btn.disabled = false; btn.textContent = "Audit past posts";
+    loadPast();
+  }
+});
+</script>
+</body>
+</html>

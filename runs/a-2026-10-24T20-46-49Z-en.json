@@ -1,0 +1,154 @@
+{
+  "id": "a-2026-10-24T20-46-49Z-en",
+  "objective": "Scroll down through the whole page once, to the bottom.  Then, for each statement below about the product, decide whether this page says the product does this today, and store the answer, true or false, without searching further or leaving the page: store whether the page says that Scribo is a vocabulary notebook where you save words by handwriting them as 'claim_1'; store whether the page says that Scribo has an iPhone version as 'claim_2'; store whether the page says that Scribo has a review feature as 'claim_3'; store whether the page says that Scribo automatically surfaces saved words you have not reviewed as 'claim_4'; store whether the page says that Scribo lets you review words by writing them again by hand as 'claim_5'; store whether the page says that Scribo is a handwritten vocabulary notebook as 'claim_6'. Then, for each statement, store the one sentence on the page closest to it, copied exactly, or none, as 'quote_1', 'quote_2', 'quote_3', 'quote_4', 'quote_5', 'quote_6'.",
+  "url": "https://scribo.cc",
+  "startedAt": "2026-10-24T20:48:05.429Z",
+  "endedAt": "2026-10-24T20:49:15.568Z",
+  "exitCode": 0,
+  "result": {
+    "surface": "run",
+    "completed": true,
+    "status": "passed",
+    "resultCode": 100,
+    "reasonCode": "success.complete",
+    "summary": "Scrolled through the Scribo homepage from top to bottom as requested.\nThe page states that Scribo is available on iPhone and includes a quiz-based review feature that brings saved words back before you would forget them.\nThe page does not describe Scribo as a handwritten vocabulary notebook for saving words, nor does it say words are reviewed by handwriting them again; it does mention writing answers with Apple Pencil on iPad.\nCompleted the page review successfully.",
+    "oneLiner": "reviewed the Scribo homepage on scribo.cc",
+    "reason": "Objective completed",
+    "finalState": {
+      "url": "https://scribo.cc/",
+      "iPhone availability": "Yes",
+      "review feature": "Yes",
+      "saved-word resurfacing": "Yes",
+      "handwritten vocabulary notebook claim": "No",
+      "handwritten review claim": "No",
+      "review feature quote": "Words you saved come back in your quiz just before you'd forget them.",
+      "iPad handwriting quote": "On iPad, write your answers with Apple Pencil."
+    },
+    "memory": {
+      "claim_1": {
+        "value": "false",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'false' (stored, no comparison)"
+      },
+      "claim_5": {
+        "value": "false",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'false' (stored, no comparison)"
+      },
+      "claim_6": {
+        "value": "false",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'false' (stored, no comparison)"
+      },
+      "claim_2": {
+        "value": "true",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'true' (stored, no comparison)"
+      },
+      "claim_3": {
+        "value": "true",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'true' (stored, no comparison)"
+      },
+      "claim_4": {
+        "value": "true",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'true' (stored, no comparison)"
+      },
+      "quote_1": {
+        "value": "Same account, same notebook.",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'Same account, same notebook.' (stored, no comparison)"
+      },
+      "quote_2": {
+        "value": "Free to download.",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'Free to download.' (stored, no comparison)"
+      },
+      "quote_3": {
+        "value": "Words you saved come back in your quiz just before you'd forget them.",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: \"Words you saved come back in your quiz just before you'd forget them.\" (stored, no comparison)"
+      },
+      "quote_4": {
+        "value": "Words you saved come back in your quiz just before you'd forget them.",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: \"Words you saved come back in your quiz just before you'd forget them.\" (stored, no comparison)"
+      },
+      "quote_5": {
+        "value": "On iPad, write your answers with Apple Pencil.",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'On iPad, write your answers with Apple Pencil.' (stored, no comparison)"
+      },
+      "quote_6": {
+        "value": "Same account, same notebook.",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'Same account, same notebook.' (stored, no comparison)"
+      }
+    },
+    "credits": 19.4149125,
+    "durationSec": 57.1,
+    "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QTQDV9Q154KV9TFVHC4ZZZ/dashboard/share/US_2HRNI5QOS1S0AERPMKK7JQEXBRXMVFEZ9C765WS3XL1P97GYOUUBLEJ4KG1MAR4J?type=summary&agentView=true&fqdn=summary-page",
+    "evidencePath": "~/.testmuai/kaneai/sessions/11e01c8a-07fc-4ca6-9622-27870c8e4b1f/evidence/506d157b-d4c1-4daa-b0d4-7959ed2faac5.evidence",
+    "steps": [
+      {
+        "step": 2,
+        "status": "done",
+        "remark": "navigate: Navigate to https://scribo.cc",
+        "ts": "2026-10-24T20:48:13.243Z"
+      },
+      {
+        "step": 3,
+        "status": "done",
+        "remark": "scroll: Scrolling to the bottom of the Scribo homepage window",
+        "ts": "2026-10-24T20:48:28.619Z"
+      },
+      {
+        "step": 4,
+        "status": "done",
+        "remark": "analyze: ANALYZE(textual_visual, 'The one sentence on the page closest to whether the pag",
+        "ts": "2026-10-24T20:48:58.833Z"
+      },
+      {
+        "step": 5,
+        "status": "done",
+        "remark": "wait: Waiting after confirming the Scribo homepage footer is present at the bottom",
+        "ts": "2026-10-24T20:49:03.566Z"
+      }
+    ]
+  },
+  "ndjson": "runs/a-2026-10-24T20-46-49Z-en.ndjson",
+  "recorder": {
+    "runId": "KR-126",
+    "verdict": "ERRORED (UNVERIFIED)",
+    "proofUrl": "https://kaneclihack.sh/t/omni/proof#run-126"
+  },
+  "verdict": {
+    "status": "PASS",
+    "reason": "Audit read of https://scribo.cc: 1=false 2=true 3=true 4=true 5=false 6=false"
+  }
+}

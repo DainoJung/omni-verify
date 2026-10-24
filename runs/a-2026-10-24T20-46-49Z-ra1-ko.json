@@ -1,0 +1,205 @@
+{
+  "id": "a-2026-10-24T20-46-49Z-ra1-ko",
+  "objective": "testmd run .testmuai/tests/a-2026-10-24T20-46-49Z-ko_test.md",
+  "url": "https://scribo.cc/ko/",
+  "startedAt": "2026-10-24T20:49:37.411Z",
+  "endedAt": "2026-10-24T20:49:50.819Z",
+  "exitCode": 0,
+  "result": {
+    "surface": "testmd",
+    "completed": true,
+    "status": "passed",
+    "resultCode": null,
+    "reasonCode": null,
+    "summary": null,
+    "oneLiner": null,
+    "reason": null,
+    "finalState": {},
+    "memory": {
+      "claim_1": {
+        "value": "false",
+        "step": 3,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading the handwritten vocabulary-notebook claim"
+      },
+      "claim_4": {
+        "value": "true",
+        "step": 4,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading the saved-word resurfacing claim"
+      },
+      "claim_5": {
+        "value": "false",
+        "step": 5,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading the handwritten review claim"
+      },
+      "claim_6": {
+        "value": "false",
+        "step": 6,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading the handwritten vocabulary-notebook description"
+      },
+      "quote_2": {
+        "value": "무료로 받을 수 있어요.",
+        "step": 7,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Extracting the closest sentence for the iPhone-version claim"
+      },
+      "quote_3": {
+        "value": "저장한 단어는 잊을 때쯤 다시 나와요.",
+        "step": 8,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Extracting the closest sentence for the review-feature claim"
+      },
+      "quote_4": {
+        "value": "저장한 단어는 잊을 때쯤 다시 나와요.",
+        "step": 9,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Extracting the closest sentence for the saved-word resurfacing claim"
+      },
+      "claim_2": {
+        "value": "iPhone과 iPad",
+        "step": 10,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading the iPhone-version claim"
+      },
+      "claim_3": {
+        "value": "true",
+        "step": 11,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading the review-feature claim"
+      },
+      "quote_1": {
+        "value": "none",
+        "step": 12,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Storing the closest sentence for the handwritten vocabulary-notebook claim"
+      },
+      "quote_5": {
+        "value": "none",
+        "step": 13,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Storing the closest sentence for the handwritten review claim"
+      },
+      "quote_6": {
+        "value": "none",
+        "step": 14,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Storing the closest sentence for the handwritten vocabulary-notebook description"
+      }
+    },
+    "credits": null,
+    "durationSec": null,
+    "testUrl": null,
+    "evidencePath": "~/.testmuai/kaneai/sessions/a3d08f6a-0c7b-48ad-a8f4-20eed368e991/evidence/286a6a8a-f664-47a1-a3c3-2fbc867a75c1.evidence",
+    "steps": [
+      {
+        "step": 1,
+        "status": "done",
+        "remark": "navigate: Navigate to https://scribo.cc/ko/",
+        "ts": "2026-10-24T20:49:40.904Z"
+      },
+      {
+        "step": 2,
+        "status": "done",
+        "remark": "scroll: Scrolling to the bottom of the page",
+        "ts": "2026-10-24T20:49:42.618Z"
+      },
+      {
+        "step": 3,
+        "status": "done",
+        "remark": "analyze: Reading the handwritten vocabulary-notebook claim",
+        "ts": "2026-10-24T20:49:42.686Z"
+      },
+      {
+        "step": 4,
+        "status": "done",
+        "remark": "analyze: Reading the saved-word resurfacing claim",
+        "ts": "2026-10-24T20:49:42.739Z"
+      },
+      {
+        "step": 5,
+        "status": "done",
+        "remark": "analyze: Reading the handwritten review claim",
+        "ts": "2026-10-24T20:49:42.773Z"
+      },
+      {
+        "step": 6,
+        "status": "done",
+        "remark": "analyze: Reading the handwritten vocabulary-notebook description",
+        "ts": "2026-10-24T20:49:42.826Z"
+      },
+      {
+        "step": 7,
+        "status": "done",
+        "remark": "analyze: Extracting the closest sentence for the iPhone-version claim",
+        "ts": "2026-10-24T20:49:42.857Z"
+      },
+      {
+        "step": 8,
+        "status": "done",
+        "remark": "analyze: Extracting the closest sentence for the review-feature claim",
+        "ts": "2026-10-24T20:49:42.904Z"
+      },
+      {
+        "step": 9,
+        "status": "done",
+        "remark": "analyze: Extracting the closest sentence for the saved-word resurfacing claim",
+        "ts": "2026-10-24T20:49:42.956Z"
+      },
+      {
+        "step": 10,
+        "status": "done",
+        "remark": "analyze: Reading the iPhone-version claim",
+        "ts": "2026-10-24T20:49:47.907Z"
+      },
+      {
+        "step": 11,
+        "status": "done",
+        "remark": "analyze: Reading the review-feature claim",
+        "ts": "2026-10-24T20:49:47.976Z"
+      },
+      {
+        "step": 12,
+        "status": "done",
+        "remark": "analyze: Storing the closest sentence for the handwritten vocabulary-notebook claim",
+        "ts": "2026-10-24T20:49:48.014Z"
+      },
+      {
+        "step": 13,
+        "status": "done",
+        "remark": "analyze: Storing the closest sentence for the handwritten review claim",
+        "ts": "2026-10-24T20:49:48.046Z"
+      },
+      {
+        "step": 14,
+        "status": "done",
+        "remark": "analyze: Storing the closest sentence for the handwritten vocabulary-notebook description",
+        "ts": "2026-10-24T20:49:48.097Z"
+      }
+    ]
+  },
+  "ndjson": "runs/a-2026-10-24T20-46-49Z-ra1-ko.ndjson",
+  "recorder": {
+    "runId": "KR-129",
+    "verdict": "PASSED (VERIFIED source)",
+    "proofUrl": "https://kaneclihack.sh/t/omni/proof#run-129"
+  },
+  "verdict": {
+    "status": "PASS",
+    "reason": "Re-audit replay of .testmuai/tests/a-2026-10-24T20-46-49Z-ko_test.md"
+  }
+}
