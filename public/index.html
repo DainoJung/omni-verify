@@ -104,7 +104,9 @@ const handlers = {
       <div class="k">Grounded in</div>${d.explore
         ? `<div>Kane Explore map, ${esc(d.explore.screens)} screen${d.explore.screens === 1 ? "" : "s"}, explored ${esc(d.explore.explored_at.slice(0, 16).replace("T", " "))} UTC</div>
            <div class="mono">${d.explore.handoffs.map((h) => `App Store hand-off: ${esc(h)}`).join("<br>")}</div>`
-        : `<div>The page's text only: no Kane Explore map for this app yet.</div>`}</div>`);
+        : `<div>The page's text only: no Kane Explore map for this app yet.</div>`}
+      ${d.memory ? `<div>Grounded in: ${esc(d.memory.confirmed)} confirmed facts, ${esc(d.memory.retired)} retired promises excluded (<a href="/api/memory" target="_blank">product memory</a>)</div>
+        <div class="hint" style="margin:0">Memory check: ${d.memory.check && !d.memory.check.retired.length && !d.memory.check.unconfirmed.length && !d.memory.check.terms.length ? "no retired promise, every sentence a confirmed fact" : "not run"}${d.memory.rejected?.length ? ` · ${d.memory.rejected.length} earlier draft${d.memory.rejected.length > 1 ? "s" : ""} refused: ${esc(d.memory.rejected.join(" | "))}` : ""}</div>` : ""}</div>`);
   },
   attempt_start(d) {
     const el = node("live", `Kane run ${d.n}`, "running", `<div class="card">
@@ -195,7 +197,11 @@ async function stream(res) {
 async function replay(id) {
   const rec = await (await fetch(`/api/campaigns/${encodeURIComponent(id)}`)).json();
   timeline.innerHTML = `<p class="hint">Recorded run ${esc(rec.id)}, replayed from runs/. Not live: press "Draft and verify" for a new Kane run.</p>`;
-  handlers.draft({ id: rec.id, model: rec.model, campaign: rec.draft, explore: rec.explore ?? null });
+  handlers.draft({ id: rec.id, model: rec.model, campaign: rec.draft, explore: rec.explore ?? null, memory: rec.memory ?? null });
+  if (rec.status === "draft_only") {
+    timeline.insertAdjacentHTML("beforeend", `<p class="hint">Draft only (OpenAI, no Kane run). Goal: ${esc(rec.input.goal)}</p>`);
+    return;
+  }
   rec.attempts.forEach((a, i) => {
     handlers.attempt_start({ n: a.n, ...a.compiled });
     for (const s of rec.steps[i] ?? []) handlers.kane({ n: a.n, ev: { kind: "step", ...s } });
@@ -228,7 +234,7 @@ async function loadPast() {
   const list = await (await fetch("/api/campaigns")).json();
   if (!list.length) return;
   $("#past").innerHTML = `<label>Recorded runs</label>` + list.map((r) =>
-    `<button class="ghost" data-id="${esc(r.id)}"><span class="tag ${r.status === "verified" ? "PASS" : "FAIL"}">${r.status === "verified" ? "VERIFIED" : "HUMAN"}</span> ${esc(r.id.slice(2, 18))} · ${r.attempts} run${r.attempts > 1 ? "s" : ""}</button>`).join("");
+    `<button class="ghost" data-id="${esc(r.id)}"><span class="tag ${r.status === "verified" ? "PASS" : r.status === "draft_only" ? "UNVERIFIED" : "FAIL"}">${r.status === "verified" ? "VERIFIED" : r.status === "draft_only" ? "DRAFT" : "HUMAN"}</span> ${esc(r.id.slice(2, 18))} · ${r.status === "draft_only" ? "memory proof, no Kane" : `${r.attempts} run${r.attempts > 1 ? "s" : ""}`}</button>`).join("");
   for (const b of document.querySelectorAll("#past button")) b.onclick = () => replay(b.dataset.id);
 }
 loadPast();

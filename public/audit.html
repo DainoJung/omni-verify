@@ -118,18 +118,37 @@ const handlers = {
       <div class="k">Each promise against today's product</div>${auditTable(rec, rec.verdicts)}
       <div class="links">${rec.checks.map((c) => `${c.kane.testUrl ? `<a href="${esc(c.kane.testUrl)}" target="_blank" rel="noopener">Kane on ${c.lang === "ko" ? "scribo.cc/ko" : "scribo.cc"}</a>` : ""}<span>${esc(c.kane.recorder ?? "")}</span>`).join("")}
         <a href="/api/audit/${esc(rec.id)}" target="_blank">Full audit record (JSON)</a></div>
+      <div class="memory-slot"></div>
       <div class="actions"><div class="k">After the next release</div>
         <div class="hint" style="margin-top:0">Re-audit replays Kane's recorded tests on today's site and judges every promise again. Nothing on Threads changes.</div>
         <button class="ghost reaudit" data-id="${esc(rec.id)}" ${rec.checks.some((c) => c.test) ? "" : "disabled"}>Re-audit</button>
         <div class="reaudits">${(rec.reaudits ?? []).map((ra) => reauditHtml(rec, ra)).join("")}</div></div></div>`);
     const b = $("button.reaudit", card);
     if (b) b.onclick = () => startReaudit(rec, b);
+    if (rec.memory) renderMemory(rec.memory, $(".memory-slot", card));
   },
   reaudit(ra) {},
   error(e) {
     node("fail", "Error", "", `<div class="card error">${esc(e.message)}</div>`);
   },
 };
+
+// What Kane's verdicts taught the drafting agent (memory/product-facts.json).
+async function renderMemory(m, slot) {
+  const facts = await (await fetch("/api/memory")).json();
+  const run = (r) => r.test_url ? `<a href="${esc(r.test_url)}" target="_blank" rel="noopener">${esc(r.id)}</a>` : esc(r.id);
+  slot.innerHTML = `<div class="card" style="margin-top:12px">
+    <h3 style="margin:0 0 6px">Agent memory updated: ${esc(m.retired)} promise${m.retired === 1 ? "" : "s"} retired, ${esc(m.confirmed)} confirmed. Next drafts use today's product.</h3>
+    <div class="hint" style="margin-top:0">Memory now holds ${esc(m.totals.confirmed)} confirmed facts and ${esc(m.totals.retired)} retired promises${m.totals.unverified ? `, ${esc(m.totals.unverified)} unverified (neither)` : ""}. The drafting agent may only promise confirmed facts, and a draft that repeats a retired promise is refused.</div>
+    <div class="k">Retired: never promise again</div>
+    ${facts.retired.map((r) => `<div class="row"><span class="tag FAIL">RETIRED</span><span><span class="ko">${esc(r.original)}</span> <span class="gloss">${esc(r.claim)}</span>
+      <div class="why-line">${esc(r.evidence)} · post <a href="${esc(r.post.permalink)}" target="_blank" rel="noopener">${esc(r.post.id)}</a> · Kane ${run(r.run)}</div></span></div>`).join("")}
+    <div class="k">Confirmed: what the product does today</div>
+    ${facts.confirmed.map((f) => `<div class="row"><span class="tag PASS">CONFIRMED</span><span>${esc(f.claim)}
+      <div class="why-line">Kane relied on: <span class="quote">“${esc(f.sentence)}”</span> on ${esc(f.page)} · ${run(f.run)}</div></span></div>`).join("")}
+    ${facts.unverified.length ? `<div class="k">Unverified: neither</div>${facts.unverified.map((u) => `<div class="row"><span class="tag UNVERIFIED">UNVERIFIED</span><span>${esc(u.claim)}</span></div>`).join("")}` : ""}
+    <div class="links"><a href="/api/memory" target="_blank">Memory (memory/product-facts.json)</a></div></div>`;
+}
 
 function reauditHtml(rec, ra) {
   const changed = ra.verdicts.map((v, i) => ({ v, was: rec.verdicts[i], p: rec.promises[i] })).filter((x) => x.v.status !== x.was?.status);

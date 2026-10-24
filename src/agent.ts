@@ -3,6 +3,7 @@
 
 import type { Assertion } from "./claims";
 import type { ExploreMap } from "./explore";
+import { checkDraft, checkError, memoryForPrompt, type MemoryCheck, type ProductFacts } from "./memory";
 
 export type Claim = { text: string; assertion: Assertion };
 export type Campaign = { post_copy: string; cta_url: string; campaign_tag: string; claims: Claim[] };
@@ -80,7 +81,8 @@ Rules:
 - post_copy: fits the channel named in the goal, under 400 characters. One to three complete, natural sentences written for the audience, each stating one fact about the app that the page text shows, then the cta_url as the last thing. No other sentences: no filler, no hashtags, no call to action without a fact. Never state a price, discount, rating or number the page text does not show word for word.
 - claims, so that no line of the post is unverified:
   - exactly one claim that installs from this post are credited to this campaign: {"type":"param_preserved","value":"ct=<campaign_tag>"}. The link that hands the user off to the App Store must carry this post's own ct value.
-  - one claim per sentence of post_copy: its text is that sentence copied exactly, and its assertion is {"type":"text_visible","value":"<phrase>"}, where the phrase is 3 to 12 words copied exactly from the page text that prove the sentence. No double quotes in the phrase.`;
+  - one claim per sentence of post_copy: its text is that sentence copied exactly, and its assertion is {"type":"text_visible","value":"<phrase>"}, where the phrase is 3 to 12 words copied exactly from the page text that prove the sentence. No double quotes in the phrase.
+- Product memory, when given, is what Kane last confirmed about the product. Every sentence must state one confirmed fact. Never promise, hint at or invite people back to a retired promise, in any wording or language, even when the goal or audience points at it: the product no longer does it.`;
 
 // The parts of an Explore map a copywriter needs, kept small.
 export function mapForPrompt(m: ExploreMap): string {
@@ -93,25 +95,38 @@ export function mapForPrompt(m: ExploreMap): string {
   }, null, 1);
 }
 
-export async function draftCampaign(input: DraftInput, map: ExploreMap | null, today = new Date()): Promise<Campaign> {
+// What the draft was grounded in, for the Draft step: memory counts, the final check, and earlier rejections.
+export type DraftMemory = { path: string; confirmed: number; retired: number; unverified: number; check: MemoryCheck | null; rejected: string[] };
+
+export async function draftCampaign(input: DraftInput, map: ExploreMap | null, facts: ProductFacts | null = null, today = new Date()): Promise<{ campaign: Campaign; memory: DraftMemory | null }> {
   const text = await pageText(input.app_url);
   const user = [
     `App URL: ${input.app_url}`,
     `Growth goal: ${input.goal}`,
     `Audience: ${input.audience}`,
     `Today: ${today.toISOString().slice(0, 10)}`,
+    facts ? `Product memory from Kane:\n${memoryForPrompt(facts)}` : "Product memory: none yet.",
     map ? `Kane Explore map of the site:\n${mapForPrompt(map)}` : "Kane Explore map: none yet for this app.",
     `Visible text of the app URL:\n${text}`,
   ].join("\n");
+  const memory: DraftMemory | null = facts && {
+    path: "memory/product-facts.json", confirmed: facts.confirmed.length, retired: facts.retired.length, unverified: facts.unverified.length, check: null, rejected: [],
+  };
   let lastError = "";
-  // One retry, telling the model which rule it broke.
+  // One retry, telling the model which rule it broke (contract or product memory).
   for (let i = 0; i < 2; i++) {
     const c = await callJson<Campaign>(DRAFT_SYSTEM, lastError ? `${user}\n\nYour previous draft was rejected: ${lastError}` : user, CAMPAIGN_SCHEMA, "campaign");
     try {
       validateCampaign(c);
-      return c;
+      if (facts && memory) {
+        memory.check = await checkDraft(c, facts);
+        const slip = checkError(memory.check);
+        if (slip) throw new Error(`Product memory: ${slip}`);
+      }
+      return { campaign: c, memory };
     } catch (err) {
       lastError = err instanceof Error ? err.message : String(err);
+      memory?.rejected.push(lastError);
     }
   }
   throw new Error(`Draft rejected twice: ${lastError}`);

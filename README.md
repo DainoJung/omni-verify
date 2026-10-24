@@ -76,6 +76,22 @@ Audit [a-…20-46-49Z](runs/a-2026-10-24T20-46-49Z.json), Kane KR-125 (scribo.cc
 
 ![Past posts audit](docs/audit-table.png)
 
+## The agent learns the product from Kane, not from old posts
+
+Rewriting old posts isn't enough: the writing agent must never repeat a retired promise. So Kane's verdicts become the agent's memory, [memory/product-facts.json](memory/product-facts.json):
+
+- **Confirmed**: promises Kane found on today's site, with the exact sentence it relied on, the page, the run and the date. From the audit's PASSes and the launch gate's sentence checks (6 today).
+- **Retired**: promises Kane found the site no longer makes, with Kane's FAIL evidence, the run, the date and the old post (3 today: 손글씨 단어장 / the handwriting vocabulary notebook, review by writing words again by hand, Scribo 손글씨 단어장).
+- **Unverified**: Kane gave no answer. Neither confirmed nor retired.
+
+The audit and Re-audit merge their verdicts in when Kane finishes: a PASS confirms, a FAIL retires, and an UNVERIFIED never overrides either. A verified campaign adds the sentences Kane found. The drafting agent gets the memory in its prompt, may only state confirmed facts, and every draft is checked before it's accepted: an exact-wording guard for retired promises, then one model check for rewordings and unconfirmed sentences. A draft that slips is refused and redrafted once with the reason. The Draft step shows "Grounded in: N confirmed facts, M retired promises excluded".
+
+**Proof (OpenAI only, no Kane).** Goal: "Get Korean learners who used to journal vocabulary by hand to try Scribo again", a goal that invites the old promise. The draft ([runs/c-2026-10-24T21-05-53Z.json](runs/c-2026-10-24T21-05-53Z.json), replayable as DRAFT in the campaign page's recorded runs) only states confirmed facts:
+
+> Learn a language from the videos, articles and PDFs you actually care about. Words you saved come back in your quiz just before you'd forget them. https://scribo.cc/?ct=threads-oct24
+
+No handwriting notebook, memory check clean, nothing refused. To be honest about what that proves: two control drafts with memory turned off didn't promise handwriting either, because the agent already drafts from today's page text. What memory adds is the hard stop. Given two planted drafts, the check refused both: "Miss your handwriting vocabulary notebook?" (caught by the exact-wording guard and the model) and the reworded "Write each new word by hand again, and Scribo saves it in your notebook for review." (caught by the model alone), while a clean sentence passed.
+
 ## The Scribo finding
 
 Scribo (https://scribo.cc) is my own app. Every App Store button on the site has a hard-coded tracking tag (`ct=site-en-hero`, `ct=site-en-nav`, `ct=site-en-get`), and the site never reads the incoming URL's query. So a Threads post that links to `https://scribo.cc?ct=threads-oct24` loses its tag at the button, and App Store Connect would credit the install to "site-en-hero". Attribution breaks silently: the post looks right, the click works, the numbers would be wrong. (I haven't checked App Store Connect numbers; this is what the tags say would happen.)

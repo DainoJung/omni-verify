@@ -1,0 +1,153 @@
+{
+  "product": "Scribo (scribo.cc)",
+  "updated_at": "2026-10-24T20:46:49Z",
+  "confirmed": [
+    {
+      "claim": "Scribo has an iPhone version.",
+      "sentence": "Free to download.",
+      "page": "https://scribo.cc",
+      "run": {
+        "id": "a-2026-10-24T20-46-49Z-en",
+        "recorder": "KR-126 ERRORED (UNVERIFIED)",
+        "test_url": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QTQDV9Q154KV9TFVHC4ZZZ/dashboard/share/US_2HRNI5QOS1S0AERPMKK7JQEXBRXMVFEZ9C765WS3XL1P97GYOUUBLEJ4KG1MAR4J?type=summary&agentView=true&fqdn=summary-page"
+      },
+      "date": "2026-10-24T20:46:49Z",
+      "source": "audit a-2026-10-24T20-46-49Z"
+    },
+    {
+      "claim": "Scribo has a review feature.",
+      "sentence": "Words you saved come back in your quiz just before you'd forget them.",
+      "page": "https://scribo.cc",
+      "run": {
+        "id": "a-2026-10-24T20-46-49Z-en",
+        "recorder": "KR-126 ERRORED (UNVERIFIED)",
+        "test_url": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QTQDV9Q154KV9TFVHC4ZZZ/dashboard/share/US_2HRNI5QOS1S0AERPMKK7JQEXBRXMVFEZ9C765WS3XL1P97GYOUUBLEJ4KG1MAR4J?type=summary&agentView=true&fqdn=summary-page"
+      },
+      "date": "2026-10-24T20:46:49Z",
+      "source": "audit a-2026-10-24T20-46-49Z"
+    },
+    {
+      "claim": "Scribo automatically surfaces saved words you have not reviewed.",
+      "sentence": "Words you saved come back in your quiz just before you'd forget them.",
+      "page": "https://scribo.cc",
+      "run": {
+        "id": "a-2026-10-24T20-46-49Z-en",
+        "recorder": "KR-126 ERRORED (UNVERIFIED)",
+        "test_url": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QTQDV9Q154KV9TFVHC4ZZZ/dashboard/share/US_2HRNI5QOS1S0AERPMKK7JQEXBRXMVFEZ9C765WS3XL1P97GYOUUBLEJ4KG1MAR4J?type=summary&agentView=true&fqdn=summary-page"
+      },
+      "date": "2026-10-24T20:46:49Z",
+      "source": "audit a-2026-10-24T20-46-49Z"
+    },
+    {
+      "claim": "Learn a language from the videos, articles and PDFs you actually care about.",
+      "sentence": "videos, articles and PDFs",
+      "page": "https://scribo.cc",
+      "run": {
+        "id": "c-2026-10-24T19-26-21Z-a2",
+        "recorder": "KR-68 ERRORED (UNVERIFIED)",
+        "test_url": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QP451DD362PS3ZW4HCGJ55/dashboard/share/US_KR6UIN4XDB3ZU6MU0POJLNS9UYGZL7NOZBRA2O1XL4JAWH1R0DL9HSEBAJW5H04K?type=summary&agentView=true&fqdn=summary-page"
+      },
+      "date": "2026-10-24T19:26:21Z",
+      "source": "launch gate c-2026-10-24T19-26-21Z"
+    },
+    {
+      "claim": "Scribo rewrites them for the learner you are today, clears every word that stops you, and gets to know you as you go.",
+      "sentence": "rewrites them for the learner you are today",
+      "page": "https://scribo.cc",
+      "run": {
+        "id": "c-2026-10-24T19-26-21Z-a2",
+        "recorder": "KR-68 ERRORED (UNVERIFIED)",
+        "test_url": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QP451DD362PS3ZW4HCGJ55/dashboard/share/US_KR6UIN4XDB3ZU6MU0POJLNS9UYGZL7NOZBRA2O1XL4JAWH1R0DL9HSEBAJW5H04K?type=summary&agentView=true&fqdn=summary-page"
+      },
+      "date": "2026-10-24T19:26:21Z",
+      "source": "launch gate c-2026-10-24T19-26-21Z"
+    },
+    {
+      "claim": "Scribo rewrites them at your level, in sections you can finish in about five minutes.",
+      "sentence": "in sections you can finish",
+      "page": "https://scribo.cc",
+      "run": {
+        "id": "c-2026-10-24T19-41-41Z-a2",
+        "recorder": "KR-75 ERRORED (UNVERIFIED)",
+        "test_url": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QQ0HGFK4VC03H61CR9F1JA/dashboard/share/US_BVMJUFRJ7YH6O3EPRKRDJ72WUF4GH82QTK86ZQVT3SMP8IHXKJT9F14NMZ89YTNN?type=summary&agentView=true&fqdn=summary-page"
+      },
+      "date": "2026-10-24T19:41:41Z",
+      "source": "launch gate c-2026-10-24T19-41-41Z"
+    }
+  ],
+  "retired": [
+    {
+      "claim": "Scribo is a vocabulary notebook where you save words by handwriting them.",
+      "original": "손으로 적어서 저장하는 단어장!",
+      "post": {
+        "id": "DddN67NlHjn",
+        "permalink": "https://www.threads.com/@scribo.voca/post/DddN67NlHjn",
+        "date": "2026-09-18"
+      },
+      "evidence": "Kane read scribo.cc/ko and scribo.cc: neither says this any more. scribo.cc closest: \"Same account, same notebook.\"",
+      "run": {
+        "id": "a-2026-10-24T20-46-49Z-en",
+        "recorder": "KR-126 ERRORED (UNVERIFIED)",
+        "test_url": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QTQDV9Q154KV9TFVHC4ZZZ/dashboard/share/US_2HRNI5QOS1S0AERPMKK7JQEXBRXMVFEZ9C765WS3XL1P97GYOUUBLEJ4KG1MAR4J?type=summary&agentView=true&fqdn=summary-page"
+      },
+      "date": "2026-10-24T20:46:49Z",
+      "source": "audit a-2026-10-24T20-46-49Z",
+      "avoid_terms": [
+        "handwriting vocabulary",
+        "handwritten vocabulary",
+        "handwriting notebook",
+        "handwritten notebook",
+        "손글씨 단어장",
+        "손으로 적어서 저장"
+      ]
+    },
+    {
+      "claim": "Scribo lets you review words by writing them again by hand.",
+      "original": "손글씨로 한번 더 써보면서 복습하는 거지",
+      "post": {
+        "id": "DdnaDR8GxkH",
+        "permalink": "https://www.threads.com/@scribo.voca/post/DdnaDR8GxkH",
+        "date": "2026-09-22"
+      },
+      "evidence": "Kane read scribo.cc/ko and scribo.cc: neither says this any more. scribo.cc closest: \"On iPad, write your answers with Apple Pencil.\"",
+      "run": {
+        "id": "a-2026-10-24T20-46-49Z-en",
+        "recorder": "KR-126 ERRORED (UNVERIFIED)",
+        "test_url": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QTQDV9Q154KV9TFVHC4ZZZ/dashboard/share/US_2HRNI5QOS1S0AERPMKK7JQEXBRXMVFEZ9C765WS3XL1P97GYOUUBLEJ4KG1MAR4J?type=summary&agentView=true&fqdn=summary-page"
+      },
+      "date": "2026-10-24T20:46:49Z",
+      "source": "audit a-2026-10-24T20-46-49Z",
+      "avoid_terms": [
+        "write them again by hand",
+        "writing them again by hand",
+        "손글씨로 한번 더"
+      ]
+    },
+    {
+      "claim": "Scribo is a handwritten vocabulary notebook.",
+      "original": "요즘 Scribo 손글씨 단어장으로 쓰고 있는데",
+      "post": {
+        "id": "DeI1ZVXj8Po",
+        "permalink": "https://www.threads.com/@scribo.voca/post/DeI1ZVXj8Po",
+        "date": "2026-10-05"
+      },
+      "evidence": "Kane read scribo.cc/ko and scribo.cc: neither says this any more. scribo.cc closest: \"Same account, same notebook.\"",
+      "run": {
+        "id": "a-2026-10-24T20-46-49Z-en",
+        "recorder": "KR-126 ERRORED (UNVERIFIED)",
+        "test_url": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QTQDV9Q154KV9TFVHC4ZZZ/dashboard/share/US_2HRNI5QOS1S0AERPMKK7JQEXBRXMVFEZ9C765WS3XL1P97GYOUUBLEJ4KG1MAR4J?type=summary&agentView=true&fqdn=summary-page"
+      },
+      "date": "2026-10-24T20:46:49Z",
+      "source": "audit a-2026-10-24T20-46-49Z",
+      "avoid_terms": [
+        "handwriting vocabulary",
+        "handwritten vocabulary",
+        "handwriting notebook",
+        "handwritten notebook",
+        "손글씨 단어장",
+        "손으로 적어서 저장"
+      ]
+    }
+  ],
+  "unverified": []
+}

@@ -1,0 +1,52 @@
+{
+  "id": "c-2026-10-24T21-05-53Z",
+  "model": "gpt-5.4-mini",
+  "input": {
+    "app_url": "https://scribo.cc",
+    "goal": "Get Korean learners who used to journal vocabulary by hand to try Scribo again",
+    "audience": "Korean learners of English who used to keep a handwritten vocabulary journal"
+  },
+  "draft": {
+    "post_copy": "Learn a language from the videos, articles and PDFs you actually care about. Words you saved come back in your quiz just before you'd forget them. https://scribo.cc/?ct=threads-oct24",
+    "cta_url": "https://scribo.cc/?ct=threads-oct24",
+    "campaign_tag": "threads-oct24",
+    "claims": [
+      {
+        "text": "Learn a language from the videos, articles and PDFs you actually care about.",
+        "assertion": {
+          "type": "text_visible",
+          "value": "videos, articles and PDFs"
+        }
+      },
+      {
+        "text": "Words you saved come back in your quiz just before you'd forget them.",
+        "assertion": {
+          "type": "text_visible",
+          "value": "Words you saved come back"
+        }
+      },
+      {
+        "text": "https://scribo.cc/?ct=threads-oct24",
+        "assertion": {
+          "type": "param_preserved",
+          "value": "ct=threads-oct24"
+        }
+      }
+    ]
+  },
+  "explore": null,
+  "memory": {
+    "path": "memory/product-facts.json",
+    "confirmed": 6,
+    "retired": 3,
+    "unverified": 0,
+    "check": {
+      "retired": [],
+      "unconfirmed": [],
+      "terms": []
+    },
+    "rejected": []
+  },
+  "attempts": [],
+  "status": "draft_only"
+}

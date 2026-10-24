@@ -476,5 +476,16 @@
       ]
     }
   ],
-  "status": "done"
+  "status": "done",
+  "memory": {
+    "path": "memory/product-facts.json",
+    "confirmed": 3,
+    "retired": 3,
+    "unverified": 0,
+    "totals": {
+      "confirmed": 6,
+      "retired": 3,
+      "unverified": 0
+    }
+  }
 }

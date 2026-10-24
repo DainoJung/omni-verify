@@ -1,7 +1,8 @@
 // The main flow: draft → compile → Kane → (repair → Kane)* → Verified for launch | Needs a human.
 
 import { mkdir, writeFile } from "node:fs/promises";
-import { draftCampaign, MODEL, repairCampaign, type Campaign, type DraftInput, type Repair } from "./agent";
+import { draftCampaign, MODEL, repairCampaign, type Campaign, type DraftInput, type DraftMemory, type Repair } from "./agent";
+import { loadFacts, mergeCampaign, saveFacts } from "./memory";
 import { compileCampaign, evaluateCampaign, overall, type ClaimVerdict } from "./claims";
 import { replayTest, runKane, type KaneEvent, type KaneRun } from "./kane";
 import { logRun } from "./runlog";
@@ -27,8 +28,9 @@ export type CampaignRecord = {
   input: DraftInput;
   draft: Campaign;
   explore: { path: string; exploration_id: string; run_id: string; explored_at: string; screens: number; handoffs: string[] } | null;
+  memory?: DraftMemory | null; // what the draft was grounded in (memory/product-facts.json)
   attempts: Attempt[];
-  status: "running" | "verified" | "needs_human";
+  status: "running" | "verified" | "needs_human" | "draft_only";
   final?: Campaign;
   // Kane's own recording of the passing attempt: a _test.md that Re-verify replays.
   regression?: { path: string; url: string; recorded_by: string };
@@ -67,14 +69,14 @@ async function save(rec: CampaignRecord) {
 
 export async function runCampaign(input: DraftInput, emit: Emit): Promise<CampaignRecord> {
   const map = await loadMap(input.app_url);
-  const draft = await draftCampaign(input, map);
+  const { campaign: draft, memory } = await draftCampaign(input, map, await loadFacts());
   const explore = map && {
     path: mapPath(input.app_url), exploration_id: map.exploration_id, run_id: map.run_id, explored_at: map.explored_at,
     screens: map.screens.length, handoffs: map.handoffs.map((h) => `"${h.name}" -> ${h.href_pattern}`),
   };
-  const rec: CampaignRecord = { id: `c-${stamp()}`, model: MODEL, input, draft, explore, attempts: [], status: "running" };
+  const rec: CampaignRecord = { id: `c-${stamp()}`, model: MODEL, input, draft, explore, memory, attempts: [], status: "running" };
   await save(rec);
-  emit("draft", { id: rec.id, model: MODEL, campaign: draft, explore });
+  emit("draft", { id: rec.id, model: MODEL, campaign: draft, explore, memory });
 
   let campaign = draft;
   for (let n = 1; n <= MAX_ATTEMPTS; n++) {
@@ -112,7 +114,21 @@ export async function runCampaign(input: DraftInput, emit: Emit): Promise<Campai
 
   if (rec.status !== "verified") rec.status = "needs_human";
   await save(rec);
+  // A verified campaign's sentences are facts Kane just confirmed on the page: add them to memory.
+  if (rec.status === "verified") {
+    const facts = await loadFacts();
+    if (mergeCampaign(facts, rec)) await saveFacts(facts);
+  }
   emit("result", rec);
+  return rec;
+}
+
+// Draft only (OpenAI, no Kane): shows what the agent writes from today's product memory. Saved for replay.
+export async function draftOnly(input: DraftInput): Promise<CampaignRecord> {
+  const map = await loadMap(input.app_url);
+  const { campaign: draft, memory } = await draftCampaign(input, map, await loadFacts());
+  const rec: CampaignRecord = { id: `c-${stamp()}`, model: MODEL, input, draft, explore: null, memory, attempts: [], status: "draft_only" };
+  await save(rec);
   return rec;
 }
 

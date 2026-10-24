@@ -14,6 +14,7 @@ import { mkdir, readdir, writeFile } from "node:fs/promises";
 import { callJson, MODEL } from "./agent";
 import { replayTest, runKane, type KaneEvent, type KaneResult, type KaneRun } from "./kane";
 import { logRun } from "./runlog";
+import { updateFromAudit } from "./memory";
 
 export type AuditPost = { id: string; text: string; timestamp: string; permalink: string };
 export type Promise_ = { post_id: string; ko: string; en: string };
@@ -30,7 +31,8 @@ export type KaneCheck = {
   steps: { step: number; remark: string }[];
 };
 
-export type Reaudit = { k: number; at: string; checks: KaneCheck[]; verdicts: AuditVerdict[] };
+export type MemoryUpdate = Awaited<ReturnType<typeof updateFromAudit>>;
+export type Reaudit = { k: number; at: string; checks: KaneCheck[]; verdicts: AuditVerdict[]; memory?: MemoryUpdate };
 
 export type AuditRecord = {
   id: string;
@@ -44,6 +46,7 @@ export type AuditRecord = {
   verdicts: AuditVerdict[]; // same order as promises
   proposals: Proposal[];
   reaudits: Reaudit[];
+  memory?: MemoryUpdate; // what this audit (or its latest Re-audit) wrote to memory/product-facts.json
   status: "running" | "done";
   error?: string;
 };
@@ -240,6 +243,8 @@ export async function runAudit(emit: Emit): Promise<AuditRecord> {
       emit("kane_end", check);
     }
     rec.verdicts = evaluateAudit(promises, results.ko ?? null, results.en ?? null);
+    // Kane is done: what it confirmed and retired becomes the drafting agent's memory.
+    rec.memory = await updateFromAudit(rec, rec.verdicts, rec.checks, `audit ${rec.id}`);
     await save(rec);
     emit("verdicts", { verdicts: rec.verdicts });
     rec.proposals = await proposeActions(posts, promises, rec.verdicts, await siteText());
@@ -271,6 +276,8 @@ export async function reaudit(id: string, emit: Emit): Promise<Reaudit> {
     emit("kane_end", check);
   }
   const ra: Reaudit = { k, at: new Date().toISOString(), checks, verdicts: evaluateAudit(rec.promises, results.ko ?? null, results.en ?? null) };
+  ra.memory = await updateFromAudit(rec, ra.verdicts, checks, `re-audit ${k} of ${rec.id}`);
+  rec.memory = ra.memory;
   rec.reaudits.push(ra);
   await save(rec);
   emit("reaudit", ra);

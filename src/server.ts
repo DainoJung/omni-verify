@@ -92,8 +92,8 @@ app.post("/api/campaigns/:id/publish", async (c) => {
 app.get("/api/campaigns", async (c) => {
   const files = (await readdir("runs").catch(() => [])).filter((f) => /^c-[^]*Z\.json$/.test(f)).sort().reverse();
   const recs = await Promise.all(files.map((f) => Bun.file(`runs/${f}`).json() as Promise<CampaignRecord>));
-  return c.json(recs.filter((r) => r.attempts?.length).map((r) => ({
-    id: r.id, status: r.status, attempts: r.attempts.length, final_url: (r.final ?? r.attempts.at(-1)!.campaign).cta_url,
+  return c.json(recs.filter((r) => r.attempts?.length || r.status === "draft_only").map((r) => ({
+    id: r.id, status: r.status, attempts: r.attempts.length, final_url: (r.final ?? r.attempts.at(-1)?.campaign ?? r.draft).cta_url,
   })));
 });
 
@@ -137,6 +137,9 @@ article{max-width:560px;border:1px solid #262626;border-radius:12px;padding:20px
 
 app.route("/", featureRoutes);
 app.route("/", auditRoutes);
+
+// The drafting agent's product memory (memory/product-facts.json), as Kane last confirmed it.
+app.get("/api/memory", async (c) => c.json(await Bun.file("memory/product-facts.json").json().catch(() => ({ confirmed: [], retired: [], unverified: [] }))));
 
 app.use("/*", serveStatic({ root: "./public" }));
 
