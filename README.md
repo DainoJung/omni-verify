@@ -11,7 +11,7 @@
 
 ```
 bun install && bun run dev
-# open http://localhost:3000
+# open http://localhost:3000 (PORT=3001 bun run dev for another port)
 ```
 
 You need:
@@ -86,6 +86,29 @@ The build brief said scribo.cc shows "Try Pro free for 7 days" in the pricing se
 
 Omni Verify compiles to the last phrasing. Trusting the first one would have made the repair agent delete a true sentence.
 
+## Feature claims: verified by doing, not by reading
+
+Text checks prove a sentence is on a page, not that the feature works. For posts about a tool, every sentence that promises a feature is performed by Kane in real Chrome. Target: TestMu AI's free online tools ([JSON Prettify](https://www.testmuai.com/free-online-tools/json-prettify/)). UI at `/features.html`.
+
+```
+tool URL → page text (the tool's own section) → OpenAI drafts the post; per sentence: control, action (exact sample input), expected result
+  → one Kane run per claim: store whether the control exists, do the action only if it does, store the result and whether it matches
+  → code judges: control missing or result wrong = FAIL, nothing stored = UNVERIFIED (re-run unchanged), both true = PASS
+  → FAIL: the agent rewrites or drops that sentence (passing ones must stay word for word) → Kane runs only the new claim
+```
+
+Stretch mode (on by default in the UI, labeled) tells the agent to add one format conversion the page doesn't show, so the gate has a false promise to catch.
+
+| Run | What happened |
+|---|---|
+| [f-…20-04-05Z](runs/f-2026-10-24T20-04-05Z.json) | Prettify PASS (KR-96), Validate PASS (KR-98, Kane read "Valid!"), "Convert JSON to YAML" **FAIL** (KR-100, [Test Manager](https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QRBFX0BJXG4V4JYZVHQM3N/dashboard/share/US_RDFEH67SSMMI8JO4N493GGU00O4QNXW9AJB7RF7D291L4L9J6WXAYDGMW0L7FBLY?type=summary&agentView=true&fqdn=summary-page)): Kane clicked the button, the output was still JSON. The agent swapped in Minify → **PASS** (KR-102, [Test Manager](https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QRDYF3BHW7BMNFSJ2GPBF3/dashboard/share/US_7N4JXFZ9OXIPVA0ZLOSANVRAC52QK72L7H1XEE51DZ52LON0HF4U4CM7JKNHYVXE?type=summary&agentView=true&fqdn=summary-page)). Verified for launch. |
+| [f-…19-53-00Z](runs/f-2026-10-24T19-53-00Z.json) | "Converts the same input into CSV" **FAIL**: Kane found no CSV control (KR-90). The two true claims came back UNVERIFIED: an "if it does not exist, stop" branch made Kane stop before storing the result. The branch was removed, and the run stopped because the repair was asked to rewrite UNVERIFIED sentences too. Now only FAILs go to repair. |
+| [f-…19-58-22Z](runs/f-2026-10-24T19-58-22Z.json) | Validate UNVERIFIED (KR-93), re-run unchanged → PASS (KR-95). Its stretch sentence ("Clear the field…") was a real feature. Its KR-94 PASS stored "none" as the result. That now counts as UNVERIFIED, and the stretch prompt now asks for a format conversion. |
+
+Seen on the real tool: JSON Prettify's tab-indented output puts spaces around colons (`"a" : 1`). Kane's output is in each run file.
+
+![Feature claims result card](docs/feature-claims.jpg)
+
 ## Known limits
 
 - **Phrase-level backing.** A sentence is backed by a 3–12 word phrase copied from the page. The phrase can prove only part of a longer sentence (in the demo run, "rewrites them for the learner you are today" backs a longer sentence that is on the page in full, but the check covers only the phrase).
@@ -93,7 +116,8 @@ Omni Verify compiles to the last phrasing. Trusting the first one would have mad
 - **Verification is not measurement.** A PASS means the funnel keeps the post's promises today. It does not mean installs went up, or that App Store Connect credited them (see the unmeasurable 25%).
 - **Recorder bug H-0007.** kane-cli 0.10.0-rc.3 sends a `coverage` event before `run_end`, so the kanehack recorder never sees `run_end` as the completion event and marks passing `kane-cli run` calls as ERRORED (UNVERIFIED). Reported as help ticket H-0007. Our own record of every run (time, Kane's own status, credits, Test Manager link) is in [RUNS.md](RUNS.md). `testrun` is unaffected: KR-46 shows PASSED.
 - **Pre-launch post.** Nothing is published before the gate passes, so Kane's designed tests open `/post/<id>`, a preview page Omni Verify serves, labeled "not published".
-- Scope: one app (Scribo), one channel, App Store links only.
+- Scope: one app (Scribo), one channel, App Store links only. Feature claims: tested on one TestMu AI tool (JSON Prettify).
+- **Feature claims trust Kane's true/false.** The code judges from Kane's stored values, and "does the result match" is Kane's own judgment (the result text is kept next to it). A stretch claim may name an existing control (the YAML claim used Json Prettify), so it fails on a wrong result instead of a missing control.
 
 ## Screenshots
 

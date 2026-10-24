@@ -1,0 +1,387 @@
+{
+  "id": "f-2026-10-24T20-04-05Z",
+  "kind": "feature_claims",
+  "model": "gpt-5.4-mini",
+  "input": {
+    "tool_url": "https://www.testmuai.com/free-online-tools/json-prettify/",
+    "channel": "Launch post on X",
+    "stretch": true
+  },
+  "draft": {
+    "tool_name": "Free JSON Formatter & Prettifier",
+    "post_copy": "Paste messy JSON and get a clean, indented version in seconds. Validate your payload before it ships. Convert JSON to YAML for a ready-to-use config snippet. https://www.testmuai.com/free-online-tools/json-prettify/",
+    "claims": [
+      {
+        "text": "Paste messy JSON and get a clean, indented version in seconds.",
+        "control": "Json Prettify",
+        "action": "Type {\"a\":1} into Enter Value, then click Json Prettify.",
+        "expected": "The Output box shows the JSON on multiple indented lines."
+      },
+      {
+        "text": "Validate your payload before it ships.",
+        "control": "Validate",
+        "action": "Type {\"a\":1} into Enter Value, then click Validate.",
+        "expected": "The page shows the JSON as valid in the Output box."
+      },
+      {
+        "text": "Convert JSON to YAML for a ready-to-use config snippet.",
+        "control": "Json Prettify",
+        "action": "Type {\"a\":1} into Enter Value, then click Json Prettify.",
+        "expected": "The Output box shows the content reformatted as YAML."
+      }
+    ],
+    "stretch_sentence": "Convert JSON to YAML for a ready-to-use config snippet."
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "post": {
+        "tool_name": "Free JSON Formatter & Prettifier",
+        "post_copy": "Paste messy JSON and get a clean, indented version in seconds. Validate your payload before it ships. Convert JSON to YAML for a ready-to-use config snippet. https://www.testmuai.com/free-online-tools/json-prettify/",
+        "claims": [
+          {
+            "text": "Paste messy JSON and get a clean, indented version in seconds.",
+            "control": "Json Prettify",
+            "action": "Type {\"a\":1} into Enter Value, then click Json Prettify.",
+            "expected": "The Output box shows the JSON on multiple indented lines."
+          },
+          {
+            "text": "Validate your payload before it ships.",
+            "control": "Validate",
+            "action": "Type {\"a\":1} into Enter Value, then click Validate.",
+            "expected": "The page shows the JSON as valid in the Output box."
+          },
+          {
+            "text": "Convert JSON to YAML for a ready-to-use config snippet.",
+            "control": "Json Prettify",
+            "action": "Type {\"a\":1} into Enter Value, then click Json Prettify.",
+            "expected": "The Output box shows the content reformatted as YAML."
+          }
+        ],
+        "stretch_sentence": "Convert JSON to YAML for a ready-to-use config snippet."
+      },
+      "checks": [
+        {
+          "claim": {
+            "text": "Paste messy JSON and get a clean, indented version in seconds.",
+            "control": "Json Prettify",
+            "action": "Type {\"a\":1} into Enter Value, then click Json Prettify.",
+            "expected": "The Output box shows the JSON on multiple indented lines."
+          },
+          "objective": "Check one promise about this page: Paste messy JSON and get a clean, indented version in seconds. First, look on this page for a control labeled or clearly meaning \"Json Prettify\", and store whether it exists, true or false, as {{action_available}}. Only if it exists, do this: Type {\"a\":1} into Enter Value, then click Json Prettify. Finally, store the full text of the result area as {{observed_result}} (store none if nothing changed), and store whether the Output box shows the JSON on multiple indented lines, true or false, as {{result_matches}}.",
+          "kaneRunId": "f-2026-10-24T20-04-05Z-a1-c1",
+          "verdict": {
+            "status": "PASS",
+            "reason": "Kane used \"Json Prettify\" and saw the expected result (Kane step 4).",
+            "evidence": {
+              "actionAvailable": "true",
+              "observed": "{\n\t \"a\" : 1\n}",
+              "resultMatches": "true",
+              "step": 4
+            }
+          },
+          "steps": [
+            {
+              "step": 2,
+              "remark": "wait: queued plan (2 steps): type \"Type or paste your text here\"; click \"... Json Pret"
+            },
+            {
+              "step": 3,
+              "remark": "scroll: Scroll \"Type or paste your text here\" into view"
+            },
+            {
+              "step": 4,
+              "remark": "type: Type \"{\"a\":1}\" into \"Type or paste your text here\""
+            },
+            {
+              "step": 5,
+              "remark": "analyze: ANALYZE(textual_visual, 'whether the Output box shows the JSON on multiple inden"
+            },
+            {
+              "step": 6,
+              "remark": "wait: Waiting after all JSON prettifier checkpoints have passed"
+            },
+            {
+              "step": 7,
+              "remark": "wait: Waiting JSON Prettify action completed with formatted output visible"
+            }
+          ],
+          "kane": {
+            "status": "passed",
+            "exitCode": 0,
+            "summary": "Used the JSON Prettify tool on TestMu AI.\nConfirmed that the “Json Prettify” control was available and applied it to the JSON input.\nThe output was formatted across multiple indented lines: {\n\t \"a\" : 1\n}.",
+            "credits": 29.122944999999998,
+            "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QR6VNT8A4YA3B7EJBQ9SKY/dashboard/share/US_OBDVC6FYDLJJVI29DTWHJ7G3EAE2PMF4LO9XQVGY50FS7WDSR1YMLZ7P7XRZJQQV?type=summary&agentView=true&fqdn=summary-page",
+            "evidencePath": "~/.testmuai/kaneai/sessions/4d10ede6-7e3c-4585-9988-a84d5a922b39/evidence/e5b66f11-3147-43eb-bb15-3f1271738818.evidence",
+            "recorder": "KR-96 ERRORED (UNVERIFIED)"
+          }
+        },
+        {
+          "claim": {
+            "text": "Validate your payload before it ships.",
+            "control": "Validate",
+            "action": "Type {\"a\":1} into Enter Value, then click Validate.",
+            "expected": "The page shows the JSON as valid in the Output box."
+          },
+          "objective": "Check one promise about this page: Validate your payload before it ships. First, look on this page for a control labeled or clearly meaning \"Validate\", and store whether it exists, true or false, as {{action_available}}. Only if it exists, do this: Type {\"a\":1} into Enter Value, then click Validate. Finally, store the full text of the result area as {{observed_result}} (store none if nothing changed), and store whether the page shows the JSON as valid in the Output box, true or false, as {{result_matches}}.",
+          "kaneRunId": "f-2026-10-24T20-04-05Z-a1-c2",
+          "verdict": {
+            "status": "PASS",
+            "reason": "Kane used \"Validate\" and saw the expected result (Kane step 6).",
+            "evidence": {
+              "actionAvailable": "true",
+              "observed": "Valid!",
+              "resultMatches": "true",
+              "step": 6
+            }
+          },
+          "steps": [
+            {
+              "step": 2,
+              "remark": "wait: queued plan (2 steps): type \"Type or paste your text here\"; click \"... Validate\""
+            },
+            {
+              "step": 3,
+              "remark": "scroll: Scroll \"Type or paste your text here\" into view"
+            },
+            {
+              "step": 4,
+              "remark": "type: Type \"{\"a\":1}\" into \"Type or paste your text here\""
+            },
+            {
+              "step": 5,
+              "remark": "scroll: Scroll \"... Validate\" into view"
+            },
+            {
+              "step": 6,
+              "remark": "wait: PRIMARY: wait 1200 ms for the conditional branch action to update the JSON forma"
+            },
+            {
+              "step": 7,
+              "remark": "analyze: ANALYZE(textual_visual, 'whether the page shows the JSON as valid in the Output "
+            },
+            {
+              "step": 8,
+              "remark": "wait: Waiting after all conditional checkpoints have passed"
+            }
+          ],
+          "kane": {
+            "status": "passed",
+            "exitCode": 0,
+            "summary": "Checked that the JSON tool’s Validate control was available.\nRan the JSON validation and reviewed the output.\nThe output reported “Valid!”, confirming that the JSON was valid.",
+            "credits": 39.2385,
+            "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QR90BAYVHCBPGHMN7F7A0R/dashboard/share/US_4DVSR7ZUBFMY4Y06T9FFM120NAJBEDIEVN2JGJAYLAGQXS92YC35KOI730TQF16K?type=summary&agentView=true&fqdn=summary-page",
+            "evidencePath": "~/.testmuai/kaneai/sessions/ecb71b21-54e5-4d1b-bb78-6761e2519ab2/evidence/b57cc979-62c0-4e8a-ae1b-0282096a26a5.evidence",
+            "recorder": "KR-98 ERRORED (UNVERIFIED)"
+          }
+        },
+        {
+          "claim": {
+            "text": "Convert JSON to YAML for a ready-to-use config snippet.",
+            "control": "Json Prettify",
+            "action": "Type {\"a\":1} into Enter Value, then click Json Prettify.",
+            "expected": "The Output box shows the content reformatted as YAML."
+          },
+          "objective": "Check one promise about this page: Convert JSON to YAML for a ready-to-use config snippet. First, look on this page for a control labeled or clearly meaning \"Json Prettify\", and store whether it exists, true or false, as {{action_available}}. Only if it exists, do this: Type {\"a\":1} into Enter Value, then click Json Prettify. Finally, store the full text of the result area as {{observed_result}} (store none if nothing changed), and store whether the Output box shows the content reformatted as YAML, true or false, as {{result_matches}}.",
+          "kaneRunId": "f-2026-10-24T20-04-05Z-a1-c3",
+          "verdict": {
+            "status": "FAIL",
+            "reason": "Kane used \"Json Prettify\", but the result was not what the post promises (Kane step 4): {\n\t \"a\" : 1\n}",
+            "evidence": {
+              "actionAvailable": "true",
+              "observed": "{\n\t \"a\" : 1\n}",
+              "resultMatches": "false",
+              "step": 4
+            }
+          },
+          "steps": [
+            {
+              "step": 2,
+              "remark": "wait: queued plan (2 steps): type \"Type or paste your text here\"; click \"... Json Pret"
+            },
+            {
+              "step": 3,
+              "remark": "scroll: Scroll \"Type or paste your text here\" into view"
+            },
+            {
+              "step": 4,
+              "remark": "type: Type \"{\"a\":1}\" into \"Type or paste your text here\""
+            },
+            {
+              "step": 5,
+              "remark": "analyze: ANALYZE(textual_visual, 'whether the Output box shows the content reformatted as"
+            },
+            {
+              "step": 6,
+              "remark": "wait: Waiting after all checkpoint values have been recorded"
+            },
+            {
+              "step": 7,
+              "remark": "wait: Waiting JSON Prettify has formatted the entered JSON in the Output box"
+            }
+          ],
+          "kane": {
+            "status": "passed",
+            "exitCode": 0,
+            "summary": "Checked the JSON formatting tool on TestMu AI and confirmed that the “Json Prettify” control was available.\nRead the result shown in the Output box: {\n\t \"a\" : 1\n}.\nThe output remained formatted as JSON rather than being reformatted as YAML.",
+            "credits": 32.432693,
+            "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QRBFX0BJXG4V4JYZVHQM3N/dashboard/share/US_RDFEH67SSMMI8JO4N493GGU00O4QNXW9AJB7RF7D291L4L9J6WXAYDGMW0L7FBLY?type=summary&agentView=true&fqdn=summary-page",
+            "evidencePath": "~/.testmuai/kaneai/sessions/95c4bbce-ef8a-4ee8-b2a5-bf1ab8f38a54/evidence/446bb147-6655-4b7c-bf2e-b5f337e35555.evidence",
+            "recorder": "KR-100 ERRORED (UNVERIFIED)"
+          }
+        }
+      ],
+      "carried": [],
+      "overall": "FAIL",
+      "repair": {
+        "action": "rewrite_claim",
+        "reason": "Kane clicked Json Prettify and saw the output stay as formatted JSON, not YAML, so we swapped in a claim the page clearly supports: Minify.",
+        "post": {
+          "tool_name": "Free JSON Formatter & Prettifier",
+          "post_copy": "Paste messy JSON and get a clean, indented version in seconds. Validate your payload before it ships. Minify JSON into a compact single-line payload. https://www.testmuai.com/free-online-tools/json-prettify/",
+          "claims": [
+            {
+              "text": "Paste messy JSON and get a clean, indented version in seconds.",
+              "control": "Json Prettify",
+              "action": "Type {\"a\":1} into Enter Value, then click Json Prettify.",
+              "expected": "The Output box shows the JSON on multiple indented lines."
+            },
+            {
+              "text": "Validate your payload before it ships.",
+              "control": "Validate",
+              "action": "Type {\"a\":1} into Enter Value, then click Validate.",
+              "expected": "The page shows the JSON as valid in the Output box."
+            },
+            {
+              "text": "Minify JSON into a compact single-line payload.",
+              "control": "Minify",
+              "action": "Type {\"a\":1} into Enter Value, then click Minify.",
+              "expected": "The Output box shows the JSON compressed onto one line as {\"a\":1}."
+            }
+          ],
+          "stretch_sentence": ""
+        }
+      }
+    },
+    {
+      "n": 2,
+      "post": {
+        "tool_name": "Free JSON Formatter & Prettifier",
+        "post_copy": "Paste messy JSON and get a clean, indented version in seconds. Validate your payload before it ships. Minify JSON into a compact single-line payload. https://www.testmuai.com/free-online-tools/json-prettify/",
+        "claims": [
+          {
+            "text": "Paste messy JSON and get a clean, indented version in seconds.",
+            "control": "Json Prettify",
+            "action": "Type {\"a\":1} into Enter Value, then click Json Prettify.",
+            "expected": "The Output box shows the JSON on multiple indented lines."
+          },
+          {
+            "text": "Validate your payload before it ships.",
+            "control": "Validate",
+            "action": "Type {\"a\":1} into Enter Value, then click Validate.",
+            "expected": "The page shows the JSON as valid in the Output box."
+          },
+          {
+            "text": "Minify JSON into a compact single-line payload.",
+            "control": "Minify",
+            "action": "Type {\"a\":1} into Enter Value, then click Minify.",
+            "expected": "The Output box shows the JSON compressed onto one line as {\"a\":1}."
+          }
+        ],
+        "stretch_sentence": ""
+      },
+      "checks": [
+        {
+          "claim": {
+            "text": "Minify JSON into a compact single-line payload.",
+            "control": "Minify",
+            "action": "Type {\"a\":1} into Enter Value, then click Minify.",
+            "expected": "The Output box shows the JSON compressed onto one line as {\"a\":1}."
+          },
+          "objective": "Check one promise about this page: Minify JSON into a compact single-line payload. First, look on this page for a control labeled or clearly meaning \"Minify\", and store whether it exists, true or false, as {{action_available}}. Only if it exists, do this: Type {\"a\":1} into Enter Value, then click Minify. Finally, store the full text of the result area as {{observed_result}} (store none if nothing changed), and store whether the Output box shows the JSON compressed onto one line as {\"a\":1}, true or false, as {{result_matches}}.",
+          "kaneRunId": "f-2026-10-24T20-04-05Z-a2-c1",
+          "verdict": {
+            "status": "PASS",
+            "reason": "Kane used \"Minify\" and saw the expected result (Kane step 5).",
+            "evidence": {
+              "actionAvailable": "true",
+              "observed": "{\"a\":1}",
+              "resultMatches": "true",
+              "step": 5
+            }
+          },
+          "steps": [
+            {
+              "step": 2,
+              "remark": "wait: queued plan (2 steps): type \"Type or paste your text here\"; click \"... Minify\""
+            },
+            {
+              "step": 3,
+              "remark": "scroll: Scroll \"Type or paste your text here\" into view"
+            },
+            {
+              "step": 4,
+              "remark": "type: Type \"{\"a\":1}\" into \"Type or paste your text here\""
+            },
+            {
+              "step": 5,
+              "remark": "scroll: Scroll \"... Minify\" into view"
+            },
+            {
+              "step": 6,
+              "remark": "analyze: ANALYZE(textual_visual, 'whether the Output box shows the JSON compressed onto o"
+            },
+            {
+              "step": 7,
+              "remark": "wait: Waiting after all conditional and extraction checkpoints have passed"
+            },
+            {
+              "step": 8,
+              "remark": "wait: Waiting confirm Minify produced the compact JSON output"
+            }
+          ],
+          "kane": {
+            "status": "passed",
+            "exitCode": 0,
+            "summary": "Used the JSON Prettify tool and confirmed that a Minify option was available.\nMinified the JSON input.\nThe Output box showed the compressed result {\"a\":1} on one line.",
+            "credits": 35.403285,
+            "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QRDYF3BHW7BMNFSJ2GPBF3/dashboard/share/US_7N4JXFZ9OXIPVA0ZLOSANVRAC52QK72L7H1XEE51DZ52LON0HF4U4CM7JKNHYVXE?type=summary&agentView=true&fqdn=summary-page",
+            "evidencePath": "~/.testmuai/kaneai/sessions/39770716-769c-4bf1-bc0d-7463acc20efc/evidence/7fc6af3c-714b-4ed9-9316-a942acc9bdd7.evidence",
+            "recorder": "KR-102 ERRORED (UNVERIFIED)"
+          }
+        }
+      ],
+      "carried": [
+        "Paste messy JSON and get a clean, indented version in seconds.",
+        "Validate your payload before it ships."
+      ],
+      "overall": "PASS"
+    }
+  ],
+  "status": "verified",
+  "final": {
+    "tool_name": "Free JSON Formatter & Prettifier",
+    "post_copy": "Paste messy JSON and get a clean, indented version in seconds. Validate your payload before it ships. Minify JSON into a compact single-line payload. https://www.testmuai.com/free-online-tools/json-prettify/",
+    "claims": [
+      {
+        "text": "Paste messy JSON and get a clean, indented version in seconds.",
+        "control": "Json Prettify",
+        "action": "Type {\"a\":1} into Enter Value, then click Json Prettify.",
+        "expected": "The Output box shows the JSON on multiple indented lines."
+      },
+      {
+        "text": "Validate your payload before it ships.",
+        "control": "Validate",
+        "action": "Type {\"a\":1} into Enter Value, then click Validate.",
+        "expected": "The page shows the JSON as valid in the Output box."
+      },
+      {
+        "text": "Minify JSON into a compact single-line payload.",
+        "control": "Minify",
+        "action": "Type {\"a\":1} into Enter Value, then click Minify.",
+        "expected": "The Output box shows the JSON compressed onto one line as {\"a\":1}."
+      }
+    ],
+    "stretch_sentence": ""
+  }
+}

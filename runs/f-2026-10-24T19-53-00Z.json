@@ -1,0 +1,236 @@
+{
+  "id": "f-2026-10-24T19-53-00Z",
+  "kind": "feature_claims",
+  "model": "gpt-5.4-mini",
+  "input": {
+    "tool_url": "https://www.testmuai.com/free-online-tools/json-prettify/",
+    "channel": "Launch post on X",
+    "stretch": true
+  },
+  "draft": {
+    "tool_name": "Free JSON Formatter & Prettifier",
+    "post_copy": "Free JSON Formatter & Prettifier turns messy JSON into clean, indented output in one click. It validates your JSON for syntax errors without leaving the page. It also converts the same input into CSV for quick spreadsheet work. https://www.testmuai.com/free-online-tools/json-prettify/",
+    "claims": [
+      {
+        "text": "Free JSON Formatter & Prettifier turns messy JSON into clean, indented output in one click.",
+        "control": "Json Prettify",
+        "action": "Type {\"name\":\"Ana\"} into Enter Value, then click Json Prettify.",
+        "expected": "The Output box shows the JSON formatted on multiple indented lines."
+      },
+      {
+        "text": "It validates your JSON for syntax errors without leaving the page.",
+        "control": "Validate",
+        "action": "Type {\"name\":\"Ana\"} into Enter Value, then click Validate.",
+        "expected": "The Output box shows the JSON is valid, with no syntax error message."
+      },
+      {
+        "text": "It also converts the same input into CSV for quick spreadsheet work.",
+        "control": "CSV",
+        "action": "Type {\"name\":\"Ana\"} into Enter Value, then click CSV.",
+        "expected": "The Output box shows comma-separated values instead of JSON."
+      }
+    ],
+    "stretch_sentence": "It also converts the same input into CSV for quick spreadsheet work."
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "post": {
+        "tool_name": "Free JSON Formatter & Prettifier",
+        "post_copy": "Free JSON Formatter & Prettifier turns messy JSON into clean, indented output in one click. It validates your JSON for syntax errors without leaving the page. It also converts the same input into CSV for quick spreadsheet work. https://www.testmuai.com/free-online-tools/json-prettify/",
+        "claims": [
+          {
+            "text": "Free JSON Formatter & Prettifier turns messy JSON into clean, indented output in one click.",
+            "control": "Json Prettify",
+            "action": "Type {\"name\":\"Ana\"} into Enter Value, then click Json Prettify.",
+            "expected": "The Output box shows the JSON formatted on multiple indented lines."
+          },
+          {
+            "text": "It validates your JSON for syntax errors without leaving the page.",
+            "control": "Validate",
+            "action": "Type {\"name\":\"Ana\"} into Enter Value, then click Validate.",
+            "expected": "The Output box shows the JSON is valid, with no syntax error message."
+          },
+          {
+            "text": "It also converts the same input into CSV for quick spreadsheet work.",
+            "control": "CSV",
+            "action": "Type {\"name\":\"Ana\"} into Enter Value, then click CSV.",
+            "expected": "The Output box shows comma-separated values instead of JSON."
+          }
+        ],
+        "stretch_sentence": "It also converts the same input into CSV for quick spreadsheet work."
+      },
+      "checks": [
+        {
+          "claim": {
+            "text": "Free JSON Formatter & Prettifier turns messy JSON into clean, indented output in one click.",
+            "control": "Json Prettify",
+            "action": "Type {\"name\":\"Ana\"} into Enter Value, then click Json Prettify.",
+            "expected": "The Output box shows the JSON formatted on multiple indented lines."
+          },
+          "objective": "Check one promise about this page: Free JSON Formatter & Prettifier turns messy JSON into clean, indented output in one click. First look on this page for a control labeled or clearly meaning \"Json Prettify\". Store whether that control exists on this page, true or false, as {{action_available}}. If it does not exist, do not search further and do not leave this page: store none as {{observed_result}}, store false as {{result_matches}}, and stop. If it exists, do this: Type {\"name\":\"Ana\"} into Enter Value, then click Json Prettify. Then store the full text of the result as {{observed_result}}. Store whether the Output box shows the JSON formatted on multiple indented lines, true or false, as {{result_matches}}.",
+          "kaneRunId": "f-2026-10-24T19-53-00Z-a1-c1",
+          "verdict": {
+            "status": "UNVERIFIED",
+            "reason": "Kane did not report whether \"Json Prettify\" exists and works.",
+            "evidence": {
+              "actionAvailable": "true",
+              "observed": null,
+              "resultMatches": null,
+              "step": 2
+            }
+          },
+          "steps": [
+            {
+              "step": 2,
+              "remark": "wait: queued plan (2 steps): type \"Type or paste your text here\"; click \"... Json Pret"
+            },
+            {
+              "step": 3,
+              "remark": "scroll: Scroll \"Type or paste your text here\" into view"
+            },
+            {
+              "step": 4,
+              "remark": "type: Type \"{\"name\":\"Ana\"}\" into \"Type or paste your text here\""
+            },
+            {
+              "step": 5,
+              "remark": "wait: Waiting with no further page action required"
+            },
+            {
+              "step": 6,
+              "remark": "click: Click \"... Json Prettify\""
+            },
+            {
+              "step": 7,
+              "remark": "analyze: ANALYZE(textual_visual, 'whether the Output box shows the JSON formatted on mult"
+            },
+            {
+              "step": 8,
+              "remark": "wait: Waiting with no further page changes required"
+            }
+          ],
+          "kane": {
+            "status": "passed",
+            "exitCode": 0,
+            "summary": "Checked the JSON Prettify tool page on TestMuAI for the requested control.\nConfirmed that the “Json Prettify” button is available on the page.",
+            "credits": 31.565365,
+            "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QQJJC34PW3R3V7JF123KHJ/dashboard/share/US_OZSGGVOW0PAY4IZXF4BSIXRMWFB7G0L6OA34D9UH0HVY2YMPZIHBCGEC9HNJIHBL?type=summary&agentView=true&fqdn=summary-page",
+            "evidencePath": "~/.testmuai/kaneai/sessions/1eee6cc0-fd1a-4fc0-8b02-2bf6d8f6f62c/evidence/c70415a4-e331-48e7-b750-951fc5884d00.evidence",
+            "recorder": "KR-87 ERRORED (UNVERIFIED)"
+          }
+        },
+        {
+          "claim": {
+            "text": "It validates your JSON for syntax errors without leaving the page.",
+            "control": "Validate",
+            "action": "Type {\"name\":\"Ana\"} into Enter Value, then click Validate.",
+            "expected": "The Output box shows the JSON is valid, with no syntax error message."
+          },
+          "objective": "Check one promise about this page: It validates your JSON for syntax errors without leaving the page. First look on this page for a control labeled or clearly meaning \"Validate\". Store whether that control exists on this page, true or false, as {{action_available}}. If it does not exist, do not search further and do not leave this page: store none as {{observed_result}}, store false as {{result_matches}}, and stop. If it exists, do this: Type {\"name\":\"Ana\"} into Enter Value, then click Validate. Then store the full text of the result as {{observed_result}}. Store whether the Output box shows the JSON is valid, with no syntax error message, true or false, as {{result_matches}}.",
+          "kaneRunId": "f-2026-10-24T19-53-00Z-a1-c2",
+          "verdict": {
+            "status": "UNVERIFIED",
+            "reason": "Kane did not report whether \"Validate\" exists and works.",
+            "evidence": {
+              "actionAvailable": "true",
+              "observed": null,
+              "resultMatches": null,
+              "step": 3
+            }
+          },
+          "steps": [
+            {
+              "step": 2,
+              "remark": "wait: queued plan (2 steps): type \"Type or paste your text here\"; click \"... Validate\""
+            },
+            {
+              "step": 3,
+              "remark": "scroll: Scroll \"Type or paste your text here\" into view"
+            },
+            {
+              "step": 4,
+              "remark": "type: Type \"{\"name\":\"Ana\"}\" into \"Type or paste your text here\""
+            },
+            {
+              "step": 5,
+              "remark": "scroll: Scroll \"... Validate\" into view"
+            },
+            {
+              "step": 6,
+              "remark": "click: Click \"... Validate\""
+            },
+            {
+              "step": 7,
+              "remark": "wait: Waiting confirm JSON validation result"
+            },
+            {
+              "step": 8,
+              "remark": "wait: Waiting after completed JSON validation and checkpoint extraction"
+            }
+          ],
+          "kane": {
+            "status": "passed",
+            "exitCode": 0,
+            "summary": "Looked for a Validate control on the JSON Prettify page and found the available “Json Prettify” button.\nEntered {\"name\":\"Ana\"} and used the Json Prettify button to validate and format it.\nThe requested validation flow was completed on the page.",
+            "credits": 40.38344000000001,
+            "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QQMNK65715FCT91ZBTWM48/dashboard/share/US_JOHQLC7CLOP82M21ZUGZRWBO52TSF40VT1BXQCGOVGJXZLVXH1MM2MD60Y4VVOT8?type=summary&agentView=true&fqdn=summary-page",
+            "evidencePath": "~/.testmuai/kaneai/sessions/0922ecb4-6fc6-41e7-9c6e-03dfaeb4561d/evidence/58f9d0f7-e99b-4078-bcf8-080d7f49c525.evidence",
+            "recorder": "KR-89 ERRORED (UNVERIFIED)"
+          }
+        },
+        {
+          "claim": {
+            "text": "It also converts the same input into CSV for quick spreadsheet work.",
+            "control": "CSV",
+            "action": "Type {\"name\":\"Ana\"} into Enter Value, then click CSV.",
+            "expected": "The Output box shows comma-separated values instead of JSON."
+          },
+          "objective": "Check one promise about this page: It also converts the same input into CSV for quick spreadsheet work. First look on this page for a control labeled or clearly meaning \"CSV\". Store whether that control exists on this page, true or false, as {{action_available}}. If it does not exist, do not search further and do not leave this page: store none as {{observed_result}}, store false as {{result_matches}}, and stop. If it exists, do this: Type {\"name\":\"Ana\"} into Enter Value, then click CSV. Then store the full text of the result as {{observed_result}}. Store whether the Output box shows comma-separated values instead of JSON, true or false, as {{result_matches}}.",
+          "kaneRunId": "f-2026-10-24T19-53-00Z-a1-c3",
+          "verdict": {
+            "status": "FAIL",
+            "reason": "Kane found no \"CSV\" control on the page (Kane step 2).",
+            "evidence": {
+              "actionAvailable": "false",
+              "observed": null,
+              "resultMatches": null,
+              "step": 2
+            }
+          },
+          "steps": [
+            {
+              "step": 2,
+              "remark": "analyze: the literal \"false\" is stored as {{result_matches}}"
+            },
+            {
+              "step": 3,
+              "remark": "wait: Waiting after both required checkpoint values have been stored"
+            },
+            {
+              "step": 4,
+              "remark": "Step 3"
+            },
+            {
+              "step": 5,
+              "remark": "wait: Waiting after all conditional checkpoints have resolved"
+            }
+          ],
+          "kane": {
+            "status": "passed",
+            "exitCode": 0,
+            "summary": "Checked the JSON Prettify page on TestMu AI for a control labeled “CSV.”\nNo CSV control was present on the page.\nCompleted the requested check successfully.",
+            "credits": 22.54106,
+            "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QQQGH9V7TQ1V36KP1VPQE9/dashboard/share/US_J0WNXD0C3S1R3ZITYECAYL6R1PIFIHEIAY0TTP7ZMBCG130W9JVNI8MTSSRI2I20?type=summary&agentView=true&fqdn=summary-page",
+            "evidencePath": "~/.testmuai/kaneai/sessions/17936a14-2ffb-4cae-bd0b-ffa592d48067/evidence/84bde0ae-7c7d-4b92-82ab-1c8e4fb71b70.evidence",
+            "recorder": "KR-90 ERRORED (UNVERIFIED)"
+          }
+        }
+      ],
+      "carried": [],
+      "overall": "FAIL"
+    }
+  ],
+  "status": "needs_human",
+  "error": "Repair rejected twice: The failing sentence \"It validates your JSON for syntax errors without leaving the page.\" is still in the post"
+}

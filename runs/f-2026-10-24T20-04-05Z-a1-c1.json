@@ -1,0 +1,111 @@
+{
+  "id": "f-2026-10-24T20-04-05Z-a1-c1",
+  "objective": "Check one promise about this page: Paste messy JSON and get a clean, indented version in seconds. First, look on this page for a control labeled or clearly meaning \"Json Prettify\", and store whether it exists, true or false, as {{action_available}}. Only if it exists, do this: Type {\"a\":1} into Enter Value, then click Json Prettify. Finally, store the full text of the result area as {{observed_result}} (store none if nothing changed), and store whether the Output box shows the JSON on multiple indented lines, true or false, as {{result_matches}}.",
+  "url": "https://www.testmuai.com/free-online-tools/json-prettify/",
+  "startedAt": "2026-10-24T20:04:05.143Z",
+  "endedAt": "2026-10-24T20:05:15.273Z",
+  "exitCode": 0,
+  "result": {
+    "completed": true,
+    "status": "passed",
+    "resultCode": 100,
+    "reasonCode": "success.complete",
+    "summary": "Used the JSON Prettify tool on TestMu AI.\nConfirmed that the “Json Prettify” control was available and applied it to the JSON input.\nThe output was formatted across multiple indented lines: {\n\t \"a\" : 1\n}.",
+    "oneLiner": "prettified JSON on TestMu AI's free online tools page",
+    "reason": "Objective completed",
+    "finalState": {
+      "url": "https://www.testmuai.com/free-online-tools/json-prettify/",
+      "action_available": "true",
+      "observed_result": "{\n\t \"a\" : 1\n}",
+      "result_matches": "true"
+    },
+    "memory": {
+      "json_prettify_control_exists": {
+        "value": "true",
+        "step": 2,
+        "operator": "equals",
+        "expected": "true",
+        "reasoning": "value: 'true' -> 'true'; equals 'true' -> PASS"
+      },
+      "action_available": {
+        "value": "true",
+        "step": 2,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'true' (stored, no comparison)"
+      },
+      "observed_result": {
+        "value": "{\n\t \"a\" : 1\n}",
+        "step": 4,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: '{\\n\\t \"a\" : 1\\n}' (stored, no comparison)"
+      },
+      "result_matches": {
+        "value": "true",
+        "step": 4,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'true' (stored, no comparison)"
+      }
+    },
+    "credits": 29.122944999999998,
+    "durationSec": 55.4,
+    "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QR6VNT8A4YA3B7EJBQ9SKY/dashboard/share/US_OBDVC6FYDLJJVI29DTWHJ7G3EAE2PMF4LO9XQVGY50FS7WDSR1YMLZ7P7XRZJQQV?type=summary&agentView=true&fqdn=summary-page",
+    "evidencePath": "~/.testmuai/kaneai/sessions/4d10ede6-7e3c-4585-9988-a84d5a922b39/evidence/e5b66f11-3147-43eb-bb15-3f1271738818.evidence",
+    "steps": [
+      {
+        "step": 2,
+        "status": "done",
+        "remark": "wait: queued plan (2 steps): type \"Type or paste your text here\"; click \"... Json Pret",
+        "ts": "2026-10-24T20:04:38.254Z"
+      },
+      {
+        "step": 3,
+        "status": "done",
+        "remark": "scroll: Scroll \"Type or paste your text here\" into view",
+        "ts": "2026-10-24T20:04:39.046Z"
+      },
+      {
+        "step": 4,
+        "status": "done",
+        "remark": "type: Type \"{\"a\":1}\" into \"Type or paste your text here\"",
+        "ts": "2026-10-24T20:04:39.872Z"
+      },
+      {
+        "step": 5,
+        "status": "done",
+        "remark": "analyze: ANALYZE(textual_visual, 'whether the Output box shows the JSON on multiple inden",
+        "ts": "2026-10-24T20:05:00.176Z"
+      },
+      {
+        "step": 6,
+        "status": "done",
+        "remark": "wait: Waiting after all JSON prettifier checkpoints have passed",
+        "ts": "2026-10-24T20:05:03.516Z"
+      },
+      {
+        "step": 7,
+        "status": "done",
+        "remark": "wait: Waiting JSON Prettify action completed with formatted output visible",
+        "ts": "2026-10-24T20:04:46.748Z"
+      }
+    ]
+  },
+  "ndjson": "runs/f-2026-10-24T20-04-05Z-a1-c1.ndjson",
+  "recorder": {
+    "runId": "KR-96",
+    "verdict": "ERRORED (UNVERIFIED)",
+    "proofUrl": "https://kaneclihack.sh/t/omni/proof#run-96"
+  },
+  "verdict": {
+    "status": "PASS",
+    "reason": "Kane used \"Json Prettify\" and saw the expected result (Kane step 4).",
+    "evidence": {
+      "actionAvailable": "true",
+      "observed": "{\n\t \"a\" : 1\n}",
+      "resultMatches": "true",
+      "step": 4
+    }
+  }
+}

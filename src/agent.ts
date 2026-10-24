@@ -38,7 +38,7 @@ const CAMPAIGN_SCHEMA = {
   },
 };
 
-async function callJson<T>(system: string, user: string, schema: object, name: string): Promise<T> {
+export async function callJson<T>(system: string, user: string, schema: object, name: string): Promise<T> {
   const key = process.env.OPENAI_API_KEY;
   if (!key) throw new Error("OPENAI_API_KEY is not set in .env");
   const res = await fetch("https://api.openai.com/v1/chat/completions", {

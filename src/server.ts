@@ -4,6 +4,7 @@ import { streamSSE } from "hono/streaming";
 import { readdir } from "node:fs/promises";
 import type { DraftInput } from "./agent";
 import { runCampaign, type CampaignRecord } from "./loop";
+import { featureRoutes } from "./features-loop";
 
 const app = new Hono();
 let busy = false; // one campaign at a time: Kane drives one browser
@@ -74,6 +75,8 @@ article{max-width:560px;border:1px solid #262626;border-radius:12px;padding:20px
 <p>${body}</p></article></body></html>`);
 });
 
+app.route("/", featureRoutes);
+
 app.use("/*", serveStatic({ root: "./public" }));
 
-export default { port: 3000, fetch: app.fetch, idleTimeout: 0 };
+export default { port: Number(process.env.PORT ?? 3000), fetch: app.fetch, idleTimeout: 0 };

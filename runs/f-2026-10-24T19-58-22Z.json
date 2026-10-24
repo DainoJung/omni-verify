@@ -1,0 +1,354 @@
+{
+  "id": "f-2026-10-24T19-58-22Z",
+  "kind": "feature_claims",
+  "model": "gpt-5.4-mini",
+  "input": {
+    "tool_url": "https://www.testmuai.com/free-online-tools/json-prettify/",
+    "channel": "Launch post on X",
+    "stretch": true
+  },
+  "draft": {
+    "tool_name": "Free JSON Formatter & Prettifier",
+    "post_copy": "Turn messy JSON into clean, indented output in one click. Check a payload for syntax errors before you ship it. Clear the field and start over with a fresh sample. https://www.testmuai.com/free-online-tools/json-prettify/",
+    "claims": [
+      {
+        "text": "Turn messy JSON into clean, indented output in one click.",
+        "control": "Json Prettify",
+        "action": "Type {\"a\":1,\"b\":2} into Enter Value, then click Json Prettify.",
+        "expected": "The Output box shows the JSON split across indented lines."
+      },
+      {
+        "text": "Check a payload for syntax errors before you ship it.",
+        "control": "Validate",
+        "action": "Type {\"a\":1} into Enter Value, then click Validate.",
+        "expected": "The Output box shows the JSON is valid with no syntax error message."
+      },
+      {
+        "text": "Clear the field and start over with a fresh sample.",
+        "control": "Add Sample File",
+        "action": "Click Add Sample File.",
+        "expected": "The input area is filled with a sample JSON value."
+      }
+    ],
+    "stretch_sentence": "Clear the field and start over with a fresh sample."
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "post": {
+        "tool_name": "Free JSON Formatter & Prettifier",
+        "post_copy": "Turn messy JSON into clean, indented output in one click. Check a payload for syntax errors before you ship it. Clear the field and start over with a fresh sample. https://www.testmuai.com/free-online-tools/json-prettify/",
+        "claims": [
+          {
+            "text": "Turn messy JSON into clean, indented output in one click.",
+            "control": "Json Prettify",
+            "action": "Type {\"a\":1,\"b\":2} into Enter Value, then click Json Prettify.",
+            "expected": "The Output box shows the JSON split across indented lines."
+          },
+          {
+            "text": "Check a payload for syntax errors before you ship it.",
+            "control": "Validate",
+            "action": "Type {\"a\":1} into Enter Value, then click Validate.",
+            "expected": "The Output box shows the JSON is valid with no syntax error message."
+          },
+          {
+            "text": "Clear the field and start over with a fresh sample.",
+            "control": "Add Sample File",
+            "action": "Click Add Sample File.",
+            "expected": "The input area is filled with a sample JSON value."
+          }
+        ],
+        "stretch_sentence": "Clear the field and start over with a fresh sample."
+      },
+      "checks": [
+        {
+          "claim": {
+            "text": "Turn messy JSON into clean, indented output in one click.",
+            "control": "Json Prettify",
+            "action": "Type {\"a\":1,\"b\":2} into Enter Value, then click Json Prettify.",
+            "expected": "The Output box shows the JSON split across indented lines."
+          },
+          "objective": "Check one promise about this page: Turn messy JSON into clean, indented output in one click. First, look on this page for a control labeled or clearly meaning \"Json Prettify\", and store whether it exists, true or false, as {{action_available}}. Only if it exists, do this: Type {\"a\":1,\"b\":2} into Enter Value, then click Json Prettify. Finally, store the full text of the result area as {{observed_result}} (store none if nothing changed), and store whether the Output box shows the JSON split across indented lines, true or false, as {{result_matches}}.",
+          "kaneRunId": "f-2026-10-24T19-58-22Z-a1-c1",
+          "verdict": {
+            "status": "PASS",
+            "reason": "Kane used \"Json Prettify\" and saw the expected result (Kane step 4).",
+            "evidence": {
+              "actionAvailable": "true",
+              "observed": "{\n\t \"a\" : 1,\n\t \"b\" : 2\n}",
+              "resultMatches": "true",
+              "step": 4
+            }
+          },
+          "steps": [
+            {
+              "step": 2,
+              "remark": "wait: queued plan (2 steps): type \"Type or paste your text here\"; click \"... Json Pret"
+            },
+            {
+              "step": 3,
+              "remark": "scroll: Scroll \"Type or paste your text here\" into view"
+            },
+            {
+              "step": 4,
+              "remark": "type: Type \"{\"a\":1,\"b\":2}\" into \"Type or paste your text here\""
+            },
+            {
+              "step": 5,
+              "remark": "analyze: ANALYZE(textual_visual, 'whether the Output box shows the JSON split across inde"
+            },
+            {
+              "step": 6,
+              "remark": "wait: Waiting with all conditional checkpoints resolved"
+            },
+            {
+              "step": 7,
+              "remark": "wait: Waiting after Json Prettify while confirming formatted output is visible"
+            }
+          ],
+          "kane": {
+            "status": "passed",
+            "exitCode": 0,
+            "summary": "Opened Testmu AI's JSON Prettify tool and confirmed that the Json Prettify control was available.\nFormatted the JSON input and verified that the Output box displayed it across indented lines.\nThe final formatted result was: { \"a\" : 1, \"b\" : 2 }.",
+            "credits": 30.9115775,
+            "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QQWD77P1BWGMNC63K6GXE2/dashboard/share/US_TVL5CAPBYONUTX2IK7MWQXEG1SN1MLG7AQOMSL3YKTV2R281K3SOR57PY2QXFIY9?type=summary&agentView=true&fqdn=summary-page",
+            "evidencePath": "~/.testmuai/kaneai/sessions/73ade4d1-304b-4c0b-81c8-3a7585288630/evidence/8ec2ff7d-09ea-4b44-884c-312008244266.evidence",
+            "recorder": "KR-92 ERRORED (UNVERIFIED)"
+          }
+        },
+        {
+          "claim": {
+            "text": "Check a payload for syntax errors before you ship it.",
+            "control": "Validate",
+            "action": "Type {\"a\":1} into Enter Value, then click Validate.",
+            "expected": "The Output box shows the JSON is valid with no syntax error message."
+          },
+          "objective": "Check one promise about this page: Check a payload for syntax errors before you ship it. First, look on this page for a control labeled or clearly meaning \"Validate\", and store whether it exists, true or false, as {{action_available}}. Only if it exists, do this: Type {\"a\":1} into Enter Value, then click Validate. Finally, store the full text of the result area as {{observed_result}} (store none if nothing changed), and store whether the Output box shows the JSON is valid with no syntax error message, true or false, as {{result_matches}}.",
+          "kaneRunId": "f-2026-10-24T19-58-22Z-a1-c2",
+          "verdict": {
+            "status": "UNVERIFIED",
+            "reason": "Kane did not report whether \"Validate\" exists and works.",
+            "evidence": {
+              "actionAvailable": "true",
+              "observed": null,
+              "resultMatches": null,
+              "step": 2
+            }
+          },
+          "steps": [
+            {
+              "step": 2,
+              "remark": "wait: queued plan (2 steps): type \"Type or paste your text here\"; click \"... Validate\""
+            },
+            {
+              "step": 3,
+              "remark": "scroll: Scroll \"Type or paste your text here\" into view"
+            },
+            {
+              "step": 4,
+              "remark": "type: Type \"{\"a\":1}\" into \"Type or paste your text here\""
+            },
+            {
+              "step": 5,
+              "remark": "wait: Waiting after resolving all conditional checkpoints"
+            },
+            {
+              "step": 6,
+              "remark": "click: Click \"... Validate\""
+            },
+            {
+              "step": 7,
+              "remark": "wait: Waiting validation completion confirmed by the Output textbox showing \"Valid!\""
+            }
+          ],
+          "kane": {
+            "status": "passed",
+            "exitCode": 0,
+            "summary": "Checked the JSON Prettify tool page for a Validate control.\nConfirmed that a Validate button is available on the page.",
+            "credits": 24.30507,
+            "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QQYKECJSFY0DERSNS0GTWF/dashboard/share/US_N2GH9MJGEO0TIGZJSQJU352FG578V970SL7GDT6WF1UVOA3U2Z8388Y6ERYEF9PC?type=summary&agentView=true&fqdn=summary-page",
+            "evidencePath": "~/.testmuai/kaneai/sessions/84f65816-62cc-47ce-8951-4694eefded03/evidence/239801e5-098a-46a8-9998-6da3fe8b4415.evidence",
+            "recorder": "KR-93 ERRORED (UNVERIFIED)"
+          }
+        },
+        {
+          "claim": {
+            "text": "Clear the field and start over with a fresh sample.",
+            "control": "Add Sample File",
+            "action": "Click Add Sample File.",
+            "expected": "The input area is filled with a sample JSON value."
+          },
+          "objective": "Check one promise about this page: Clear the field and start over with a fresh sample. First, look on this page for a control labeled or clearly meaning \"Add Sample File\", and store whether it exists, true or false, as {{action_available}}. Only if it exists, do this: Click Add Sample File. Finally, store the full text of the result area as {{observed_result}} (store none if nothing changed), and store whether the input area is filled with a sample JSON value, true or false, as {{result_matches}}.",
+          "kaneRunId": "f-2026-10-24T19-58-22Z-a1-c3",
+          "verdict": {
+            "status": "PASS",
+            "reason": "Kane used \"Add Sample File\" and saw the expected result (Kane step 5).",
+            "evidence": {
+              "actionAvailable": "true",
+              "observed": "none",
+              "resultMatches": "true",
+              "step": 5
+            }
+          },
+          "steps": [
+            {
+              "step": 2,
+              "remark": "scroll: Scrolling to the Add Sample File button"
+            },
+            {
+              "step": 3,
+              "remark": "click: Clicking Add Sample File button"
+            },
+            {
+              "step": 4,
+              "remark": "Step 3"
+            },
+            {
+              "step": 5,
+              "remark": "Step 4"
+            },
+            {
+              "step": 6,
+              "remark": "analyze: ANALYZE(textual_visual, 'whether the input area is filled with a sample JSON val"
+            },
+            {
+              "step": 7,
+              "remark": "wait: Waiting after all conditional checkpoint values have been verified"
+            }
+          ],
+          "kane": {
+            "status": "passed",
+            "exitCode": 0,
+            "summary": "Checked the JSON Prettify tool for an “Add Sample File” control; it was available.\nUsed the available sample-file option, and the input area was populated with valid sample JSON.\nNo text appeared in the result area after this action.",
+            "credits": 33.128527500000004,
+            "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QR0AWJV4S40WY27TBWXNW0/dashboard/share/US_7CMFDTO9V6CFYIQY66GXP32T5SOLERH444UFABKOPIPC5LKXFKPOB9UEM9MAXPRJ?type=summary&agentView=true&fqdn=summary-page",
+            "evidencePath": "~/.testmuai/kaneai/sessions/c9b3b8b2-50c6-4120-b6d0-188ec97b1715/evidence/23e82f70-d9fc-421d-9049-5c7112a54c70.evidence",
+            "recorder": "KR-94 ERRORED (UNVERIFIED)"
+          }
+        }
+      ],
+      "carried": [],
+      "overall": "UNVERIFIED"
+    },
+    {
+      "n": 2,
+      "post": {
+        "tool_name": "Free JSON Formatter & Prettifier",
+        "post_copy": "Turn messy JSON into clean, indented output in one click. Check a payload for syntax errors before you ship it. Clear the field and start over with a fresh sample. https://www.testmuai.com/free-online-tools/json-prettify/",
+        "claims": [
+          {
+            "text": "Turn messy JSON into clean, indented output in one click.",
+            "control": "Json Prettify",
+            "action": "Type {\"a\":1,\"b\":2} into Enter Value, then click Json Prettify.",
+            "expected": "The Output box shows the JSON split across indented lines."
+          },
+          {
+            "text": "Check a payload for syntax errors before you ship it.",
+            "control": "Validate",
+            "action": "Type {\"a\":1} into Enter Value, then click Validate.",
+            "expected": "The Output box shows the JSON is valid with no syntax error message."
+          },
+          {
+            "text": "Clear the field and start over with a fresh sample.",
+            "control": "Add Sample File",
+            "action": "Click Add Sample File.",
+            "expected": "The input area is filled with a sample JSON value."
+          }
+        ],
+        "stretch_sentence": "Clear the field and start over with a fresh sample."
+      },
+      "checks": [
+        {
+          "claim": {
+            "text": "Check a payload for syntax errors before you ship it.",
+            "control": "Validate",
+            "action": "Type {\"a\":1} into Enter Value, then click Validate.",
+            "expected": "The Output box shows the JSON is valid with no syntax error message."
+          },
+          "objective": "Check one promise about this page: Check a payload for syntax errors before you ship it. First, look on this page for a control labeled or clearly meaning \"Validate\", and store whether it exists, true or false, as {{action_available}}. Only if it exists, do this: Type {\"a\":1} into Enter Value, then click Validate. Finally, store the full text of the result area as {{observed_result}} (store none if nothing changed), and store whether the Output box shows the JSON is valid with no syntax error message, true or false, as {{result_matches}}.",
+          "kaneRunId": "f-2026-10-24T19-58-22Z-a2-c1",
+          "verdict": {
+            "status": "PASS",
+            "reason": "Kane used \"Validate\" and saw the expected result (Kane step 5).",
+            "evidence": {
+              "actionAvailable": "true",
+              "observed": "Valid!",
+              "resultMatches": "true",
+              "step": 5
+            }
+          },
+          "steps": [
+            {
+              "step": 2,
+              "remark": "wait: queued plan (2 steps): type \"Type or paste your text here\"; click \"... Validate\""
+            },
+            {
+              "step": 3,
+              "remark": "scroll: Scroll \"Type or paste your text here\" into view"
+            },
+            {
+              "step": 4,
+              "remark": "type: Type \"{\"a\":1}\" into \"Type or paste your text here\""
+            },
+            {
+              "step": 5,
+              "remark": "scroll: Scroll \"... Validate\" into view"
+            },
+            {
+              "step": 6,
+              "remark": "analyze: ANALYZE(textual_visual, 'whether the Output box shows the JSON is valid with no "
+            },
+            {
+              "step": 7,
+              "remark": "wait: Waiting after all JSON validation checkpoints have passed"
+            },
+            {
+              "step": 8,
+              "remark": "wait: Waiting confirm JSON validation result is displayed as \"Valid!\" in the Output field"
+            }
+          ],
+          "kane": {
+            "status": "passed",
+            "exitCode": 0,
+            "summary": "Checked the JSON Prettify tool for a validation option.\nUsed the available validation action to check the JSON.\nThe result displayed “Valid!” with no syntax error message, confirming that the JSON was valid.",
+            "credits": 38.050465,
+            "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QR2KF5QSRE07C2KSSMGSPN/dashboard/share/US_NNQ23Q3FBUZACA9CMF1ILQYG8KPNNXV6S1C6ORRJNW1TG2YZC8AOUUC2D3QCQUV9?type=summary&agentView=true&fqdn=summary-page",
+            "evidencePath": "~/.testmuai/kaneai/sessions/60b1c831-c314-4f62-8147-2a9adabc93ab/evidence/a777776f-27e5-4e79-807d-dea8e1d798ae.evidence",
+            "recorder": "KR-95 ERRORED (UNVERIFIED)"
+          }
+        }
+      ],
+      "carried": [
+        "Turn messy JSON into clean, indented output in one click.",
+        "Clear the field and start over with a fresh sample."
+      ],
+      "overall": "PASS"
+    }
+  ],
+  "status": "verified",
+  "final": {
+    "tool_name": "Free JSON Formatter & Prettifier",
+    "post_copy": "Turn messy JSON into clean, indented output in one click. Check a payload for syntax errors before you ship it. Clear the field and start over with a fresh sample. https://www.testmuai.com/free-online-tools/json-prettify/",
+    "claims": [
+      {
+        "text": "Turn messy JSON into clean, indented output in one click.",
+        "control": "Json Prettify",
+        "action": "Type {\"a\":1,\"b\":2} into Enter Value, then click Json Prettify.",
+        "expected": "The Output box shows the JSON split across indented lines."
+      },
+      {
+        "text": "Check a payload for syntax errors before you ship it.",
+        "control": "Validate",
+        "action": "Type {\"a\":1} into Enter Value, then click Validate.",
+        "expected": "The Output box shows the JSON is valid with no syntax error message."
+      },
+      {
+        "text": "Clear the field and start over with a fresh sample.",
+        "control": "Add Sample File",
+        "action": "Click Add Sample File.",
+        "expected": "The input area is filled with a sample JSON value."
+      }
+    ],
+    "stretch_sentence": "Clear the field and start over with a fresh sample."
+  }
+}

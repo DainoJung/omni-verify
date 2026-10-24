@@ -1,0 +1,111 @@
+{
+  "id": "f-2026-10-24T19-58-22Z-a1-c3",
+  "objective": "Check one promise about this page: Clear the field and start over with a fresh sample. First, look on this page for a control labeled or clearly meaning \"Add Sample File\", and store whether it exists, true or false, as {{action_available}}. Only if it exists, do this: Click Add Sample File. Finally, store the full text of the result area as {{observed_result}} (store none if nothing changed), and store whether the input area is filled with a sample JSON value, true or false, as {{result_matches}}.",
+  "url": "https://www.testmuai.com/free-online-tools/json-prettify/",
+  "startedAt": "2026-10-24T20:00:31.479Z",
+  "endedAt": "2026-10-24T20:01:45.640Z",
+  "exitCode": 0,
+  "result": {
+    "completed": true,
+    "status": "passed",
+    "resultCode": 100,
+    "reasonCode": "success.complete",
+    "summary": "Checked the JSON Prettify tool for an “Add Sample File” control; it was available.\nUsed the available sample-file option, and the input area was populated with valid sample JSON.\nNo text appeared in the result area after this action.",
+    "oneLiner": "added sample JSON on the TestMuAI JSON Prettify tool",
+    "reason": "Objective completed",
+    "finalState": {
+      "url": "https://www.testmuai.com/free-online-tools/json-prettify/",
+      "action_available": "true",
+      "result_matches": "true",
+      "observed_result": "none"
+    },
+    "memory": {
+      "action_available": {
+        "value": "true",
+        "step": 2,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'true' (stored, no comparison)"
+      },
+      "action_available_exists": {
+        "value": "true",
+        "step": 3,
+        "operator": "equals",
+        "expected": "true",
+        "reasoning": "value: 'true' -> 'true'; equals 'true' -> PASS"
+      },
+      "observed_result": {
+        "value": "none",
+        "step": 5,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'none' (stored, no comparison)"
+      },
+      "result_matches": {
+        "value": "true",
+        "step": 5,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'true' (stored, no comparison)"
+      }
+    },
+    "credits": 33.128527500000004,
+    "durationSec": 54.9,
+    "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QR0AWJV4S40WY27TBWXNW0/dashboard/share/US_7CMFDTO9V6CFYIQY66GXP32T5SOLERH444UFABKOPIPC5LKXFKPOB9UEM9MAXPRJ?type=summary&agentView=true&fqdn=summary-page",
+    "evidencePath": "~/.testmuai/kaneai/sessions/c9b3b8b2-50c6-4120-b6d0-188ec97b1715/evidence/23e82f70-d9fc-421d-9049-5c7112a54c70.evidence",
+    "steps": [
+      {
+        "step": 2,
+        "status": "done",
+        "remark": "scroll: Scrolling to the Add Sample File button",
+        "ts": "2026-10-24T20:01:08.851Z"
+      },
+      {
+        "step": 3,
+        "status": "done",
+        "remark": "click: Clicking Add Sample File button",
+        "ts": "2026-10-24T20:01:10.317Z"
+      },
+      {
+        "step": 4,
+        "status": "running",
+        "remark": "Step 3",
+        "ts": "2026-10-24T20:01:11.034Z"
+      },
+      {
+        "step": 5,
+        "status": "running",
+        "remark": "Step 4",
+        "ts": "2026-10-24T20:01:04.514Z"
+      },
+      {
+        "step": 6,
+        "status": "done",
+        "remark": "analyze: ANALYZE(textual_visual, 'whether the input area is filled with a sample JSON val",
+        "ts": "2026-10-24T20:01:25.180Z"
+      },
+      {
+        "step": 7,
+        "status": "done",
+        "remark": "wait: Waiting after all conditional checkpoint values have been verified",
+        "ts": "2026-10-24T20:01:27.700Z"
+      }
+    ]
+  },
+  "ndjson": "runs/f-2026-10-24T19-58-22Z-a1-c3.ndjson",
+  "recorder": {
+    "runId": "KR-94",
+    "verdict": "ERRORED (UNVERIFIED)",
+    "proofUrl": "https://kaneclihack.sh/t/omni/proof#run-94"
+  },
+  "verdict": {
+    "status": "PASS",
+    "reason": "Kane used \"Add Sample File\" and saw the expected result (Kane step 5).",
+    "evidence": {
+      "actionAvailable": "true",
+      "observed": "none",
+      "resultMatches": "true",
+      "step": 5
+    }
+  }
+}
