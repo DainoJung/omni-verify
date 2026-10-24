@@ -189,14 +189,34 @@ const handlers = {
     const ok = rec.status === "verified";
     const last = rec.attempts[rec.attempts.length - 1];
     const final = rec.final ?? last.campaign;
-    node(ok ? "pass" : "fail", ok ? "Verified for launch" : "Needs a human", esc(rec.id), `<div class="card verdict ${ok ? "ok" : "no"}">
+    const card = node(ok ? "pass" : "fail", ok ? "Verified for launch" : "Needs a human", esc(rec.id), `<div class="card verdict ${ok ? "ok" : "no"}">
       <h3>${ok ? "Verified for launch" : "Needs a human"}</h3>
       <div>${ok ? `Kane passed every claim on attempt ${last.n} of ${rec.attempts.length}.` : `Kane still fails after ${rec.attempts.length} attempts.`}</div>
       <div class="k">Final post</div><div class="copy">${esc(final.post_copy)}</div>
       <div class="k">Final link</div><div class="mono">${esc(final.cta_url)}</div>
       <div class="k">Change from first draft</div><div class="mono">${diff(rec.draft.cta_url, final.cta_url)}</div>
       <div class="k">Assertions</div>${verdictsHtml(last.verdicts)}${kaneLinks(last.kane)}
-      <div class="links"><a href="/api/campaigns/${esc(rec.id)}" target="_blank">Full run record (JSON)</a></div></div>`);
+      <div class="links"><a href="/api/campaigns/${esc(rec.id)}" target="_blank">Full run record (JSON)</a>
+        ${ok ? `<a href="/post/${esc(rec.id)}" target="_blank">Post preview</a>` : ""}</div>
+      ${ok && rec.regression ? `<div class="k">Regression test</div>
+        <div class="mono">${esc(rec.regression.path)}</div>
+        <div class="hint">Kane recorded the passing run as a test. Re-verify replays it and judges every claim again.</div>
+        <button class="ghost reverify" data-id="${esc(rec.id)}">Re-verify</button>` : ""}</div>`);
+    const b = timeline.querySelector(`button.reverify[data-id="${CSS.escape(rec.id)}"]`);
+    if (b) b.onclick = () => startReverify(rec.id, b);
+    document.dispatchEvent(new CustomEvent("omni:result", { detail: { rec, el: card } }));
+  },
+  reverify_start(d) {
+    attempts[d.n] = node("live", "Re-verify", "replaying Kane's saved test", `<div class="card">
+      <div class="k">Replay</div><div class="mono">kane-cli testmd run ${esc(d.path)} --url ${esc(d.url)}</div>
+      <div class="k">Steps</div><ul class="steps"></ul><div class="result"></div></div>`);
+  },
+  reverify_end(rv) {
+    const el = attempts[rv.n]; if (!el) return;
+    el.className = `node ${rv.overall === "PASS" ? "pass" : "fail"}`;
+    $("h2", el).innerHTML = `Re-verify ${esc(rv.k)}<span class="meta"><span class="tag ${rv.overall}">${rv.overall}</span> ${esc(rv.at.slice(0, 16).replace("T", " "))} UTC</span>`;
+    $(".result", el).innerHTML = `<div class="k">Assertions</div>${verdictsHtml(rv.verdicts)}${kaneLinks(rv.kane)}`;
+    document.dispatchEvent(new CustomEvent("omni:reverified", { detail: { id: rv.kaneRunId.replace(/-rv\d+$/, "") } }));
   },
   error(e) {
     node("fail", "Error", "", `<div class="card error">${esc(e.message)}</div>`);
@@ -232,6 +252,25 @@ async function replay(id) {
     if (a.repair) handlers.repair({ n: a.n, action: a.repair.action, reason: a.repair.reason, before: a.campaign, after: a.repair.campaign });
   });
   if (rec.status !== "running") handlers.result(rec);
+  (rec.reverifications ?? []).forEach((rv, i) => {
+    const n = `rv${rv.k}`;
+    handlers.reverify_start({ n, path: rv.path, url: rec.regression?.url ?? "" });
+    for (const s of rec.rvSteps?.[i] ?? []) handlers.kane({ n, ev: { kind: "step", ...s } });
+    handlers.reverify_end({ n, ...rv });
+  });
+}
+
+async function startReverify(id, btn) {
+  btn.disabled = true; btn.textContent = "Replaying…";
+  try {
+    const res = await fetch(`/api/campaigns/${encodeURIComponent(id)}/reverify`, { method: "POST" });
+    if (!res.ok) handlers.error({ message: (await res.json()).error ?? res.statusText });
+    else await stream(res);
+  } catch (err) {
+    handlers.error({ message: String(err) });
+  } finally {
+    btn.disabled = false; btn.textContent = "Re-verify";
+  }
 }
 
 async function loadPast() {
@@ -260,5 +299,6 @@ $("#form").addEventListener("submit", async (e) => {
   }
 });
 </script>
+<script src="/publish.js"></script>
 </body>
 </html>

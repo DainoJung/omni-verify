@@ -96,3 +96,14 @@ test("text_visible: no stored answer is UNVERIFIED, never PASS", async () => {
   const { evaluateTextVisible } = await import("./claims");
   expect(evaluateTextVisible({ type: "text_visible", value: "x" }, 1, kane).status).toBe("UNVERIFIED");
 });
+
+test("testmd replay: test_md_done completes it, inner run_end does not, sub-steps become timeline rows", () => {
+  // Real replay of a named run's _test.md (KR-73, recorder: PASSED VERIFIED).
+  const r = parseNdjson(require("node:fs").readFileSync("fixtures/kane-testmd-replay.ndjson", "utf8"));
+  expect(r.surface).toBe("testmd");
+  expect(r.completed).toBe(true);
+  expect(r.status).toBe("passed");
+  expect(r.steps.map((s) => s.step)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+  expect(r.steps[2].remark).toBe("analyze: Checking for the videos, articles and PDFs text");
+  expect(r.evidencePath).toEndWith(".evidence");
+});

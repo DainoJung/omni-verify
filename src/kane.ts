@@ -6,11 +6,12 @@
 import { homedir } from "node:os";
 
 export type KaneEvent =
-  | { kind: "start"; cliVersion: string }
+  | { kind: "start"; cliVersion: string; surface: string }
   | { kind: "plan"; flows: string[] }
   | { kind: "step"; step: number; status: string; remark: string; ts: string }
   | { kind: "coverage"; status: string; reason: string | null; pack: string | null }
   | { kind: "end"; raw: Record<string, any> }
+  | { kind: "testmd_done"; status: string; sessionId: string | null }
   | { kind: "other"; type: string };
 
 export type KaneMemory = {
@@ -22,7 +23,8 @@ export type KaneMemory = {
 };
 
 export type KaneResult = {
-  completed: boolean; // saw run_end
+  surface: string | null; // "run" or "testmd", from stream_start
+  completed: boolean; // saw run_end (run) or test_md_done (testmd)
   status: string | null; // run_end.status: "passed" | "failed" | ...
   resultCode: number | null;
   reasonCode: string | null;
@@ -56,13 +58,18 @@ export function parseLine(line: string): KaneEvent | null {
   }
   switch (ev.type) {
     case "stream_start":
-      return { kind: "start", cliVersion: String(ev.cli_version ?? "") };
+      return { kind: "start", cliVersion: String(ev.cli_version ?? ""), surface: String(ev.surface ?? "") };
     case "bifurcation":
       return { kind: "plan", flows: Array.isArray(ev.flows) ? ev.flows.map(String) : [] };
     case "coverage":
       return { kind: "coverage", status: String(ev.status ?? ""), reason: ev.reason ?? null, pack: ev.pack ?? null };
     case "run_end":
       return { kind: "end", raw: ev };
+    case "step_end":
+      // testmd replays report each sub-step as a typed step_end; ordinal runs across the whole test.
+      return { kind: "step", step: Number(ev.ordinal ?? ev.index), status: ev.status === "passed" ? "done" : String(ev.status), remark: String(ev.summary ?? ""), ts: String(ev.ts ?? "") };
+    case "test_md_done":
+      return { kind: "testmd_done", status: String(ev.overall_status ?? ""), sessionId: ev.session_id ?? null };
     default:
       return { kind: "other", type: ev.type };
   }
@@ -70,7 +77,7 @@ export function parseLine(line: string): KaneEvent | null {
 
 export function emptyResult(): KaneResult {
   return {
-    completed: false, status: null, resultCode: null, reasonCode: null, summary: null, oneLiner: null,
+    surface: null, completed: false, status: null, resultCode: null, reasonCode: null, summary: null, oneLiner: null,
     reason: null, finalState: {}, memory: {}, credits: null, durationSec: null, testUrl: null,
     evidencePath: null, steps: [],
   };
@@ -85,6 +92,13 @@ export function applyEvent(r: KaneResult, ev: KaneEvent): KaneResult {
     else r.steps.push(row);
   } else if (ev.kind === "coverage") {
     r.evidencePath ??= ev.pack;
+  } else if (ev.kind === "testmd_done") {
+    r.completed = true;
+    r.status = ev.status;
+  } else if (ev.kind === "start") {
+    r.surface = ev.surface;
+  } else if (ev.kind === "end" && r.surface === "testmd") {
+    // In a saved-test replay, an inner run_end closes one step, not the test: test_md_done does.
   } else if (ev.kind === "end") {
     const e = ev.raw;
     r.completed = true;
@@ -151,22 +165,8 @@ export function parseRecorder(stderr: string): KaneRun["recorder"] {
 }
 
 // Every Kane run goes through the kanehack event recorder. Never call kane-cli directly.
-export async function runKane(opts: {
-  objective: string;
-  url: string;
-  timeoutSec?: number;
-  onEvent?: (ev: KaneEvent) => void;
-}): Promise<KaneRun> {
-  const startedAt = new Date().toISOString();
-  const proc = Bun.spawn(
-    [
-      "kanehack", "report", "--",
-      "kane-cli", "run", opts.objective, "--url", opts.url, "--agent", "--headless",
-      "--timeout", String(opts.timeoutSec ?? 300),
-    ],
-    { stdout: "pipe", stderr: "pipe" },
-  );
-
+async function spawnKane(kaneArgs: string[], onEvent?: (ev: KaneEvent) => void) {
+  const proc = Bun.spawn(["kanehack", "report", "--", "kane-cli", ...kaneArgs], { stdout: "pipe", stderr: "pipe" });
   let result = emptyResult();
   let raw = "";
   let buf = "";
@@ -178,7 +178,7 @@ export async function runKane(opts: {
     if (!ev) return;
     if (ev.kind === "coverage" && ev.pack) ev.pack = redact(ev.pack);
     result = applyEvent(result, ev);
-    opts.onEvent?.(ev);
+    onEvent?.(ev);
   };
 
   const stderrP = new Response(proc.stderr).text();
@@ -193,16 +193,57 @@ export async function runKane(opts: {
   handle(buf);
   const exitCode = await proc.exited;
   const stderr = await stderrP;
-
   if (result.evidencePath) result.evidencePath = redact(result.evidencePath);
-  return {
-    objective: opts.objective,
-    url: opts.url,
-    startedAt,
-    endedAt: new Date().toISOString(),
-    exitCode,
-    result,
-    ndjson: redact(raw),
-    recorder: parseRecorder(stderr),
-  };
+  return { exitCode, result, ndjson: redact(raw), recorder: parseRecorder(stderr) };
+}
+
+// One verification attempt. With a name, Kane also records the run as .testmuai/tests/<name>_test.md,
+// which becomes the campaign's regression test when the attempt passes.
+export async function runKane(opts: {
+  objective: string;
+  url: string;
+  name?: string;
+  timeoutSec?: number;
+  onEvent?: (ev: KaneEvent) => void;
+}): Promise<KaneRun> {
+  const startedAt = new Date().toISOString();
+  const r = await spawnKane(
+    [
+      "run", opts.objective, "--url", opts.url, "--agent", "--headless",
+      "--assertion-failure-mode", "continue", "--timeout", String(opts.timeoutSec ?? 300),
+      ...(opts.name ? ["--name", opts.name] : []),
+    ],
+    opts.onEvent,
+  );
+  return { objective: opts.objective, url: opts.url, startedAt, endedAt: new Date().toISOString(), ...r };
+}
+
+// Values the replayed checks stored, read from the replay's own evidence pack
+// (tests/*/logs/<n>-actions.ndjson: output_variable / output_value, computed during the replay).
+// The testmd stream itself does not carry them.
+export async function packOutputs(pack: string): Promise<Record<string, KaneMemory>> {
+  const path = expandHome(pack);
+  const list = await new Response(Bun.spawn(["unzip", "-Z1", path], { stdout: "pipe" }).stdout).text();
+  const out: Record<string, KaneMemory> = {};
+  for (const f of list.split("\n").filter((f) => /\/logs\/\d+-actions\.ndjson$/.test(f)).sort()) {
+    const text = await new Response(Bun.spawn(["unzip", "-p", path, f], { stdout: "pipe" }).stdout).text();
+    for (const line of text.split("\n")) {
+      if (!line.startsWith("{")) continue;
+      const a = JSON.parse(line);
+      if (!a.output_variable) continue;
+      out[a.output_variable] = { value: String(a.output_value ?? ""), step: a.step ?? null, operator: null, expected: null, reasoning: a.action_instruction ?? null };
+    }
+  }
+  return out;
+}
+
+// Re-verify: replay a saved test (no authoring when its recordings are intact) and re-read what it checked.
+export async function replayTest(opts: { path: string; url: string; onEvent?: (ev: KaneEvent) => void }): Promise<KaneRun> {
+  const startedAt = new Date().toISOString();
+  const r = await spawnKane(["testmd", "run", opts.path, "--url", opts.url, "--agent", "--headless"], opts.onEvent);
+  if (r.result.evidencePath) {
+    r.result.memory = await packOutputs(r.result.evidencePath).catch(() => ({}));
+    if (r.result.memory.landing_url) r.result.finalState.url = r.result.memory.landing_url.value;
+  }
+  return { objective: `testmd run ${opts.path}`, url: opts.url, startedAt, endedAt: new Date().toISOString(), ...r };
 }

@@ -1,0 +1,439 @@
+{
+  "id": "c-2026-10-24T19-41-41Z",
+  "model": "gpt-5.4-mini",
+  "input": {
+    "app_url": "https://scribo.cc",
+    "goal": "Get new learners to install Scribo from a Threads post",
+    "audience": "Adults learning a second language who journal or write daily"
+  },
+  "draft": {
+    "post_copy": "Learn a language from the videos, articles and PDFs you actually care about. Scribo rewrites them at your level, in sections you can finish in about five minutes. https://scribo.cc?ct=threads-oct24",
+    "cta_url": "https://scribo.cc?ct=threads-oct24",
+    "campaign_tag": "threads-oct24",
+    "claims": [
+      {
+        "text": "Learn a language from the videos, articles and PDFs you actually care about.",
+        "assertion": {
+          "type": "text_visible",
+          "value": "videos, articles and PDFs"
+        }
+      },
+      {
+        "text": "Scribo rewrites them at your level, in sections you can finish in about five minutes.",
+        "assertion": {
+          "type": "text_visible",
+          "value": "in sections you can finish"
+        }
+      },
+      {
+        "text": "https://scribo.cc?ct=threads-oct24",
+        "assertion": {
+          "type": "param_preserved",
+          "value": "ct=threads-oct24"
+        }
+      }
+    ]
+  },
+  "explore": {
+    "path": "explore/scribo.cc.json",
+    "exploration_id": "01a16f46-89d6-7d0b-bf88-f21c8c8f3bc3",
+    "run_id": "01a16f46-8ab3-77c4-85b6-db6d5a0c528c",
+    "explored_at": "2026-10-24T18:57:36.809Z",
+    "screens": 7,
+    "handoffs": [
+      "\"Get the app\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt",
+      "\"Download Scribo on the App Store\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt",
+      "\"Get the app\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt",
+      "\"Get the app\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt",
+      "\"Get the app\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt",
+      "\"Get the app\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt",
+      "\"Download Scribo on the App Store\" -> apps.apple.com/app/apple-store/{slug}?ct&mt&pt"
+    ]
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "campaign": {
+        "post_copy": "Learn a language from the videos, articles and PDFs you actually care about. Scribo rewrites them at your level, in sections you can finish in about five minutes. https://scribo.cc?ct=threads-oct24",
+        "cta_url": "https://scribo.cc?ct=threads-oct24",
+        "campaign_tag": "threads-oct24",
+        "claims": [
+          {
+            "text": "Learn a language from the videos, articles and PDFs you actually care about.",
+            "assertion": {
+              "type": "text_visible",
+              "value": "videos, articles and PDFs"
+            }
+          },
+          {
+            "text": "Scribo rewrites them at your level, in sections you can finish in about five minutes.",
+            "assertion": {
+              "type": "text_visible",
+              "value": "in sections you can finish"
+            }
+          },
+          {
+            "text": "https://scribo.cc?ct=threads-oct24",
+            "assertion": {
+              "type": "param_preserved",
+              "value": "ct=threads-oct24"
+            }
+          }
+        ]
+      },
+      "compiled": {
+        "url": "https://scribo.cc?ct=threads-oct24",
+        "objective": "Scroll down through the whole page once, to the bottom. Then, for each text below, check whether it appears anywhere on the page and store the answer, true or false, without searching further: store whether the text \"videos, articles and PDFs\" appears as 'claim_1'; store whether the text \"in sections you can finish\" appears as 'claim_2'. Then scroll back to the top of the page. Find the main call to action that sends the user to the App Store. Before clicking it, read the full href attribute of that link exactly as written, including its query string, and save it as {{handoff_href}}. Then click it, wait for the App Store page to finish loading, and save the current page URL as {{landing_url}}."
+      },
+      "kaneRunId": "c-2026-10-24T19-41-41Z-a1",
+      "verdicts": [
+        {
+          "text": "Learn a language from the videos, articles and PDFs you actually care about.",
+          "assertion": {
+            "type": "text_visible",
+            "value": "videos, articles and PDFs"
+          },
+          "status": "PASS",
+          "reason": "Kane found \"videos, articles and PDFs\" on the page.",
+          "evidence": {
+            "textKey": "claim_1",
+            "textFound": "true",
+            "textStep": 3
+          }
+        },
+        {
+          "text": "Scribo rewrites them at your level, in sections you can finish in about five minutes.",
+          "assertion": {
+            "type": "text_visible",
+            "value": "in sections you can finish"
+          },
+          "status": "PASS",
+          "reason": "Kane found \"in sections you can finish\" on the page.",
+          "evidence": {
+            "textKey": "claim_2",
+            "textFound": "true",
+            "textStep": 3
+          }
+        },
+        {
+          "text": "https://scribo.cc?ct=threads-oct24",
+          "assertion": {
+            "type": "param_preserved",
+            "value": "ct=threads-oct24"
+          },
+          "status": "FAIL",
+          "reason": "The App Store link carries ct=site-en-hero; the campaign expects ct=threads-oct24 (Kane step 5).",
+          "evidence": {
+            "handoffHref": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=site-en-hero&mt=8",
+            "handoffSource": "Kane read CTA href",
+            "handoffStep": 5,
+            "landingUrl": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715"
+          }
+        }
+      ],
+      "overall": "FAIL",
+      "kane": {
+        "status": "passed",
+        "exitCode": 0,
+        "summary": "Scrolled through the page to the bottom, then returned to the top as requested.\nConfirmed that the page includes both “videos, articles and PDFs” and “in sections you can finish.”\nFound the main App Store download link and recorded its full destination, including the query string: https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=site-en-hero&mt=8\nOpened the App Store listing for Scribo AI Language Learning, which finished loading successfully.",
+        "credits": 28.255010000000006,
+        "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QPXV7RH2TM0RVZX2VTSP2K/dashboard/share/US_HF1HPAZPOH65A65JTX6AXXBWBCNGN4GWPIL3G2OHCHTYZO9UXFYDPIB0B853A21A?type=summary&agentView=true&fqdn=summary-page",
+        "evidencePath": "~/.testmuai/kaneai/sessions/8711a5d8-5f22-4448-ae92-9f29061a6932/evidence/5c686c3a-2543-4a89-9e31-f51d2c95f347.evidence",
+        "recorder": "KR-74 ERRORED (UNVERIFIED)"
+      },
+      "repair": {
+        "action": "fix_link",
+        "reason": "Kane confirmed the App Store CTA goes to Scribo, but its tracked URL used ct=site-en-hero instead of ct=threads-oct24.",
+        "campaign": {
+          "post_copy": "Learn a language from the videos, articles and PDFs you actually care about. Scribo rewrites them at your level, in sections you can finish in about five minutes. https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+          "cta_url": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+          "campaign_tag": "threads-oct24",
+          "claims": [
+            {
+              "text": "Learn a language from the videos, articles and PDFs you actually care about.",
+              "assertion": {
+                "type": "text_visible",
+                "value": "videos, articles and PDFs"
+              }
+            },
+            {
+              "text": "Scribo rewrites them at your level, in sections you can finish in about five minutes.",
+              "assertion": {
+                "type": "text_visible",
+                "value": "in sections you can finish"
+              }
+            },
+            {
+              "text": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+              "assertion": {
+                "type": "param_preserved",
+                "value": "ct=threads-oct24"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "n": 2,
+      "campaign": {
+        "post_copy": "Learn a language from the videos, articles and PDFs you actually care about. Scribo rewrites them at your level, in sections you can finish in about five minutes. https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+        "cta_url": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+        "campaign_tag": "threads-oct24",
+        "claims": [
+          {
+            "text": "Learn a language from the videos, articles and PDFs you actually care about.",
+            "assertion": {
+              "type": "text_visible",
+              "value": "videos, articles and PDFs"
+            }
+          },
+          {
+            "text": "Scribo rewrites them at your level, in sections you can finish in about five minutes.",
+            "assertion": {
+              "type": "text_visible",
+              "value": "in sections you can finish"
+            }
+          },
+          {
+            "text": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+            "assertion": {
+              "type": "param_preserved",
+              "value": "ct=threads-oct24"
+            }
+          }
+        ]
+      },
+      "compiled": {
+        "url": "https://scribo.cc",
+        "objective": "Scroll down through the whole page once, to the bottom. Then, for each text below, check whether it appears anywhere on the page and store the answer, true or false, without searching further: store whether the text \"videos, articles and PDFs\" appears as 'claim_1'; store whether the text \"in sections you can finish\" appears as 'claim_2'. Then go to https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8. Wait for the App Store page to finish loading. Save the current page URL as {{landing_url}}. Save the app name shown on the page as {{app_name}}."
+      },
+      "kaneRunId": "c-2026-10-24T19-41-41Z-a2",
+      "verdicts": [
+        {
+          "text": "Learn a language from the videos, articles and PDFs you actually care about.",
+          "assertion": {
+            "type": "text_visible",
+            "value": "videos, articles and PDFs"
+          },
+          "status": "PASS",
+          "reason": "Kane found \"videos, articles and PDFs\" on the page.",
+          "evidence": {
+            "textKey": "claim_1",
+            "textFound": "true",
+            "textStep": 3
+          }
+        },
+        {
+          "text": "Scribo rewrites them at your level, in sections you can finish in about five minutes.",
+          "assertion": {
+            "type": "text_visible",
+            "value": "in sections you can finish"
+          },
+          "status": "PASS",
+          "reason": "Kane found \"in sections you can finish\" on the page.",
+          "evidence": {
+            "textKey": "claim_2",
+            "textFound": "true",
+            "textStep": 3
+          }
+        },
+        {
+          "text": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+          "assertion": {
+            "type": "param_preserved",
+            "value": "ct=threads-oct24"
+          },
+          "status": "PASS",
+          "reason": "The App Store link carries ct=threads-oct24, and Kane landed on App Store app id6794793715.",
+          "evidence": {
+            "handoffHref": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+            "handoffSource": "post link",
+            "handoffStep": null,
+            "landingUrl": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715"
+          }
+        }
+      ],
+      "overall": "PASS",
+      "kane": {
+        "status": "passed",
+        "exitCode": 0,
+        "summary": "Waited for the Scribo app listing to finish loading on the Apple App Store.\nRecorded the page URL: https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715.\nConfirmed the app name shown on the page was “Scribo: AI Language Learning.”",
+        "credits": 19.3095225,
+        "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QQ0HGFK4VC03H61CR9F1JA/dashboard/share/US_BVMJUFRJ7YH6O3EPRKRDJ72WUF4GH82QTK86ZQVT3SMP8IHXKJT9F14NMZ89YTNN?type=summary&agentView=true&fqdn=summary-page",
+        "evidencePath": "~/.testmuai/kaneai/sessions/a6517413-f087-4c9d-b4c3-1f960e9ec7f3/evidence/8320d25d-8834-4284-a15c-cbdbcfef7ae5.evidence",
+        "recorder": "KR-75 ERRORED (UNVERIFIED)"
+      }
+    }
+  ],
+  "status": "verified",
+  "final": {
+    "post_copy": "Learn a language from the videos, articles and PDFs you actually care about. Scribo rewrites them at your level, in sections you can finish in about five minutes. https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+    "cta_url": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+    "campaign_tag": "threads-oct24",
+    "claims": [
+      {
+        "text": "Learn a language from the videos, articles and PDFs you actually care about.",
+        "assertion": {
+          "type": "text_visible",
+          "value": "videos, articles and PDFs"
+        }
+      },
+      {
+        "text": "Scribo rewrites them at your level, in sections you can finish in about five minutes.",
+        "assertion": {
+          "type": "text_visible",
+          "value": "in sections you can finish"
+        }
+      },
+      {
+        "text": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+        "assertion": {
+          "type": "param_preserved",
+          "value": "ct=threads-oct24"
+        }
+      }
+    ]
+  },
+  "regression": {
+    "path": ".testmuai/tests/c-2026-10-24T19-41-41Z-a2_test.md",
+    "url": "https://scribo.cc",
+    "recorded_by": "c-2026-10-24T19-41-41Z-a2"
+  },
+  "reverifications": [
+    {
+      "k": 1,
+      "at": "2026-10-24T19:44:35.780Z",
+      "kaneRunId": "c-2026-10-24T19-41-41Z-rv1",
+      "path": ".testmuai/tests/c-2026-10-24T19-41-41Z-a2_test.md",
+      "verdicts": [
+        {
+          "text": "Learn a language from the videos, articles and PDFs you actually care about.",
+          "assertion": {
+            "type": "text_visible",
+            "value": "videos, articles and PDFs"
+          },
+          "status": "PASS",
+          "reason": "Kane found \"videos, articles and PDFs\" on the page.",
+          "evidence": {
+            "textKey": "claim_1",
+            "textFound": "true",
+            "textStep": 3
+          }
+        },
+        {
+          "text": "Scribo rewrites them at your level, in sections you can finish in about five minutes.",
+          "assertion": {
+            "type": "text_visible",
+            "value": "in sections you can finish"
+          },
+          "status": "PASS",
+          "reason": "Kane found \"in sections you can finish\" on the page.",
+          "evidence": {
+            "textKey": "claim_2",
+            "textFound": "true",
+            "textStep": 4
+          }
+        },
+        {
+          "text": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+          "assertion": {
+            "type": "param_preserved",
+            "value": "ct=threads-oct24"
+          },
+          "status": "PASS",
+          "reason": "The App Store link carries ct=threads-oct24, and Kane landed on App Store app id6794793715.",
+          "evidence": {
+            "handoffHref": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+            "handoffSource": "post link",
+            "handoffStep": null,
+            "landingUrl": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715"
+          }
+        }
+      ],
+      "overall": "PASS",
+      "kane": {
+        "status": "passed",
+        "exitCode": 0,
+        "summary": null,
+        "credits": null,
+        "testUrl": null,
+        "evidencePath": "~/.testmuai/kaneai/sessions/6fb78e0f-c35e-4f53-863b-b568932233ab/evidence/8daa7d4c-3967-4b70-a727-be7b43750098.evidence",
+        "recorder": "KR-77 PASSED (VERIFIED source)",
+        "surface": "testmd"
+      }
+    },
+    {
+      "k": 2,
+      "at": "2026-10-24T19:52:23.729Z",
+      "kaneRunId": "c-2026-10-24T19-41-41Z-rv2",
+      "path": ".testmuai/tests/c-2026-10-24T19-41-41Z-a2_test.md",
+      "version": "a9480fade25c1e68",
+      "verdicts": [
+        {
+          "text": "Learn a language from the videos, articles and PDFs you actually care about.",
+          "assertion": {
+            "type": "text_visible",
+            "value": "videos, articles and PDFs"
+          },
+          "status": "PASS",
+          "reason": "Kane found \"videos, articles and PDFs\" on the page.",
+          "evidence": {
+            "textKey": "claim_1",
+            "textFound": "true",
+            "textStep": 3
+          }
+        },
+        {
+          "text": "Scribo rewrites them at your level, in sections you can finish in about five minutes.",
+          "assertion": {
+            "type": "text_visible",
+            "value": "in sections you can finish"
+          },
+          "status": "PASS",
+          "reason": "Kane found \"in sections you can finish\" on the page.",
+          "evidence": {
+            "textKey": "claim_2",
+            "textFound": "true",
+            "textStep": 4
+          }
+        },
+        {
+          "text": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+          "assertion": {
+            "type": "param_preserved",
+            "value": "ct=threads-oct24"
+          },
+          "status": "PASS",
+          "reason": "The App Store link carries ct=threads-oct24, and Kane landed on App Store app id6794793715.",
+          "evidence": {
+            "handoffHref": "https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8",
+            "handoffSource": "post link",
+            "handoffStep": null,
+            "landingUrl": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715"
+          }
+        }
+      ],
+      "overall": "PASS",
+      "kane": {
+        "status": "passed",
+        "exitCode": 0,
+        "summary": null,
+        "credits": null,
+        "testUrl": null,
+        "evidencePath": "~/.testmuai/kaneai/sessions/009ba51f-0230-4e43-8378-176665ad8729/evidence/4f9b866b-1e76-49b5-9355-5f27ace90aca.evidence",
+        "recorder": "KR-85 PASSED (VERIFIED source)",
+        "surface": "testmd"
+      }
+    }
+  ],
+  "publishDryRuns": [
+    {
+      "account": "scribo.voca",
+      "version": "a9480fade25c1e68",
+      "at": "2026-10-24T19:52:36.224Z",
+      "kane": "Re-verify 2 (KR-85 PASSED (VERIFIED source))",
+      "text": "Learn a language from the videos, articles and PDFs you actually care about. Scribo rewrites them at your level, in sections you can finish in about five minutes. https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=threads-oct24&mt=8"
+    }
+  ]
+}

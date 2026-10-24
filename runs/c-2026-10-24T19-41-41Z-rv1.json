@@ -1,0 +1,115 @@
+{
+  "id": "c-2026-10-24T19-41-41Z-rv1",
+  "objective": "testmd run .testmuai/tests/c-2026-10-24T19-41-41Z-a2_test.md",
+  "url": "https://scribo.cc",
+  "startedAt": "2026-10-24T19:44:25.212Z",
+  "endedAt": "2026-10-24T19:44:35.780Z",
+  "exitCode": 0,
+  "result": {
+    "surface": "testmd",
+    "completed": true,
+    "status": "passed",
+    "resultCode": null,
+    "reasonCode": null,
+    "summary": null,
+    "oneLiner": null,
+    "reason": null,
+    "finalState": {
+      "url": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715"
+    },
+    "memory": {
+      "claim_1": {
+        "value": "true",
+        "step": 3,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading whether the introductory paragraph contains the specified text"
+      },
+      "claim_2": {
+        "value": "true",
+        "step": 4,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading whether the content description contains the specified text"
+      },
+      "landing_url": {
+        "value": "https://apps.apple.com/us/app/scribo-ai-language-learning/id6794793715",
+        "step": 3,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Saving the current page URL"
+      },
+      "app_name": {
+        "value": "Scribo: AI Language Learning",
+        "step": 4,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading the app name from the product heading"
+      }
+    },
+    "credits": null,
+    "durationSec": null,
+    "testUrl": null,
+    "evidencePath": "~/.testmuai/kaneai/sessions/6fb78e0f-c35e-4f53-863b-b568932233ab/evidence/8daa7d4c-3967-4b70-a727-be7b43750098.evidence",
+    "steps": [
+      {
+        "step": 1,
+        "status": "done",
+        "remark": "navigate: Navigate to https://scribo.cc",
+        "ts": "2026-10-24T19:44:29.782Z"
+      },
+      {
+        "step": 2,
+        "status": "done",
+        "remark": "scroll: Scrolling to the bottom of the page",
+        "ts": "2026-10-24T19:44:31.463Z"
+      },
+      {
+        "step": 3,
+        "status": "done",
+        "remark": "analyze: Reading whether the introductory paragraph contains the specified text",
+        "ts": "2026-10-24T19:44:31.544Z"
+      },
+      {
+        "step": 4,
+        "status": "done",
+        "remark": "analyze: Reading whether the content description contains the specified text",
+        "ts": "2026-10-24T19:44:31.587Z"
+      },
+      {
+        "step": 5,
+        "status": "done",
+        "remark": "navigate: Navigate to https://apps.apple.com/app/apple-store/id6794793715?pt=126975132&ct=",
+        "ts": "2026-10-24T19:44:32.100Z"
+      },
+      {
+        "step": 6,
+        "status": "done",
+        "remark": "wait: Waiting 1000 ms for the App Store product page to finish loading",
+        "ts": "2026-10-24T19:44:33.185Z"
+      },
+      {
+        "step": 7,
+        "status": "done",
+        "remark": "analyze: Saving the current page URL",
+        "ts": "2026-10-24T19:44:33.234Z"
+      },
+      {
+        "step": 8,
+        "status": "done",
+        "remark": "analyze: Reading the app name from the product heading",
+        "ts": "2026-10-24T19:44:33.302Z"
+      }
+    ]
+  },
+  "ndjson": "runs/c-2026-10-24T19-41-41Z-rv1.ndjson",
+  "recorder": {
+    "runId": "KR-77",
+    "verdict": "PASSED (VERIFIED source)",
+    "proofUrl": "https://kaneclihack.sh/t/omni/proof#run-77"
+  },
+  "verdict": {
+    "status": "PASS",
+    "reason": "Kane found \"videos, articles and PDFs\" on the page. Kane found \"in sections you can finish\" on the page. The App Store link carries ct=threads-oct24, and Kane landed on App Store app id6794793715."
+  }
+}
