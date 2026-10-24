@@ -1,0 +1,18 @@
+{
+  "commit_id": "d9eb6d8c-7a58-4ddb-8899-192bf961416f",
+  "test_id": "a301dc97-8ada-4000-b0c5-d0bdfb7d7fe8",
+  "testcase_id": "01M5QPNFKCRYAJS2N5199NVZ8Y",
+  "project_id": "01M5QFK845A9PX95YRENJ1Z5XD",
+  "folder_id": "01M5QFMZXMFNG1GNNPGK53JTKV",
+  "org_id": "3399240",
+  "session_name": "probe-reverify",
+  "executions": [
+    {
+      "execution_id": "79adaf7f-89bb-438c-ad09-6f0853a4e0ae",
+      "run_kind": "replay",
+      "status": "passed",
+      "valid": true,
+      "at": "2026-10-24T19:38:43.104Z"
+    }
+  ]
+}

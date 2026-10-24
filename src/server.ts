@@ -3,7 +3,7 @@ import { serveStatic } from "hono/bun";
 import { streamSSE } from "hono/streaming";
 import { readdir } from "node:fs/promises";
 import type { DraftInput } from "./agent";
-import { runCampaign, type CampaignRecord } from "./loop";
+import { reverifyCampaign, runCampaign, type CampaignRecord } from "./loop";
 
 const app = new Hono();
 let busy = false; // one campaign at a time: Kane drives one browser
@@ -22,6 +22,27 @@ app.post("/api/run", async (c) => {
     };
     try {
       await runCampaign(input as DraftInput, emit);
+    } catch (err) {
+      emit("error", { message: err instanceof Error ? err.message : String(err) });
+    } finally {
+      await pending;
+      busy = false;
+    }
+  });
+});
+
+app.post("/api/campaigns/:id/reverify", async (c) => {
+  const id = c.req.param("id");
+  if (!/^c-[\w-]+Z$/.test(id)) return c.json({ error: "bad id" }, 400);
+  if (busy) return c.json({ error: "A Kane run is already in progress" }, 409);
+  busy = true;
+  return streamSSE(c, async (stream) => {
+    let pending = Promise.resolve();
+    const emit = (event: string, data: unknown) => {
+      pending = pending.then(() => stream.writeSSE({ event, data: JSON.stringify(data) }));
+    };
+    try {
+      await reverifyCampaign(id, emit);
     } catch (err) {
       emit("error", { message: err instanceof Error ? err.message : String(err) });
     } finally {
@@ -51,7 +72,11 @@ app.get("/api/campaigns/:id", async (c) => {
     const run = Bun.file(`runs/${a.kaneRunId}.json`);
     return (await run.exists()) ? ((await run.json()).result?.steps ?? []) : [];
   }));
-  return c.json({ ...rec, steps });
+  const rvSteps = await Promise.all((rec.reverifications ?? []).map(async (r) => {
+    const run = Bun.file(`runs/${r.kaneRunId}.json`);
+    return (await run.exists()) ? ((await run.json()).result?.steps ?? []) : [];
+  }));
+  return c.json({ ...rec, steps, rvSteps });
 });
 
 // Pre-launch preview of a campaign's post, with its real link. Kane's designed tests start here

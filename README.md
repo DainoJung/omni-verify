@@ -1,6 +1,6 @@
 # Omni Verify
 
-> **Recorder proof:** Kane run **KR-46** was logged by the kanehack recorder as **PASSED (VERIFIED source)**: Kane's own designed tests for the campaign, 2/2 passed ([proof tab](https://kaneclihack.sh/t/omni/proof#run-46)). Every other run is listed in [RUNS.md](RUNS.md) (why most show ERRORED: see *Known limits*).
+> **Recorder proof:** Kane run **KR-46** was logged by the kanehack recorder as **PASSED (VERIFIED source)**: Kane's own designed tests for the campaign, 2/2 passed ([proof tab](https://kaneclihack.sh/t/omni/proof#run-46)). **KR-77**, a Re-verify replay of a verified campaign, is also PASSED (VERIFIED source) ([proof tab](https://kaneclihack.sh/t/omni/proof#run-77)). Every other run is listed in [RUNS.md](RUNS.md) (why most show ERRORED: see *Known limits*).
 
 **What it is:** a launch gate for AI-written growth campaigns. An OpenAI agent drafts the post, every claim in it becomes an assertion, Kane walks the real funnel in a browser, and only campaigns Kane passes are marked *Verified for launch*.
 **Who it's for:** solo founders and small teams who let an agent write and post their marketing, and need to know the link and the copy hold up before it goes out.
@@ -37,7 +37,7 @@ The demo loop, from the UI ([runs/c-2026-10-24T19-26-21Z.json](runs/c-2026-10-24
 | Kane run 2 | Both sentences found again; the post's link carries `ct=threads-oct24` and Kane landed on App Store id6794793715. **PASS** | KR-68, [Test Manager](https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QP451DD362PS3ZW4HCGJ55/dashboard/share/US_KR6UIN4XDB3ZU6MU0POJLNS9UYGZL7NOZBRA2O1XL4JAWH1R0DL9HSEBAJW5H04K?type=summary&agentView=true&fqdn=summary-page) |
 | Result | Verified for launch, with a diff from the first draft | |
 
-The same FAIL → repair → PASS happened in all four full loops run today (`runs/c-*.json`). The first FAIL, before the loop existed, is KR-6 ([Test Manager](https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QK5M9707JQ3YX2CWYYZ8EN/dashboard/share/US_RF1K5D2V9Z8KPC0WAXSIIS7W2T716SQC05TIKB5MBAQ8J7U9N6R4LVW6M3YO6BUU?type=summary&agentView=true&fqdn=summary-page)).
+The same FAIL → repair → PASS happened in all five full loops run today (`runs/c-*.json`). The first FAIL, before the loop existed, is KR-6 ([Test Manager](https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QK5M9707JQ3YX2CWYYZ8EN/dashboard/share/US_RF1K5D2V9Z8KPC0WAXSIIS7W2T716SQC05TIKB5MBAQ8J7U9N6R4LVW6M3YO6BUU?type=summary&agentView=true&fqdn=summary-page)).
 
 ## How the agent and Kane talk
 
@@ -46,11 +46,15 @@ input (app URL, goal, audience)
   → draft (OpenAI, structured JSON, grounded in the Kane Explore map + page text)
       post_copy, cta_url (with ct=), claims[] → assertions
   → compile: all assertions → one plain-English Kane objective
-  → kanehack report -- kane-cli run "<objective>" --url … --agent --headless --assertion-failure-mode continue
+  → kanehack report -- kane-cli run "<objective>" --url … --agent --headless --assertion-failure-mode continue --name <campaign>-a<n>
   → parse NDJSON: steps stream to the page over SSE; verdicts come from run_end (context.memory)
   → PASS: Verified for launch
     FAIL / UNVERIFIED: repair (OpenAI) gets the failing assertions + what Kane saw + Kane's summary,
                        returns a revised campaign + one-line reason → Kane again (max 3 attempts)
+  → Re-verify (button on the Verified card):
+      kanehack report -- kane-cli testmd run .testmuai/tests/<campaign>-a<n>_test.md --url … --agent --headless
+      replays Kane's own recording of the passing attempt; the values its checks stored are read from the
+      replay's evidence pack and judged by the same evaluator
 ```
 
 - **Kane extracts, the code judges.** The objective asks Kane to *store* what it sees (the button's href, the landing URL, true/false per sentence). The evaluator compares those values to the assertions, so the verdict is the same check on every run and cites the Kane step it came from.
@@ -67,7 +71,7 @@ input (app URL, goal, audience)
 | `kane-cli explore` | Read-only local exploration of scribo.cc, 12 leases: 7 screens, 7 flows verified, 20 findings (mostly accessibility). Showed every App Store button links to `apps.apple.com/app/apple-store/{slug}?ct&mt&pt`, i.e. sets its own `ct` | `explore/scribo.cc.json`, `explore/scribo.cc.ndjson`, `explore/scribo.cc-steps/` |
 | Assurance loop | The verified campaign became a requirement (`requirements/campaign-threads-oct24.md`). `context ingest` → use case → owner review → `design tests` (5 criteria, 3 scenarios, 2 tests, 2 gaps) → owner review → `maintain evolve` → `testrun run` (2/2 passed, **KR-46**) → `cover` | `evidence/assurance/`, `.testmuai/tests/` |
 | Coverage | **75%**: 3 of 4 criteria proven by real runs | `evidence/assurance/11-cover.ndjson` |
-| Replay of designed tests | Next: the Re-verify button replays Kane's `_test.md` files. Not built yet | |
+| `--name` + `testmd run` replay | Every attempt is a named run, so Kane records it as a `_test.md`. The passing one is the campaign's regression test; **Re-verify** replays it (about 10 s, no authoring) and re-judges every claim from the values the replay computed. First replay: all 3 claims PASS, **KR-77 PASSED (VERIFIED source)** | `.testmuai/tests/c-*_test.md`, `runs/*-rv*.json`, `docs/reverify.png` |
 
 **Why 25% is unmeasurable.** The fourth criterion is "installs from the Threads post are credited to threads-oct24". Kane itself recorded it as an *unmeasurable* gap: install credit shows up in App Store Connect, not in any page a browser can open. What Kane can prove is that the hand-off link carries the right `ct`.
 
@@ -93,12 +97,17 @@ Omni Verify compiles to the last phrasing. Trusting the first one would have mad
 - **Verification is not measurement.** A PASS means the funnel keeps the post's promises today. It does not mean installs went up, or that App Store Connect credited them (see the unmeasurable 25%).
 - **Recorder bug H-0007.** kane-cli 0.10.0-rc.3 sends a `coverage` event before `run_end`, so the kanehack recorder never sees `run_end` as the completion event and marks passing `kane-cli run` calls as ERRORED (UNVERIFIED). Reported as help ticket H-0007. Our own record of every run (time, Kane's own status, credits, Test Manager link) is in [RUNS.md](RUNS.md). `testrun` is unaffected: KR-46 shows PASSED.
 - **Pre-launch post.** Nothing is published before the gate passes, so Kane's designed tests open `/post/<id>`, a preview page Omni Verify serves, labeled "not published".
+- **Re-verify has not caught a regression yet.** The replays so far passed; the checks are re-computed during the replay (their timestamps in the pack are the replay's), but a FAIL needs the site to change. A replay whose recordings no longer match the page heals by re-authoring, which costs more and is slower.
+- The test files of failed attempts stay in `.testmuai/tests/` too (Kane writes every named run); only the passing one is linked as the regression test.
 - Scope: one app (Scribo), one channel, App Store links only.
 
 ## Screenshots
 
 - [docs/verified-card.png](docs/verified-card.png): the Verified card with every assertion and the diff from the first draft.
 - [docs/live-run.png](docs/live-run.png): the whole timeline of the demo run: draft, Kane run 1 FAIL, repair, Kane run 2 PASS, verdict.
+- [docs/reverify.png](docs/reverify.png): Re-verify replaying Kane's saved test and re-judging the claims.
+
+![Re-verify](docs/reverify.png)
 
 ## Evidence
 

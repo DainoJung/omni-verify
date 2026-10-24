@@ -3,7 +3,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { draftCampaign, MODEL, repairCampaign, type Campaign, type DraftInput, type Repair } from "./agent";
 import { compileCampaign, evaluateCampaign, overall, type ClaimVerdict } from "./claims";
-import { runKane, type KaneEvent } from "./kane";
+import { replayTest, runKane, type KaneEvent, type KaneRun } from "./kane";
 import { logRun } from "./runlog";
 import { loadMap, mapPath } from "./explore";
 
@@ -29,7 +29,28 @@ export type CampaignRecord = {
   attempts: Attempt[];
   status: "running" | "verified" | "needs_human";
   final?: Campaign;
+  // Kane's own recording of the passing attempt: a _test.md that Re-verify replays.
+  regression?: { path: string; url: string; recorded_by: string };
+  reverifications?: Reverification[];
 };
+
+export type Reverification = {
+  k: number;
+  at: string;
+  kaneRunId: string;
+  path: string;
+  kane: Attempt["kane"] & { surface: string | null };
+  verdicts: ClaimVerdict[];
+  overall: ClaimVerdict["status"];
+};
+
+function kaneSummary(run: KaneRun) {
+  const r = run.result;
+  return {
+    status: r.status, exitCode: run.exitCode, summary: r.summary, credits: r.credits, testUrl: r.testUrl,
+    evidencePath: r.evidencePath, recorder: [run.recorder.runId, run.recorder.verdict].filter(Boolean).join(" ") || null,
+  };
+}
 
 export type Emit = (event: string, data: unknown) => void;
 
@@ -56,20 +77,14 @@ export async function runCampaign(input: DraftInput, emit: Emit): Promise<Campai
     const compiled = compileCampaign(campaign, input.app_url);
     emit("attempt_start", { n, ...compiled });
 
-    const run = await runKane({ ...compiled, onEvent: (ev: KaneEvent) => ev.kind !== "end" && emit("kane", { n, ev }) });
+    const kaneRunId = `${rec.id}-a${n}`;
+    const run = await runKane({ ...compiled, name: kaneRunId, onEvent: (ev: KaneEvent) => ev.kind !== "end" && emit("kane", { n, ev }) });
     const verdicts = evaluateCampaign(campaign, run.result);
     const status = overall(verdicts);
-    const kaneRunId = `${rec.id}-a${n}`;
     await logRun(kaneRunId, run, { status, reason: verdicts.map((v) => v.reason).join(" ") });
 
     const r = run.result;
-    const attempt: Attempt = {
-      n, campaign, compiled, kaneRunId, verdicts, overall: status,
-      kane: {
-        status: r.status, exitCode: run.exitCode, summary: r.summary, credits: r.credits, testUrl: r.testUrl,
-        evidencePath: r.evidencePath, recorder: [run.recorder.runId, run.recorder.verdict].filter(Boolean).join(" ") || null,
-      },
-    };
+    const attempt: Attempt = { n, campaign, compiled, kaneRunId, verdicts, overall: status, kane: kaneSummary(run) };
     rec.attempts.push(attempt);
     await save(rec);
     emit("attempt_end", attempt);
@@ -77,6 +92,8 @@ export async function runCampaign(input: DraftInput, emit: Emit): Promise<Campai
     if (status === "PASS") {
       rec.status = "verified";
       rec.final = campaign;
+      const path = `.testmuai/tests/${kaneRunId}_test.md`;
+      if (await Bun.file(path).exists()) rec.regression = { path, url: compiled.url, recorded_by: kaneRunId };
       break;
     }
     if (n === MAX_ATTEMPTS) break;
@@ -93,4 +110,28 @@ export async function runCampaign(input: DraftInput, emit: Emit): Promise<Campai
   await save(rec);
   emit("result", rec);
   return rec;
+}
+
+// Re-verify a verified campaign: replay Kane's recording of its passing attempt and judge the same claims again.
+export async function reverifyCampaign(id: string, emit: Emit): Promise<Reverification> {
+  const rec = (await Bun.file(`runs/${id}.json`).json()) as CampaignRecord;
+  if (rec.status !== "verified" || !rec.final || !rec.regression) throw new Error("This campaign has no recorded Kane test to replay");
+  const k = (rec.reverifications?.length ?? 0) + 1;
+  const n = `rv${k}`;
+  emit("reverify_start", { n, path: rec.regression.path, url: rec.regression.url });
+
+  const run = await replayTest({ ...rec.regression, onEvent: (ev) => ev.kind === "step" && emit("kane", { n, ev }) });
+  const verdicts = evaluateCampaign(rec.final, run.result);
+  const kaneRunId = `${rec.id}-${n}`;
+  const status = overall(verdicts);
+  await logRun(kaneRunId, run, { status, reason: verdicts.map((v) => v.reason).join(" ") });
+
+  const rv: Reverification = {
+    k, at: run.endedAt, kaneRunId, path: rec.regression.path, verdicts, overall: status,
+    kane: { ...kaneSummary(run), surface: run.result.surface },
+  };
+  rec.reverifications = [...(rec.reverifications ?? []), rv];
+  await save(rec);
+  emit("reverify_end", { n, ...rv });
+  return rv;
 }
