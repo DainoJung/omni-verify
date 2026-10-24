@@ -16,7 +16,9 @@
   header { padding: 20px 28px; border-bottom: 1px solid var(--line); display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
   header h1 { margin: 0; font-size: 18px; letter-spacing: 0.02em; }
   header p { margin: 0; color: var(--dim); font-size: 13px; flex: 1; }
-  header nav a { color: var(--dim); font-size: 13px; }
+  .demos { margin-left: auto; display: flex; gap: 6px; }
+  .demos a { color: var(--dim); font-size: 13px; text-decoration: none; padding: 5px 10px; border: 1px solid var(--line); border-radius: 6px; }
+  .demos a[aria-current] { color: var(--fg); border-color: var(--fg); }
   main { display: grid; grid-template-columns: 360px 1fr; min-height: calc(100vh - 63px); }
   @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
   aside { padding: 24px 28px; border-right: 1px solid var(--line); }
@@ -77,7 +79,7 @@
 <header>
   <h1>Omni Verify</h1>
   <p>Feature claims: every sentence that promises a feature is performed by Kane in real Chrome before it ships.</p>
-  <nav><a href="/">Campaign links →</a></nav>
+  <nav class="demos" aria-label="Demos"><a href="/">← 1 · Campaign links (Scribo)</a><a href="/features.html" aria-current="page">2 · Feature claims (TestMu)</a></nav>
 </header>
 <main>
   <aside>

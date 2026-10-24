@@ -13,9 +13,12 @@
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 var(--sans); }
-  header { padding: 20px 28px; border-bottom: 1px solid var(--line); display: flex; align-items: baseline; gap: 16px; }
+  header { padding: 20px 28px; border-bottom: 1px solid var(--line); display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
   header h1 { margin: 0; font-size: 18px; letter-spacing: 0.02em; }
   header p { margin: 0; color: var(--dim); font-size: 13px; }
+  .demos { margin-left: auto; display: flex; gap: 6px; }
+  .demos a { color: var(--dim); font-size: 13px; text-decoration: none; padding: 5px 10px; border: 1px solid var(--line); border-radius: 6px; }
+  .demos a[aria-current] { color: var(--fg); border-color: var(--fg); }
   main { display: grid; grid-template-columns: 360px 1fr; min-height: calc(100vh - 63px); }
   @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
   aside { padding: 24px 28px; border-right: 1px solid var(--line); }
@@ -72,7 +75,7 @@
 <header>
   <h1>Omni Verify</h1>
   <p>A launch gate for AI growth campaigns. Every claim is walked in a real browser by Kane before it ships.</p>
-  <a href="/features.html" style="margin-left:auto;color:var(--dim);font-size:13px">Feature claims →</a>
+  <nav class="demos" aria-label="Demos"><a href="/" aria-current="page">1 · Campaign links (Scribo)</a><a href="/features.html">2 · Feature claims (TestMu) →</a></nav>
 </header>
 <main>
   <aside>
