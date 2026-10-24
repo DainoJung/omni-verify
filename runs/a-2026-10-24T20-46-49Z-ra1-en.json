@@ -1,0 +1,205 @@
+{
+  "id": "a-2026-10-24T20-46-49Z-ra1-en",
+  "objective": "testmd run .testmuai/tests/a-2026-10-24T20-46-49Z-en_test.md",
+  "url": "https://scribo.cc",
+  "startedAt": "2026-10-24T20:49:50.821Z",
+  "endedAt": "2026-10-24T20:50:30.030Z",
+  "exitCode": 0,
+  "result": {
+    "surface": "testmd",
+    "completed": true,
+    "status": "passed",
+    "resultCode": null,
+    "reasonCode": null,
+    "summary": null,
+    "oneLiner": null,
+    "reason": null,
+    "finalState": {},
+    "memory": {
+      "claim_1": {
+        "value": "No",
+        "step": 3,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading whether Scribo is a handwritten vocabulary notebook"
+      },
+      "claim_5": {
+        "value": "__not_visible__",
+        "step": 4,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading whether Scribo supports handwritten word review"
+      },
+      "claim_6": {
+        "value": "false",
+        "step": 5,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading whether Scribo is a handwritten vocabulary notebook"
+      },
+      "claim_2": {
+        "value": "Yes",
+        "step": 6,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading whether Scribo has an iPhone version"
+      },
+      "claim_3": {
+        "value": "true",
+        "step": 7,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading whether Scribo has a review feature"
+      },
+      "claim_4": {
+        "value": "true",
+        "step": 8,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Reading whether Scribo resurfaces saved words for review"
+      },
+      "quote_1": {
+        "value": "Same account, same notebook.",
+        "step": 9,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Extracting the sentence about Scribo as a notebook"
+      },
+      "quote_2": {
+        "value": "Free to download.",
+        "step": 10,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Extracting the sentence about the iPhone version"
+      },
+      "quote_3": {
+        "value": "Words you saved come back in your quiz just before you'd forget them.",
+        "step": 11,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Extracting the sentence about the review feature"
+      },
+      "quote_4": {
+        "value": "Words you saved come back in your quiz just before you'd forget them.",
+        "step": 12,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Extracting the sentence about resurfacing saved words"
+      },
+      "quote_5": {
+        "value": "On iPad, write your answers with Apple Pencil.",
+        "step": 13,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Extracting the sentence about handwriting answers"
+      },
+      "quote_6": {
+        "value": "Same account, same notebook.",
+        "step": 14,
+        "operator": null,
+        "expected": null,
+        "reasoning": "Extracting the sentence about Scribo as a notebook"
+      }
+    },
+    "credits": null,
+    "durationSec": null,
+    "testUrl": null,
+    "evidencePath": "~/.testmuai/kaneai/sessions/a09fa3f7-2c26-4d99-bec7-d3fb6c85ae87/evidence/2971a0ac-be79-48ce-8112-741727093dcc.evidence",
+    "steps": [
+      {
+        "step": 1,
+        "status": "done",
+        "remark": "navigate: Navigate to https://scribo.cc",
+        "ts": "2026-10-24T20:49:54.185Z"
+      },
+      {
+        "step": 2,
+        "status": "done",
+        "remark": "scroll: Scrolling to the bottom of the Scribo homepage window",
+        "ts": "2026-10-24T20:49:55.805Z"
+      },
+      {
+        "step": 3,
+        "status": "done",
+        "remark": "analyze: Reading whether Scribo is a handwritten vocabulary notebook",
+        "ts": "2026-10-24T20:50:04.538Z"
+      },
+      {
+        "step": 4,
+        "status": "done",
+        "remark": "analyze: Reading whether Scribo supports handwritten word review",
+        "ts": "2026-10-24T20:50:13.007Z"
+      },
+      {
+        "step": 5,
+        "status": "done",
+        "remark": "analyze: Reading whether Scribo is a handwritten vocabulary notebook",
+        "ts": "2026-10-24T20:50:22.219Z"
+      },
+      {
+        "step": 6,
+        "status": "done",
+        "remark": "analyze: Reading whether Scribo has an iPhone version",
+        "ts": "2026-10-24T20:50:27.080Z"
+      },
+      {
+        "step": 7,
+        "status": "done",
+        "remark": "analyze: Reading whether Scribo has a review feature",
+        "ts": "2026-10-24T20:50:27.152Z"
+      },
+      {
+        "step": 8,
+        "status": "done",
+        "remark": "analyze: Reading whether Scribo resurfaces saved words for review",
+        "ts": "2026-10-24T20:50:27.192Z"
+      },
+      {
+        "step": 9,
+        "status": "done",
+        "remark": "analyze: Extracting the sentence about Scribo as a notebook",
+        "ts": "2026-10-24T20:50:27.244Z"
+      },
+      {
+        "step": 10,
+        "status": "done",
+        "remark": "analyze: Extracting the sentence about the iPhone version",
+        "ts": "2026-10-24T20:50:27.273Z"
+      },
+      {
+        "step": 11,
+        "status": "done",
+        "remark": "analyze: Extracting the sentence about the review feature",
+        "ts": "2026-10-24T20:50:27.307Z"
+      },
+      {
+        "step": 12,
+        "status": "done",
+        "remark": "analyze: Extracting the sentence about resurfacing saved words",
+        "ts": "2026-10-24T20:50:27.340Z"
+      },
+      {
+        "step": 13,
+        "status": "done",
+        "remark": "analyze: Extracting the sentence about handwriting answers",
+        "ts": "2026-10-24T20:50:27.371Z"
+      },
+      {
+        "step": 14,
+        "status": "done",
+        "remark": "analyze: Extracting the sentence about Scribo as a notebook",
+        "ts": "2026-10-24T20:50:27.404Z"
+      }
+    ]
+  },
+  "ndjson": "runs/a-2026-10-24T20-46-49Z-ra1-en.ndjson",
+  "recorder": {
+    "runId": "KR-130",
+    "verdict": "PASSED (VERIFIED source)",
+    "proofUrl": "https://kaneclihack.sh/t/omni/proof#run-130"
+  },
+  "verdict": {
+    "status": "PASS",
+    "reason": "Re-audit replay of .testmuai/tests/a-2026-10-24T20-46-49Z-en_test.md"
+  }
+}

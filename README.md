@@ -33,6 +33,35 @@ A Verified card has a **Publish to Threads** button. It stays locked unless the 
 
 ![Publish confirm](docs/publish-confirm.png)
 
+## Audit past posts: the product changed, the posts didn't
+
+Marketing and the product drift apart silently. Case 1 above: the link breaks the data. Case 2: the product changes and old posts keep promising the old one. Scribo 2.0 (Oct 1) turned a handwriting vocabulary app into a content learning app, but @scribo.voca's September posts still say "손으로 적어서 저장하는 단어장" (a vocabulary notebook you fill in by hand), and they keep bringing people in. Page 3, `/audit.html`:
+
+```
+posts (Korean) → OpenAI: each product promise, Korean words copied exactly + English gloss
+  → Kane reads scribo.cc/ko and scribo.cc once each: scroll once, then per promise store true/false + the sentence it relied on
+  → code judges: either page says it = PASS, both say no = FAIL, missing = UNVERIFIED
+  → per post with a FAIL, the agent proposes one action: a Korean rewrite that only promises what the site says today, or unpin/archive
+  → Re-audit replays Kane's recorded tests (_test.md) after the next release
+```
+
+Nothing on Threads is edited, deleted or posted; the proposals are for a person.
+
+Audit [a-…20-46-49Z](runs/a-2026-10-24T20-46-49Z.json), Kane KR-125 (scribo.cc/ko) and KR-126 (scribo.cc), both pages agreeing on every promise:
+
+| Post | Promise | Kane, today's site | Proposed action |
+|---|---|---|---|
+| 2026-09-18 [DddN67NlHjn](https://www.threads.com/@scribo.voca/post/DddN67NlHjn) | 손으로 적어서 저장하는 단어장 (a notebook where you save words by hand) | **FAIL** | Rewrite: hold a word to see its meaning and save it; iPhone version is out |
+| | 아이폰 버전 출시 (an iPhone version) | PASS | |
+| 2026-09-22 [DdnaDR8GxkH](https://www.threads.com/@scribo.voca/post/DdnaDR8GxkH) | 리뷰 기능 (a review feature) | PASS: "저장한 단어는 잊을 때쯤 다시 나와요." | Rewrite: saved words come back in quizzes |
+| | 안 본 단어를 알아서 띄워줌 (unseen saved words resurface) | PASS, same sentence | |
+| | 손글씨로 한번 더 써보면서 복습 (review by writing words again by hand) | **FAIL**: the site only says "On iPad, write your answers with Apple Pencil", and Kane did not count that | |
+| 2026-10-05 [DeI1ZVXj8Po](https://www.threads.com/@scribo.voca/post/DeI1ZVXj8Po) | Scribo 손글씨 단어장 (Scribo, the handwriting vocabulary notebook) | **FAIL** | Unpin / archive: the whole post is about the old product |
+
+**Where the posts came from.** The read-only API listing (`threads_api.py --profile scribo my-posts`) needed an approval the build session couldn't give, so Kane read the posts instead: the public profile is behind a login wall (KR-121, Kane stuck on the dialog), but the three post pages are public (KR-123, text stored exactly). They're in `fixtures/scribo-posts.json`, labeled with that source; `GET /api/audit/posts?refresh=1` runs the API listing when the server is started by a person. Dates are as Threads showed them in US Pacific time (one day behind KST).
+
+![Past posts audit](docs/audit-table.png)
+
 ## The Scribo finding
 
 Scribo (https://scribo.cc) is my own app. Every App Store button on the site has a hard-coded tracking tag (`ct=site-en-hero`, `ct=site-en-nav`, `ct=site-en-get`), and the site never reads the incoming URL's query. So a Threads post that links to `https://scribo.cc?ct=threads-oct24` loses its tag at the button, and App Store Connect credits the install to "site-en-hero". Attribution breaks silently: the post looks right, the click works, the numbers are wrong.

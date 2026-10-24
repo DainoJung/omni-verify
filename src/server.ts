@@ -6,6 +6,7 @@ import type { DraftInput } from "./agent";
 import { reverifyCampaign, runCampaign, type CampaignRecord } from "./loop";
 import { PUBLISH_MODE, publishCampaign, publishGate, threadsAccount } from "./publish";
 import { featureRoutes } from "./features-loop";
+import { auditRoutes } from "./audit";
 
 const app = new Hono();
 let busy = false; // one campaign at a time: Kane drives one browser
@@ -135,6 +136,7 @@ article{max-width:560px;border:1px solid #262626;border-radius:12px;padding:20px
 });
 
 app.route("/", featureRoutes);
+app.route("/", auditRoutes);
 
 app.use("/*", serveStatic({ root: "./public" }));
 

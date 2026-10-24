@@ -163,7 +163,7 @@ ins { background: var(--ok-bg); color: #86efac; text-decoration: none; border-ra
 /* Re-verify and Publish */
 .actions { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
 .actions .k { margin-top: 0; }
-.actions button.reverify { width: auto; margin-top: 12px; }
+.actions button.reverify, .actions button.reaudit { width: auto; margin-top: 12px; }
 #timeline .publish { margin-top: 20px; padding-top: 20px; }
 #timeline .publish .k { display: flex; align-items: center; margin-top: 0; }
 #timeline .publish .mode { font-size: 11px; border-radius: 6px; background: var(--amber-bg); border-color: var(--amber-line); }
@@ -174,6 +174,22 @@ ins { background: var(--ok-bg); color: #86efac; text-decoration: none; border-ra
 #timeline .publish .confirm { border-color: var(--border); background: var(--background); border-radius: var(--radius); padding: 16px; }
 #timeline .publish .done { color: var(--ok); }
 
+/* Past-posts audit table */
+.table-wrap { border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px); overflow-x: auto; background: var(--background); }
+table.audit { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+table.audit th { text-align: left; padding: 8px 14px; background: var(--muted); color: var(--muted-foreground); font-size: 12px; font-weight: 500; border-bottom: 1px solid var(--border); white-space: nowrap; }
+table.audit td { padding: 12px 14px; border-top: 1px solid var(--border); vertical-align: top; }
+table.audit tbody tr:first-child td { border-top: 0; }
+table.audit td.post { width: 22%; min-width: 180px; border-right: 1px solid var(--border); }
+table.audit td.action { width: 26%; min-width: 200px; border-left: 1px solid var(--border); }
+table.audit .post-text { margin-top: 8px; color: var(--muted-foreground); font-size: 12.5px; }
+table.audit .ko { font-weight: 500; }
+table.audit .gloss { color: var(--muted-foreground); font-size: 12.5px; margin-top: 2px; }
+table.audit .why-line { color: var(--muted-foreground); font-size: 12.5px; margin-top: 6px; }
+table.audit .ev { color: var(--muted-foreground); font-size: 12px; margin-top: 4px; }
+table.audit .quote { color: #d4d4d8; }
+table.audit .action .copy { margin-top: 8px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--card); }
+
 .error { color: var(--bad); font-family: var(--font-mono); font-size: 13px; }
 .card.error { border-color: var(--bad-line); background: var(--bad-bg); }
 
@@ -183,6 +199,7 @@ ins { background: var(--ok-bg); color: #86efac; text-decoration: none; border-ra
   #timeline { padding: 24px 16px 64px; }
   .topnav { padding: 0 16px; gap: 12px; }
   .topnav .tagline { display: none; }
+  .navtabs { overflow-x: auto; }
   .brand-name { display: none; }
   .verdict { padding: 20px 16px; }
   .verdict h3 { font-size: 22px; }

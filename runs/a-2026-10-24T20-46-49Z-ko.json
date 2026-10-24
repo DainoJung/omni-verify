@@ -1,0 +1,159 @@
+{
+  "id": "a-2026-10-24T20-46-49Z-ko",
+  "objective": "Scroll down through the whole page once, to the bottom. This page is in Korean; judge its meaning, not exact words. Then, for each statement below about the product, decide whether this page says the product does this today, and store the answer, true or false, without searching further or leaving the page: store whether the page says that Scribo is a vocabulary notebook where you save words by handwriting them as 'claim_1'; store whether the page says that Scribo has an iPhone version as 'claim_2'; store whether the page says that Scribo has a review feature as 'claim_3'; store whether the page says that Scribo automatically surfaces saved words you have not reviewed as 'claim_4'; store whether the page says that Scribo lets you review words by writing them again by hand as 'claim_5'; store whether the page says that Scribo is a handwritten vocabulary notebook as 'claim_6'. Then, for each statement, store the one sentence on the page closest to it, copied exactly, or none, as 'quote_1', 'quote_2', 'quote_3', 'quote_4', 'quote_5', 'quote_6'.",
+  "url": "https://scribo.cc/ko/",
+  "startedAt": "2026-10-24T20:46:49.326Z",
+  "endedAt": "2026-10-24T20:48:05.427Z",
+  "exitCode": 0,
+  "result": {
+    "surface": "run",
+    "completed": true,
+    "status": "passed",
+    "resultCode": 100,
+    "reasonCode": "success.complete",
+    "summary": "You asked to scroll through the full Korean Scribo page without leaving it and check its descriptions.\nThe page was reviewed from top to bottom.\nIt states that Scribo has an iPhone version and includes a quiz/review feature.\nIt says saved words reappear around the time you may forget them, but it does not describe saving or reviewing words by handwriting them, nor describe Scribo as a handwritten vocabulary notebook.",
+    "oneLiner": "reviewed Scribo’s Korean landing page on scribo.cc",
+    "reason": "Objective completed",
+    "finalState": {
+      "url": "https://scribo.cc/ko/",
+      "claim_1": "false",
+      "claim_2": "true",
+      "claim_3": "true",
+      "claim_4": "true",
+      "claim_5": "false",
+      "claim_6": "false",
+      "quote_1": "none",
+      "quote_2": "무료로 받을 수 있어요.",
+      "quote_3": "저장한 단어는 잊을 때쯤 다시 나와요.",
+      "quote_4": "저장한 단어는 잊을 때쯤 다시 나와요.",
+      "quote_5": "none",
+      "quote_6": "none"
+    },
+    "memory": {
+      "claim_1": {
+        "value": "false",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'false' (stored, no comparison)"
+      },
+      "claim_4": {
+        "value": "true",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'true' (stored, no comparison)"
+      },
+      "claim_5": {
+        "value": "false",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'false' (stored, no comparison)"
+      },
+      "claim_6": {
+        "value": "false",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'false' (stored, no comparison)"
+      },
+      "quote_2": {
+        "value": "무료로 받을 수 있어요.",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: '무료로 받을 수 있어요.' (stored, no comparison)"
+      },
+      "quote_3": {
+        "value": "저장한 단어는 잊을 때쯤 다시 나와요.",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: '저장한 단어는 잊을 때쯤 다시 나와요.' (stored, no comparison)"
+      },
+      "quote_4": {
+        "value": "저장한 단어는 잊을 때쯤 다시 나와요.",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: '저장한 단어는 잊을 때쯤 다시 나와요.' (stored, no comparison)"
+      },
+      "claim_2": {
+        "value": "true",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'true' (stored, no comparison)"
+      },
+      "claim_3": {
+        "value": "true",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'true' (stored, no comparison)"
+      },
+      "quote_1": {
+        "value": "none",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'none' (stored, no comparison)"
+      },
+      "quote_5": {
+        "value": "none",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'none' (stored, no comparison)"
+      },
+      "quote_6": {
+        "value": "none",
+        "step": 3,
+        "operator": "equals",
+        "expected": null,
+        "reasoning": "value: 'none' (stored, no comparison)"
+      }
+    },
+    "credits": 19.493008,
+    "durationSec": 62.7,
+    "testUrl": "https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QTN3MF5WT6S55KV9JC0AQJ/dashboard/share/US_GPAA71GKLN1IFAOMM4HYMATW7QO9N9U4H1JB9NCOQ9J5QFNHYT9175TYK72HPUQ0?type=summary&agentView=true&fqdn=summary-page",
+    "evidencePath": "~/.testmuai/kaneai/sessions/3a44876f-27e5-4e50-b672-6c847849c2f7/evidence/2faa3e20-3026-4e44-9cbe-63c4d6e863f6.evidence",
+    "steps": [
+      {
+        "step": 2,
+        "status": "done",
+        "remark": "navigate: Navigate to https://scribo.cc/ko/",
+        "ts": "2026-10-24T20:46:58.838Z"
+      },
+      {
+        "step": 3,
+        "status": "done",
+        "remark": "scroll: Scrolling to the bottom of the page",
+        "ts": "2026-10-24T20:47:16.786Z"
+      },
+      {
+        "step": 4,
+        "status": "done",
+        "remark": "analyze: ANALYZE(literal, 'The one sentence on the page closest to whether Scribo is a ha",
+        "ts": "2026-10-24T20:47:49.472Z"
+      },
+      {
+        "step": 5,
+        "status": "done",
+        "remark": "wait: Waiting after all required page checks have passed",
+        "ts": "2026-10-24T20:47:51.993Z"
+      }
+    ]
+  },
+  "ndjson": "runs/a-2026-10-24T20-46-49Z-ko.ndjson",
+  "recorder": {
+    "runId": "KR-125",
+    "verdict": "ERRORED (UNVERIFIED)",
+    "proofUrl": "https://kaneclihack.sh/t/omni/proof#run-125"
+  },
+  "verdict": {
+    "status": "PASS",
+    "reason": "Audit read of https://scribo.cc/ko/: 1=false 2=true 3=true 4=true 5=false 6=false"
+  }
+}
