@@ -52,7 +52,17 @@ bun install && bun run dev
 # open http://localhost:3000 (PORT=3001 bun run dev for another port)
 ```
 
-You need:
+**What works with no keys and no accounts.** Clone, run, and you can click through everything I ran today. Nothing posts anywhere, because publishing defaults to dry-run.
+
+| Without any keys | Needs your own setup |
+|---|---|
+| All three pages and the architecture page | New drafts need `OPENAI_API_KEY` |
+| Replay of every recorded Kane run (FAIL, repair, PASS) | New Kane runs and Re-verify need `kane-cli` signed in |
+| Verified cards, the audit table, the agent memory | Fetching fresh Threads posts and live publishing use my local Threads script, so they won't run on your machine |
+
+Copy `.env.example` to `.env` if you want to run new drafts.
+
+To run new drafts and Kane checks you need:
 - `.env` with `OPENAI_API_KEY` and `OPENAI_MODEL` (I use `gpt-5.4-mini`, picked by timing the models this key can list).
 - `kane-cli` (0.10.0-rc.3) signed in, and `kanehack` paired. Every Kane call goes through `kanehack report -- kane-cli …`.
 - Optional, once per app: `bun run explore https://your.app` maps the site with Kane Explore into `explore/<host>.json`; drafts for that app are grounded in the map. scribo.cc is already mapped.
