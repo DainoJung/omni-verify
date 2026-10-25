@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Omni Verify · architecture</title>
+<style>
+  /* Works from public/ (served at /) and from docs/ (opened as a file): the first font URL that loads wins. */
+  @font-face { font-family: "Geist"; src: url("/vendor/fonts/Geist-Variable.woff2") format("woff2"), url("../public/vendor/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; }
+  @font-face { font-family: "Geist Mono"; src: url("/vendor/fonts/GeistMono-Variable.woff2") format("woff2"), url("../public/vendor/fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; }
+  :root {
+    --bg: #09090b; --card: #0f0f11; --fg: #fafafa; --dim: #a1a1aa; --faint: #71717a; --line: #27272a; --ring: #52525b;
+    --ok: #4ade80; --bad: #f87171; --amber: #fbbf24; --kane: #22d3ee; --ai: #a78bfa;
+    --sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; }
+  body { display: grid; place-items: center; -webkit-font-smoothing: antialiased; }
+  svg { width: 100vw; height: 100vh; display: block; cursor: pointer; }
+  text { font-family: var(--sans); fill: var(--fg); }
+  .mono { font-family: var(--mono); }
+  .h-title { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .h-sub { font-size: 13px; fill: var(--dim); }
+  .lane-label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; fill: var(--faint); }
+  .lane-label tspan.k { fill: var(--dim); }
+  .n-title { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+  .n-sub { font-size: 11.5px; fill: var(--dim); }
+  .n-status { font-family: var(--mono); font-size: 11px; font-weight: 500; }
+  .n-tag { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: 0.08em; }
+  .edge { fill: none; stroke: #3f3f46; stroke-width: 1.5; }
+  .edge.dash { stroke-dasharray: 3 4; }
+  .lit { fill: none; stroke-width: 2; stroke-linecap: round; }
+  .cap { font-size: 23px; font-weight: 600; letter-spacing: -0.015em; }
+  .cap-sub { font-family: var(--mono); font-size: 13px; fill: var(--dim); }
+  .cap-step { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; fill: var(--faint); }
+  .chip-t { font-size: 11px; font-weight: 500; }
+  .legend { font-family: var(--mono); font-size: 11px; fill: var(--dim); }
+  .close-line { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; }
+  .panel-t { font-family: var(--mono); font-size: 11.5px; }
+</style>
+</head>
+<body>
+<svg id="s" viewBox="0 0 1280 720" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Omni Verify architecture: an AI agent drafts marketing, Kane CLI checks every promise in a real browser, failed promises are repaired, only passing posts publish, and old posts are audited after each release.">
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#18181b" stroke-width="1"/></pattern>
+    <radialGradient id="glowA" cx="30%" cy="20%" r="70%"><stop offset="0" stop-color="#22d3ee" stop-opacity="0.06"/><stop offset="1" stop-color="#09090b" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glowB" cx="85%" cy="90%" r="60%"><stop offset="0" stop-color="#a78bfa" stop-opacity="0.05"/><stop offset="1" stop-color="#09090b" stop-opacity="0"/></radialGradient>
+    <filter id="blur" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="10"/></filter>
+    <linearGradient id="capfade" x1="0" x2="1"><stop offset="0" stop-color="#fafafa" stop-opacity="0"/><stop offset="0.5" stop-color="#fafafa" stop-opacity="0.35"/><stop offset="1" stop-color="#fafafa" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="#09090b"/>
+  <rect width="1280" height="720" fill="url(#grid)" opacity="0.6"/>
+  <rect width="1280" height="720" fill="url(#glowA)"/>
+  <rect width="1280" height="720" fill="url(#glowB)"/>
+
+  <g id="world">
+    <!-- header -->
+    <rect x="40" y="18" width="24" height="24" rx="6" fill="#fafafa"/>
+    <text x="52" y="35" text-anchor="middle" style="font-size:13px;font-weight:700;fill:#09090b">O</text>
+    <text x="76" y="35" class="h-title">Omni Verify</text>
+    <text x="178" y="35" class="h-sub">AI drafts the marketing. Kane CLI checks every promise in a real browser.</text>
+    <g id="legend"></g>
+
+    <!-- lanes -->
+    <rect x="24" y="62" width="1232" height="300" rx="14" fill="#0c0c0e" stroke="#1f1f23"/>
+    <rect x="24" y="392" width="1232" height="168" rx="14" fill="#0c0c0e" stroke="#1f1f23"/>
+    <text x="44" y="86" class="lane-label"><tspan class="k">DRIFT 1</tspan>  ·  AT PUBLISH, THE LINK LIES</text>
+    <text x="44" y="416" class="lane-label"><tspan class="k">DRIFT 2</tspan>  ·  AFTER A RELEASE, THE PRODUCT MOVES ON</text>
+
+    <g id="edges"></g>
+    <g id="lits"></g>
+    <g id="nodes"></g>
+    <g id="panel"></g>
+    <g id="packets"></g>
+  </g>
+
+  <!-- caption bar -->
+  <rect x="24" y="576" width="1232" height="124" rx="14" fill="#0f0f11" stroke="#27272a"/>
+  <g id="caption"></g>
+  <rect x="44" y="682" width="1192" height="3" rx="1.5" fill="#1f1f23"/>
+  <rect id="prog" x="44" y="682" width="0" height="3" rx="1.5" fill="#fafafa" opacity="0.75"/>
+  <rect id="veil" width="1280" height="720" fill="#09090b" opacity="0" pointer-events="none"/>
+</svg>
+
+<script>
+(() => {
+  const NS = "http://www.w3.org/2000/svg";
+  const C = { idle: "#3f3f46", active: "#e4e4e7", run: "#fbbf24", fail: "#f87171", pass: "#4ade80", done: "#71717a", kane: "#22d3ee", ai: "#a78bfa", mem: "#a78bfa" };
+  const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+  const ease = p => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+  const seg = (t, a, b) => clamp((t - a) / (b - a));
+
+  // ---- story ----
+  const STEPS = [
+    { lane: 1, d: 2.8, focus: "A1", cap: "My OpenAI agent drafts a Threads post for scribo.cc.", sub: "gpt-5.4-mini, grounded in Kane Explore's map of the site" },
+    { lane: 1, d: 2.5, focus: "A2", cap: "Every promise in the post becomes a check.", sub: "3 checks: 2 sentences of copy + the link's ct=threads-oct24 tag" },
+    { lane: 1, d: 3.0, focus: "A3", cap: "Kane CLI opens the post's link in real Chrome.", sub: "kane-cli run --agent · reads the App Store button's href before clicking" },
+    { lane: 1, d: 2.7, focus: "A3", cap: "FAIL: the button overwrites the tag with ct=site-en-hero.", sub: "KR-63 · installs from Threads would have been credited to the website" },
+    { lane: 1, d: 2.8, focus: "A1", cap: "The agent reads Kane's NDJSON and repairs the link.", sub: "rebuilt from the href Kane saw: same App Store URL, ct set to threads-oct24" },
+    { lane: 1, d: 2.6, focus: "A3", cap: "Kane checks again: PASS.", sub: "KR-68 · the campaign tag survives to App Store id6794793715" },
+    { lane: 1, d: 2.7, focus: "A4", cap: "Re-verify replays Kane's own recorded test: PASS.", sub: "KR-85 · for this exact campaign version, a9480fade25c1e68" },
+    { lane: 1, d: 2.6, focus: "A5", cap: "The publish gate unlocks only on that PASS. A person confirms.", sub: "any other version, or any result that isn't a PASS, keeps it locked" },
+    { lane: 1, d: 2.6, focus: "A6", cap: "The post goes live on Threads.", sub: "threads.com/@scribo.voca/post/De4-yPnATF5" },
+    { lane: 2, d: 2.8, focus: "B1", cap: "Then a release ships, and the product moves on.", sub: "Scribo 2.0 (Oct 1): a handwriting vocabulary app became a content learning app" },
+    { lane: 2, d: 2.6, focus: "B2", cap: "Audit checks @scribo.voca's old promises against today's site.", sub: "Kane reads scribo.cc/ko and scribo.cc · KR-125, KR-126" },
+    { lane: 2, d: 3.2, focus: "B3", cap: "3 of 6 old promises FAIL.", sub: "the September posts still promise a handwriting vocabulary notebook" },
+    { lane: 2, d: 2.6, focus: "B4", cap: "The agent proposes a rewrite or an unpin for each failing post.", sub: "proposals for a person: nothing on Threads is edited or deleted" },
+    { lane: 2, d: 2.6, focus: "B5", cap: "Kane's verdicts become the agent's memory.", sub: "memory/product-facts.json · 6 confirmed facts, 3 retired promises" },
+    { lane: 2, d: 3.0, focus: "A1", cap: "Next drafts may state only confirmed facts.", sub: "a draft that repeats a retired promise is refused and redrafted" },
+    { closing: true, d: 4.6 },
+  ];
+  let acc = 0; for (const s of STEPS) { s.t = acc; acc += s.d; }
+  const TOTAL = acc;
+  const S = i => STEPS[i].t;
+  const L1 = STEPS.filter(s => s.lane === 1).length, L2 = STEPS.filter(s => s.lane === 2).length;
+
+  // ---- layout ----
+  const N = {
+    EX: { x: 40,   y: 100, w: 200, h: 50, sat: true, tag: "KANE", title: "Kane Explore map", sub: "scribo.cc · 7 screens, 7 flows" },
+    AS: { x: 619,  y: 100, w: 256, h: 50, sat: true, tag: "KANE", title: "Assurance loop", sub: "designed tests 2/2 (KR-46) · 75% coverage" },
+    A1: { x: 40,   y: 182, w: 172, h: 76, tag: "OPENAI", title: "OpenAI agent", sub: "gpt-5.4-mini · drafts" },
+    A2: { x: 247,  y: 182, w: 172, h: 76, tag: "", title: "Promises → checks", sub: "every claim, one assertion" },
+    A3: { x: 454,  y: 182, w: 172, h: 76, tag: "KANE", title: "Kane CLI", sub: "run --agent · real Chrome" },
+    A4: { x: 661,  y: 182, w: 172, h: 76, tag: "KANE", title: "Kane test replay", sub: "testmd run · Re-verify" },
+    A5: { x: 868,  y: 182, w: 172, h: 76, tag: "", title: "Publish gate", sub: "PASS + human confirm" },
+    A6: { x: 1075, y: 182, w: 165, h: 76, tag: "", title: "Threads post", sub: "@scribo.voca" },
+    B1: { x: 40,   y: 436, w: 172, h: 110, tag: "", title: "Release ships", sub: "Scribo 2.0 · Oct 1" },
+    B2: { x: 246,  y: 436, w: 200, h: 110, tag: "KANE", title: "Audit past posts", sub: "run --agent vs today's site" },
+    B3: { x: 480,  y: 436, w: 300, h: 110, tag: "", title: "6 old promises", sub: "" },
+    B4: { x: 814,  y: 436, w: 190, h: 110, tag: "OPENAI", title: "Agent proposes", sub: "rewrite or unpin" },
+    B5: { x: 1038, y: 436, w: 202, h: 110, tag: "", title: "Product-facts memory", sub: "memory/product-facts.json" },
+  };
+  const R = (k) => [N[k].x + N[k].w, N[k].y + N[k].h / 2], Lf = (k) => [N[k].x, N[k].y + N[k].h / 2];
+  const cx = k => N[k].x + N[k].w / 2;
+  const line = (a, b) => `M${a[0]} ${a[1]} L${b[0]} ${b[1]}`;
+  const EDGES = {
+    EX_A1: { d: `M${cx("EX")} 150 L${cx("EX")} 182`, dash: true },
+    AS_A4: { d: `M${cx("AS")} 150 L${cx("AS")} 182`, dash: true },
+    A1_A2: { d: line(R("A1"), Lf("A2")) }, A2_A3: { d: line(R("A2"), Lf("A3")) },
+    A3_A4: { d: line(R("A3"), Lf("A4")) }, A4_A5: { d: line(R("A4"), Lf("A5")) }, A5_A6: { d: line(R("A5"), Lf("A6")) },
+    REPAIR: { d: `M474 258 L474 334 Q474 342 466 342 L174 342 Q166 342 166 334 L166 258`, label: ["reads NDJSON, repairs link", 320, 336] },
+    B1_B2: { d: line(R("B1"), Lf("B2")) }, B2_B3: { d: line(R("B2"), Lf("B3")) },
+    B3_B4: { d: line(R("B3"), Lf("B4")) }, B4_B5: { d: line(R("B4"), Lf("B5")) },
+    MEM: { d: `M${cx("B5")} 436 L${cx("B5")} 384 Q${cx("B5")} 376 ${cx("B5") - 8} 376 L108 376 Q100 376 100 368 L100 258`, dash: true, label: ["retired promises are refused in every new draft", 640, 371] },
+  };
+
+  // [time, state, status]
+  const K = {
+    EX: [[0, "idle", ""], [S(0) + 0.2, "kane", ""]],
+    AS: [[0, "idle", ""], [S(6) + 0.1, "kane", ""]],
+    A1: [[0, "active", "drafting…"], [S(1), "done", "draft v1"], [S(4) + 1.3, "run", "repairing link"], [S(5), "done", "draft v2 · ct fixed"], [S(14) + 1.5, "pass", "refuses 3 retired"]],
+    A2: [[0, "idle", ""], [S(1) + 0.7, "active", "3 checks"], [S(2), "done", "3 checks"]],
+    A3: [[0, "idle", ""], [S(2) + 0.7, "run", "opening post link"], [S(3) + 0.25, "fail", "FAIL · KR-63"], [S(5) + 0.9, "run", "re-checking"], [S(5) + 1.5, "pass", "PASS · KR-68"]],
+    A4: [[0, "idle", ""], [S(6) + 0.75, "run", "replaying _test.md"], [S(6) + 1.5, "pass", "PASS · KR-85"]],
+    A5: [[0, "idle", "locked"], [S(7) + 0.7, "run", "human confirm"], [S(7) + 1.6, "pass", "unlocked"]],
+    A6: [[0, "idle", "not published"], [S(8) + 0.7, "pass", "live · De4-yPnATF5"]],
+    B1: [[0, "idle", ""], [S(9) + 0.25, "active", "new product"], [S(10), "done", "new product"]],
+    B2: [[0, "idle", ""], [S(10) + 0.7, "run", "KR-125 · KR-126"], [S(11), "done", "KR-125 · KR-126"]],
+    B3: [[0, "idle", ""], [S(11) + 0.7, "active", ""], [S(11) + 2.4, "fail", "3 of 6 FAIL"]],
+    B4: [[0, "idle", ""], [S(12) + 0.7, "run", "a person decides"]],
+    B5: [[0, "idle", ""], [S(13) + 0.7, "mem", "6 confirmed · 3 retired"]],
+  };
+  const stateAt = (k, t) => { let cur = K[k][0]; for (const f of K[k]) if (f[0] <= t) cur = f; return cur; };
+
+  // [edge, t0, t1, color]
+  const P = [
+    ["EX_A1", S(0) + 0.3, S(0) + 1.1, C.kane],
+    ["A1_A2", S(1), S(1) + 0.7, C.active], ["A2_A3", S(2), S(2) + 0.7, C.active],
+    ["REPAIR", S(4), S(4) + 1.3, C.run],
+    ["A1_A2", S(5), S(5) + 0.45, C.run], ["A2_A3", S(5) + 0.45, S(5) + 0.9, C.run],
+    ["A3_A4", S(6), S(6) + 0.75, C.pass], ["AS_A4", S(6) + 0.1, S(6) + 0.75, C.kane],
+    ["A4_A5", S(7), S(7) + 0.7, C.pass], ["A5_A6", S(8), S(8) + 0.7, C.pass],
+    ["B1_B2", S(10), S(10) + 0.7, C.active], ["B2_B3", S(11), S(11) + 0.7, C.active],
+    ["B3_B4", S(12), S(12) + 0.7, C.fail], ["B4_B5", S(13), S(13) + 0.7, C.run],
+    ["MEM", S(14), S(14) + 1.5, C.ai],
+  ];
+
+  const CHIPS = [
+    ["handwriting notebook", false], ["iPhone version", true],
+    ["review feature", true], ["words resurface", true],
+    ["review by hand", false], ["handwriting notebook", false],
+  ];
+
+  // ---- build static DOM ----
+  const $ = id => document.getElementById(id);
+  const legend = $("legend");
+  [["PASS", C.pass], ["FAIL", C.fail], ["RUNNING", C.run], ["KANE", C.kane], ["OPENAI", C.ai]].reduce((x, [label, col]) => {
+    el("circle", { cx: x, cy: 31, r: 4, fill: col }, legend);
+    const t = el("text", { x: x + 10, y: 35, class: "legend" }, legend); t.textContent = label;
+    return x + 20 + label.length * 7.2 + 14;
+  }, 860);
+
+  for (const [id, e] of Object.entries(EDGES)) {
+    const p = el("path", { d: e.d, class: "edge" + (e.dash ? " dash" : "") }, $("edges"));
+    e.len = p.getTotalLength(); e.node = p;
+    e.lit = el("path", { d: e.d, class: "lit", "stroke-dasharray": `${e.len} ${e.len}`, "stroke-dashoffset": e.len, opacity: 0 }, $("lits"));
+    if (e.label) { const t = el("text", { x: e.label[1], y: e.label[2], "text-anchor": "middle", class: "n-sub", style: "font-size:11px;fill:#71717a" }, $("edges")); t.textContent = e.label[0]; e.labelEl = t; }
+  }
+
+  const tagColor = { KANE: C.kane, OPENAI: C.ai, CODE: "#a1a1aa", GATE: "#a1a1aa", LIVE: "#a1a1aa", RELEASE: "#a1a1aa", MEMORY: C.ai };
+  for (const [id, n] of Object.entries(N)) {
+    const g = el("g", {}, $("nodes"));
+    n.glow = el("rect", { x: n.x - 2, y: n.y - 2, width: n.w + 4, height: n.h + 4, rx: 12, fill: "none", "stroke-width": 6, filter: "url(#soft)", opacity: 0 }, g);
+    n.ring = el("rect", { x: n.x - 5, y: n.y - 5, width: n.w + 10, height: n.h + 10, rx: 14, fill: "none", "stroke-width": 1, opacity: 0 }, g);
+    n.box = el("rect", { x: n.x, y: n.y, width: n.w, height: n.h, rx: 10, fill: "#111113", stroke: C.idle, "stroke-width": 1.2 }, g);
+    n.bar = el("rect", { x: n.x, y: n.y + 10, width: 2.5, height: n.h - 20, rx: 1.25, fill: C.idle }, g);
+    const top = n.sat ? 21 : (n.h > 90 ? 28 : 25);
+    n.t = el("text", { x: n.x + 14, y: n.y + top, class: "n-title" }, g); n.t.textContent = n.title;
+    if (n.tag) { const tt = el("text", { x: n.x + n.w - 12, y: n.y + (n.sat ? 20 : 22), "text-anchor": "end", class: "n-tag", fill: tagColor[n.tag] }, g); tt.textContent = n.tag; tt.style.fill = tagColor[n.tag]; n.tagEl = tt; }
+    n.s = el("text", { x: n.x + 14, y: n.y + top + (n.sat ? 17 : 19), class: "n-sub" }, g); n.s.textContent = n.sub;
+    n.st = el("text", { x: n.x + 14, y: n.y + n.h - (n.h > 90 ? 18 : 14), class: "n-status" }, g);
+    n.g = g;
+  }
+  // B3 chips
+  const b3 = N.B3; b3.st.setAttribute("x", b3.x + b3.w - 14); b3.st.setAttribute("y", b3.y + 25); b3.st.setAttribute("text-anchor", "end");
+  b3.chips = CHIPS.map(([label, ok], i) => {
+    const col = i % 2, row = Math.floor(i / 2);
+    const x = b3.x + 12 + col * 141, y = b3.y + 38 + row * 23;
+    const g = el("g", { opacity: 0 }, b3.g);
+    el("rect", { x, y, width: 135, height: 19, rx: 5, fill: ok ? "rgb(34 197 94 / 0.10)" : "rgb(239 68 68 / 0.12)", stroke: ok ? "rgb(34 197 94 / 0.35)" : "rgb(239 68 68 / 0.4)" }, g);
+    const t = el("text", { x: x + 8, y: y + 13.5, class: "chip-t" }, g);
+    t.style.fill = ok ? C.pass : C.fail;
+    t.textContent = (ok ? "✓ " : "✕ ") + label;
+    return g;
+  });
+
+  // browser panel under Kane CLI
+  const pn = el("g", { opacity: 0 }, $("panel"));
+  el("rect", { x: 494, y: 270, width: 330, height: 58, rx: 8, fill: "#0b0b0d", stroke: "#27272a" }, pn);
+  [0, 1, 2].forEach(i => el("circle", { cx: 508 + i * 10, cy: 282, r: 3, fill: "#3f3f46" }, pn));
+  const pTag = el("text", { x: 810, y: 286, "text-anchor": "end", class: "n-tag" }, pn); pTag.textContent = "KANE SAW"; pTag.style.fill = C.kane;
+  const pUrl = el("text", { x: 544, y: 286, class: "panel-t" }, pn); pUrl.style.fill = "#a1a1aa";
+  const pHref = el("text", { x: 506, y: 314, class: "panel-t" }, pn);
+  const hrefA = el("tspan", {}, pHref), hrefB = el("tspan", {}, pHref), hrefC = el("tspan", {}, pHref);
+  hrefA.style.fill = "#d4d4d8";
+  const URL1 = "scribo.cc/?ct=threads-oct24";
+  const H1 = ["href …id6794793715?pt=…&", "ct=site-en-hero", "&mt=8"];
+  const H2 = ["link …id6794793715?pt=…&", "ct=threads-oct24", "&mt=8"];
+
+  // caption
+  const cap = $("caption");
+  const capStep = el("text", { x: 48, y: 604, class: "cap-step" }, cap);
+  const capMain = el("text", { x: 48, y: 638, class: "cap" }, cap);
+  const capSub = el("text", { x: 48, y: 664, class: "cap-sub" }, cap);
+  const capDot = el("circle", { cx: 1220, cy: 600, r: 4 }, cap);
+  const closeG = el("g", { opacity: 0 }, cap);
+  const closeT = el("text", { x: 640, y: 640, "text-anchor": "middle", class: "close-line" }, closeG);
+  closeT.textContent = "AI can write the promise. Kane checks if the product keeps it.";
+  const closeS = el("text", { x: 640, y: 666, "text-anchor": "middle", class: "cap-sub" }, closeG);
+  closeS.textContent = "Omni Verify · built at Kane CLI Hack Day, 2026-10-24";
+
+  // packets
+  const pk = el("g", {}, $("packets"));
+  const pkts = P.map(() => {
+    const g = el("g", { opacity: 0 }, pk);
+    const halo = el("circle", { r: 9, filter: "url(#blur)", opacity: 0.9 }, g);
+    const trail = [0.75, 0.5, 0.28].map(o => el("circle", { r: 3, opacity: o }, g));
+    const dot = el("circle", { r: 4.5 }, g);
+    return { g, halo, trail, dot };
+  });
+
+  const typed = (parts, n) => { const out = []; let left = n; for (const p of parts) { out.push(p.slice(0, Math.max(0, left))); left -= p.length; } return out; };
+
+  // ---- render(t): pure function of time, so frame capture is exact ----
+  function render(t) {
+    const stepIdx = STEPS.findIndex(s => t >= s.t && t < s.t + s.d);
+    const si = stepIdx < 0 ? STEPS.length - 1 : stepIdx;
+    const step = STEPS[si];
+    const closing = !!step.closing;
+    const pulse = 0.5 + 0.5 * Math.sin(t * Math.PI * 2 / 1.4);
+
+    // nodes
+    for (const [id, n] of Object.entries(N)) {
+      const [, st, status] = stateAt(id, t);
+      const col = C[st];
+      const on = st !== "idle";
+      n.box.setAttribute("stroke", on ? (st === "done" ? "#52525b" : col) : "#2a2a2e");
+      n.box.setAttribute("fill", st === "fail" ? "#160d0e" : st === "pass" ? "#0c140f" : st === "run" ? "#15120a" : st === "mem" ? "#110f17" : "#111113");
+      n.bar.setAttribute("fill", on ? col : "#2a2a2e");
+      n.t.style.fill = on ? "#fafafa" : "#71717a";
+      n.s.style.fill = on ? "#a1a1aa" : "#52525b";
+      if (n.tagEl) n.tagEl.style.opacity = on ? 1 : 0.45;
+      n.st.textContent = status;
+      n.st.style.fill = st === "done" ? "#a1a1aa" : st === "idle" ? "#52525b" : st === "kane" ? C.kane : col;
+      const focus = !closing && step.focus === id;
+      const glowCol = st === "done" || st === "idle" ? "#e4e4e7" : col;
+      n.glow.setAttribute("stroke", glowCol);
+      n.glow.setAttribute("opacity", focus ? 0.25 + 0.3 * pulse : (closing && (st === "pass" || st === "fail") ? 0.18 : 0));
+      n.ring.setAttribute("stroke", glowCol);
+      n.ring.setAttribute("opacity", focus ? 0.25 + 0.45 * pulse : 0);
+    }
+    // chips
+    N.B3.chips.forEach((g, i) => {
+      const a = S(11) + 0.8 + i * 0.25;
+      const p = ease(seg(t, a, a + 0.3));
+      g.setAttribute("opacity", p);
+      g.setAttribute("transform", `translate(0 ${(1 - p) * 4})`);
+    });
+
+    // edges: lit by the latest packet that has started on them
+    for (const e of Object.values(EDGES)) { e.lit.setAttribute("opacity", 0); e.cur = null; }
+    P.forEach(([id, t0, t1, col], i) => {
+      const e = EDGES[id]; const p = ease(seg(t, t0, t1));
+      if (t >= t0) { e.cur = { p, col }; }
+      const k = pkts[i];
+      const vis = t >= t0 && t <= t1 + 0.15;
+      k.g.setAttribute("opacity", vis ? (t > t1 ? 1 - (t - t1) / 0.15 : 1) : 0);
+      if (vis) {
+        const pt = e.node.getPointAtLength(e.len * p);
+        for (const c of [k.halo, k.dot]) { c.setAttribute("cx", pt.x); c.setAttribute("cy", pt.y); c.setAttribute("fill", col); }
+        k.trail.forEach((c, j) => { const q = e.node.getPointAtLength(e.len * clamp(p - (j + 1) * 0.045)); c.setAttribute("cx", q.x); c.setAttribute("cy", q.y); c.setAttribute("fill", col); });
+      }
+    });
+    for (const e of Object.values(EDGES)) {
+      if (!e.cur) { if (e.labelEl) e.labelEl.style.fill = "#52525b"; continue; }
+      e.lit.setAttribute("opacity", 0.85);
+      e.lit.setAttribute("stroke", e.cur.col);
+      e.lit.setAttribute("stroke-dashoffset", e.len * (1 - e.cur.p));
+      if (e.labelEl) e.labelEl.style.fill = e.cur.col;
+    }
+
+    // Kane browser panel
+    const pIn = ease(seg(t, S(2) + 0.8, S(2) + 1.2));
+    pn.setAttribute("opacity", pIn);
+    pn.setAttribute("transform", `translate(0 ${(1 - pIn) * 6})`);
+    pUrl.textContent = URL1.slice(0, Math.floor(seg(t, S(2) + 0.9, S(2) + 1.5) * URL1.length));
+    const second = t >= S(5) + 1.0;
+    const H = second ? H2 : H1;
+    const total = H.join("").length;
+    const n = second ? Math.floor(seg(t, S(5) + 1.0, S(5) + 1.6) * total) : Math.floor(seg(t, S(2) + 1.5, S(2) + 2.6) * total);
+    const [a, b, c] = typed(H, n);
+    hrefA.textContent = a; hrefB.textContent = b; hrefC.textContent = c;
+    const judged = second ? t >= S(5) + 1.5 : t >= S(3) + 0.25;
+    hrefB.style.fill = judged ? (second ? C.pass : C.fail) : "#fafafa";
+    hrefB.style.fontWeight = judged ? 700 : 500;
+    hrefC.style.fill = "#d4d4d8";
+
+    // caption
+    if (!closing) {
+      const f = ease(seg(t, step.t, step.t + 0.35));
+      const lane = step.lane, idx = STEPS.filter((s, j) => s.lane === lane && j <= si).length, of = lane === 1 ? L1 : L2;
+      capStep.textContent = `DRIFT ${lane}  ·  STEP ${idx} OF ${of}`;
+      capMain.textContent = step.cap; capSub.textContent = step.sub;
+      for (const e of [capStep, capMain, capSub]) { e.setAttribute("opacity", f); }
+      capMain.setAttribute("transform", `translate(${(1 - f) * 10} 0)`);
+      const st = stateAt(step.focus, t)[1];
+      capDot.setAttribute("fill", st === "fail" ? C.fail : st === "pass" ? C.pass : st === "run" ? C.run : st === "mem" ? C.ai : "#e4e4e7");
+      capDot.setAttribute("opacity", 0.4 + 0.6 * pulse);
+      closeG.setAttribute("opacity", 0);
+    } else {
+      for (const e of [capStep, capMain, capSub, capDot]) e.setAttribute("opacity", 0);
+      const f = ease(seg(t, step.t, step.t + 0.6));
+      closeG.setAttribute("opacity", f);
+      closeT.setAttribute("transform", `translate(0 ${(1 - f) * 6})`);
+    }
+    $("prog").setAttribute("width", 1192 * clamp(t / TOTAL));
+    $("prog").setAttribute("fill", closing ? "#fafafa" : step.lane === 2 ? C.ai : C.kane);
+
+    // loop seam: dim in at the start, out at the end
+    const veil = Math.max(1 - seg(t, 0, 0.45), seg(t, TOTAL - 0.5, TOTAL)) * 0.85;
+    $("veil").setAttribute("opacity", veil);
+  }
+
+  // ---- playback ----
+  const q = new URLSearchParams(location.search);
+  let paused = q.has("t"), offset = 0, start = performance.now(), last = 0;
+  window.__TOTAL = TOTAL;
+  window.__seek = t => { paused = true; last = ((t % TOTAL) + TOTAL) % TOTAL; render(last); };
+  if (paused) window.__seek(parseFloat(q.get("t")) || 0);
+  function frame(now) {
+    if (!paused) { last = ((now - start) / 1000 + offset) % TOTAL; render(last); }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  $("s").addEventListener("click", () => { if (paused) { start = performance.now(); offset = last; } paused = !paused; });
+  document.addEventListener("keydown", e => { if (e.key === " ") { e.preventDefault(); $("s").dispatchEvent(new Event("click")); } });
+  document.fonts && document.fonts.ready.then(() => render(last));
+})();
+</script>
+</body>
+</html>

@@ -1,5 +1,21 @@
 # Omni Verify
 
+**My AI agent writes my marketing. Kane CLI proves every promise in it is true before it ships, and again after every release.**
+
+[![Kane CLI Hack Day](https://img.shields.io/badge/Kane_CLI_Hack_Day-2026--10--24-fafafa?style=flat-square&labelColor=18181b)](https://www.kaneclihack.sh/ship/omni)
+[![OpenAI](https://img.shields.io/badge/OpenAI-gpt--5.4--mini-a78bfa?style=flat-square&labelColor=18181b)](#run-it)
+[![Kane CLI](https://img.shields.io/badge/Kane_CLI-0.10.0--rc.3-22d3ee?style=flat-square&labelColor=18181b)](#kane-features-used)
+[![Bun](https://img.shields.io/badge/Bun-1.3.11-fbf0df?style=flat-square&logo=bun&logoColor=fbf0df&labelColor=18181b)](https://bun.sh)
+[![bun test](https://img.shields.io/badge/bun_test-46_passing-4ade80?style=flat-square&labelColor=18181b)](#run-it)
+
+**[Demo video](https://www.loom.com/share/428499f73e57490c818743d7e2de3d77)** · **[Ship page](https://www.kaneclihack.sh/ship/omni)** · **[Deck](https://www.kaneclihack.sh/ship/omni/deck)** · **[Blog](https://dev.to/daino0416/my-ai-agent-writes-my-marketing-today-i-made-it-prove-every-post-is-true-199g)** · **[Live post](https://www.threads.com/@scribo.voca/post/De4-yPnATF5)**
+
+[![Omni Verify architecture: the agent drafts, Kane checks every promise, failed promises are repaired, only a passing post publishes, and old posts are audited after each release](docs/architecture.gif)](docs/architecture.html)
+
+<sub>The architecture as a motion graphic: [docs/architecture.html](docs/architecture.html) (open it in a browser, or at `/architecture.html` in the running app), [MP4](docs/architecture.mp4), [still](docs/architecture.png).</sub>
+
+> **Submission:** finalized at commit [`1800ca4`](https://github.com/DainoJung/omni-verify/commit/1800ca455c53d8aa663b5f450bb00889acf94ceb) (receipt S-PVWT). Later commits are docs and visual polish only: no change to the product logic or the recorded runs.
+
 **The problem:** marketing promises and the real product drift apart silently. AI growth agents make it worse: they write promises at scale, and they learn from the numbers those promises produce.
 
 **Who:** solo founders who let an AI agent write and post their marketing, and judge what works from tracking tags.
@@ -11,14 +27,23 @@
 **The fix:** the agent drafts a post and turns every promise in it into a check. Kane CLI checks each one in a real browser before the post ships (the link's tag, every sentence against the page, every promised feature), and again after every release (Re-verify for campaigns, Audit past posts for old posts). Failed promises are repaired from what Kane saw. Only a campaign that passes can publish.
 
 **Proof:**
-- A real post went out through the gate: [@scribo.voca/post/De4-yPnATF5](https://www.threads.com/@scribo.voca/post/De4-yPnATF5). The button unlocked only because Re-verify **KR-85** passed that exact version (`a9480fade25c1e68`).
-- The link lie, caught: Kane read `ct=site-en-hero` on the button, FAIL (KR-63). The agent rebuilt the link from the URL Kane saw, PASS (KR-68). The same in all five full loops.
-- The kanehack recorder logged **KR-46** (Kane-designed tests, 2/2), **KR-77** and **KR-85** (Re-verify) as PASSED (VERIFIED source). Every run is in [RUNS.md](RUNS.md).
-- Supporting example: feature claims on TestMu AI's free JSON tool. I seeded a false "convert JSON to YAML" claim to show the repair: FAIL (KR-100), the agent swapped in Minify, PASS (KR-102).
+
+| What | Kane runs | Result |
+|---|---|---|
+| A real post went out through the gate: [@scribo.voca/post/De4-yPnATF5](https://www.threads.com/@scribo.voca/post/De4-yPnATF5) | Re-verify **KR-85** | The button unlocked only because KR-85 passed that exact version (`a9480fade25c1e68`) |
+| The link lie, caught: Kane read `ct=site-en-hero` on the button | **KR-63** FAIL, then **KR-68** PASS | The agent rebuilt the link from the URL Kane saw. The same in all five full loops |
+| Old posts against today's site | **KR-125**, **KR-126** | 3 of 6 old promises FAIL; 3 retired promises in the agent's memory |
+| Recorded by kanehack as PASSED (VERIFIED source) | **KR-46** (Kane-designed tests, 2/2), **KR-77** and **KR-85** (Re-verify) | Every run is in [RUNS.md](RUNS.md) |
+| Supporting example: feature claims on TestMu AI's free JSON tool. I seeded a false "convert JSON to YAML" claim to show the repair | **KR-100** FAIL, then **KR-102** PASS | The agent swapped in Minify |
 
 Before my agent learns from a post, Kane proves the funnel tells the truth.
 
-![Verified for launch card](docs/verified-card.png)
+<table>
+<tr>
+<td width="50%"><img src="docs/verified-card.png" alt="Verified for launch card"><br><sub>Verified for launch: every assertion, and the diff from the first draft.</sub></td>
+<td width="50%"><img src="docs/audit-table.png" alt="Past posts audit"><br><sub>Audit past posts: today's site against @scribo.voca's old promises.</sub></td>
+</tr>
+</table>
 
 ## Run it
 
@@ -110,6 +135,9 @@ The same FAIL → repair → PASS happened in all five full loops run today (`ru
 
 ## How the agent and Kane talk
 
+<details>
+<summary>The pipeline, the two assertion types and the repair rules</summary>
+
 ```
 input (app URL, goal, audience)
   → draft (OpenAI, structured JSON, grounded in the Kane Explore map + page text)
@@ -132,6 +160,8 @@ input (app URL, goal, audience)
 - **No Kane result means no PASS.** A missing `run_end` or a value Kane didn't report is UNVERIFIED, which is never treated as a pass.
 - The commit history records each time a Kane result changed what the agent or the design did.
 
+</details>
+
 ## Kane features used
 
 | Feature | How | Evidence |
@@ -148,6 +178,9 @@ input (app URL, goal, audience)
 
 ## Kane false negative, and the workaround
 
+<details>
+<summary>How I asked Kane four ways, and why Omni Verify compiles to the last one</summary>
+
 The build brief said scribo.cc shows "Try Pro free for 7 days" in the pricing section, below the fold. It does: `<b>Try Pro free for 7 days</b>` is in the HTML. Asking Kane different ways (all real runs, saved in `fixtures/`):
 
 | Phrasing | Result |
@@ -158,6 +191,8 @@ The build brief said scribo.cc shows "Try Pro free for 7 days" in the pricing se
 | "Scroll down once, then store whether the text '…' appears as 'claim_n'" (KR-58) | true / false / true, all correct, no stuck run |
 
 Omni Verify compiles to the last phrasing. Trusting the first one would have made the repair agent delete a true sentence.
+
+</details>
 
 ## Feature claims: verified by doing, not by reading
 
@@ -172,6 +207,9 @@ tool URL → page text (the tool's own section) → OpenAI drafts the post; per 
 
 Stretch mode (on by default in the UI, labeled) tells the agent to add one format conversion the page doesn't show, so the gate has a false promise to catch.
 
+<details>
+<summary>The three feature-claim runs</summary>
+
 | Run | What happened |
 |---|---|
 | [f-…20-04-05Z](runs/f-2026-10-24T20-04-05Z.json) | Prettify PASS (KR-96), Validate PASS (KR-98, Kane read "Valid!"), "Convert JSON to YAML" **FAIL** (KR-100, [Test Manager](https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QRBFX0BJXG4V4JYZVHQM3N/dashboard/share/US_RDFEH67SSMMI8JO4N493GGU00O4QNXW9AJB7RF7D291L4L9J6WXAYDGMW0L7FBLY?type=summary&agentView=true&fqdn=summary-page)): Kane clicked the button, the output was still JSON. The agent swapped in Minify → **PASS** (KR-102, [Test Manager](https://test-manager.lambdatest.com/projects/01M5QFK845A9PX95YRENJ1Z5XD/test-cases/01M5QRDYF3BHW7BMNFSJ2GPBF3/dashboard/share/US_7N4JXFZ9OXIPVA0ZLOSANVRAC52QK72L7H1XEE51DZ52LON0HF4U4CM7JKNHYVXE?type=summary&agentView=true&fqdn=summary-page)). Verified for launch. |
@@ -179,6 +217,8 @@ Stretch mode (on by default in the UI, labeled) tells the agent to add one forma
 | [f-…19-58-22Z](runs/f-2026-10-24T19-58-22Z.json) | Validate UNVERIFIED (KR-93), re-run unchanged → PASS (KR-95). Its stretch sentence ("Clear the field…") was a real feature. Its KR-94 PASS stored "none" as the result. That now counts as UNVERIFIED, and the stretch prompt now asks for a format conversion. |
 
 Seen on the real tool: JSON Prettify's tab-indented output puts spaces around colons (`"a" : 1`). Kane's output is in each run file.
+
+</details>
 
 ![Feature claims result card](docs/feature-claims.jpg)
 
@@ -204,6 +244,9 @@ Seen on the real tool: JSON Prettify's tab-indented output puts spaces around co
 
 ## Evidence
 
+<details>
+<summary>Where every run, pack and stream lives</summary>
+
 | What | Where |
 |---|---|
 | Every Kane run: time, recorder label, Kane status, credits, Test Manager link | [RUNS.md](RUNS.md) |
@@ -212,6 +255,8 @@ Seen on the real tool: JSON Prettify's tab-indented output puts spaces around co
 | Assurance loop streams, verdict files, designed tests (before/after evolve), coverage | `evidence/assurance/` |
 | Kane Explore map and stream | `explore/` |
 | Real Kane output used by the tests | `fixtures/` |
+
+</details>
 
 Built at Kane CLI Hack Day, 2026-10-24.
 
